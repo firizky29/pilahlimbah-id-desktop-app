@@ -4,6 +4,9 @@ Tugas 7
 IF2250 - Rekayasa Perangkat Lunak
 Implementasi Perancangan Perangkat Lunak
 
+## Deskripsi
+Sebuah aplikasi yang menangani permasalahan sampah perkotaan
+
 ## Author
 1. 13520047 Hana Fathiyah
 2. 13520053 Yohana Golkaria Nainggolan
