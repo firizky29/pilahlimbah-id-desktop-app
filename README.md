@@ -5,7 +5,7 @@ IF2250 - Rekayasa Perangkat Lunak
 Implementasi Perancangan Perangkat Lunak
 
 ## Deskripsi
-Sebuah aplikasi yang menangani permasalahan sampah perkotaan
+Sebuah aplikasi yang menangani permasalahan sampah perkotaan. Di dalamnya terdapat beberapa fitur.
 
 ## Author
 1. 13520047 Hana Fathiyah
