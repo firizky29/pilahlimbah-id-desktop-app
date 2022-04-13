@@ -10,11 +10,15 @@ stages:
 
 pylint:
   stage: build
+  tags: 
+    - azure-ci-cd
   script:
   - pylint -d C0301 src/main.py
 
 pytest:
   stage: test
+  tags: 
+    - azure-ci-cd
   script:
   - cd test/
   - pytest -v
