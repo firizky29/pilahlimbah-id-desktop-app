@@ -8,7 +8,7 @@ Implementasi Perancangan Perangkat Lunak
 Sebuah aplikasi yang menangani permasalahan sampah perkotaan. Di dalamnya terdapat beberapa fitur, yaitu profil, pembayaran, kalender, dan sebagainya.
 
 ## Requirements
-Python
+Python 3
 
 ## Author
 1. 13520047 Hana Fathiyah
