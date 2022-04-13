@@ -3,7 +3,6 @@
     File ini berfungsi untuk menampilkan kalender kepada pengguna
 """
 
-"""
 from tkinter import * # import tkinker untuk GUI
 from tkcalendar import *
 
@@ -24,4 +23,3 @@ form.geometry('400x400')
 form.title("Calendar")
 form.configure(bg="white")
 form.mainloop()
-"""
