@@ -1,8 +1,5 @@
 image: "python:3.7"
 
-tags:
-  - azure-ci-cd
-  
 before_script:
   - python --version
   - pip install -r requirements.txt
