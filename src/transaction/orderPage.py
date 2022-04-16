@@ -8,15 +8,19 @@ from tkinter import Tk, Canvas, Entry, Button, PhotoImage
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("../../img/order page")
 
+import sys
+sys.path.insert(1, "..")
+import pageManager as pm
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 
 class orderPage(tk.Frame):
-    def __init__(self, master):
+    def __init__(self, master, pageManager):
         super().__init__(master)
         self.master = master
+        self.origin = pageManager
         self.pack()
         self.orderPage()
 
@@ -48,7 +52,7 @@ class orderPage(tk.Frame):
             borderwidth=0,
             bg = "white",
             highlightthickness=0,
-            command=lambda: print("button_1 clicked"),
+            command= lambda: self.origin.productPage(),
             relief="flat"
         )
         self.button_1.place(
@@ -423,10 +427,10 @@ class orderPage(tk.Frame):
     def startPage(self):
         self.mainloop()
 
-def startPage():
-    window = Tk()
-    window.geometry("1080x700")
-    window.configure(bg = "#FFFFFF")
-    window.resizable(False, False)
-    page = orderPage(master = window)
-    page.mainloop()
+# def startPage():
+#     window = Tk()
+#     window.geometry("1080x700")
+#     window.configure(bg = "#FFFFFF")
+#     window.resizable(False, False)
+#     page = orderPage(master = window)
+#     page.mainloop()
