@@ -9,7 +9,7 @@ from tkinter import Tk, Canvas, Button, PhotoImage
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path("../../img")
+ASSETS_PATH = OUTPUT_PATH / Path("../../img/product page")
 
 
 def relative_to_assets(path: str) -> Path:
@@ -115,8 +115,8 @@ class productPage(tk.Frame):
         self.button_1.place(
             x=803.0,
             y=24.0,
-            width=169.0,
-            height=30.0
+            width=54.0,
+            height=21.0
         )
 
         self.button_image_2 = PhotoImage(
@@ -393,6 +393,8 @@ class productPage(tk.Frame):
             width=47.0,
             height=22.0
         )
+    def startPage(self):
+        self.mainloop()
 
 def startPage():
     window = Tk()
