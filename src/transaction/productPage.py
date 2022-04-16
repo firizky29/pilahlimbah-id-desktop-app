@@ -11,10 +11,6 @@ from tkinter import Tk, Canvas, Button, PhotoImage
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("../../img/product page")
 
-import sys
-sys.path.insert(1, "..")
-import pageManager as pm
-
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
