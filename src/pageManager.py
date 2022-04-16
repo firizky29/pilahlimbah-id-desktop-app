@@ -1,6 +1,8 @@
 import transaction.orderPage as order
 import transaction.productPage as product
 import transaction.myTransactionPage as mytransaction
+import transaction.successPage as success
+import transaction.transactionDetailsPage as transactionDetails
 from tkinter import Tk
 
 
@@ -11,10 +13,11 @@ class pageManager():
         self.window.geometry("1080x700")
         self.window.configure(bg = "#FFFFFF")
         self.window.resizable(False, False)
-        self.window.bind_class("Button", "<Enter>", self._on_hover)
-        self.window.bind_class("Button", "<Leave>", self._leave_hover)
+        # self.window.bind_class("Button", "<Enter>", self._on_hover)
+        # self.window.bind_class("Button", "<Leave>", self._leave_hover)
         # inisialisasi dengan page login/register, tapi sementara pake page product dulu
-        self.page = mytransaction.myTransactionPage(master = self.window, pageManager = self)
+        # self.page = transactionDetails.transactionDetailsPage(master = self.window, pageManager = self)
+        self.page = success.successPage(master = self.window, pageManager=self)
     
     def run(self):
         self.page.startPage()

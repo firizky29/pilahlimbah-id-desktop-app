@@ -106,6 +106,7 @@ class myTransactionPage(tk.Frame):
             command=lambda: print("button_5 clicked"),
             relief="flat"
         ) 
+        
         self.button_5.place(
             x=559.0,
             y=24.0,
