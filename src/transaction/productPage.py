@@ -393,6 +393,7 @@ class productPage(tk.Frame):
             width=47.0,
             height=22.0
         )
+        
     def startPage(self):
         self.mainloop()
 
