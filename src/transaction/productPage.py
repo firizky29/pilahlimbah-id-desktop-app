@@ -9,16 +9,21 @@ from tkinter import Tk, Canvas, Button, PhotoImage
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path("../../img")
+ASSETS_PATH = OUTPUT_PATH / Path("../../img/product page")
+
+import sys
+sys.path.insert(1, "..")
+import pageManager as pm
 
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 class productPage(tk.Frame):
-    def __init__(self, master):
+    def __init__(self, master, pageManager):
         super().__init__(master)
         self.master = master
+        self.origin = pageManager
         self.pack()
         self.productPage()
 
@@ -115,8 +120,8 @@ class productPage(tk.Frame):
         self.button_1.place(
             x=803.0,
             y=24.0,
-            width=169.0,
-            height=30.0
+            width=54.0,
+            height=21.0
         )
 
         self.button_image_2 = PhotoImage(
@@ -295,7 +300,7 @@ class productPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             bg="white",
-            command=lambda: print("button_3 clicked"),
+            command= lambda: self.origin.orderPage(),
             relief="flat"
         )
         self.button_3.place(
@@ -394,10 +399,13 @@ class productPage(tk.Frame):
             height=22.0
         )
 
-def startPage():
-    window = Tk()
-    window.geometry("1080x700")
-    window.configure(bg = "#FFFFFF")
-    window.resizable(False, False)
-    orderPage = productPage(master = window)
-    orderPage.mainloop()
+    def startPage(self):
+        self.mainloop()
+
+# def startPage():
+#     window = Tk()
+#     window.geometry("1080x700")
+#     window.configure(bg = "#FFFFFF")
+#     window.resizable(False, False)
+#     orderPage = productPage(master = window)
+#     orderPage.mainloop()
