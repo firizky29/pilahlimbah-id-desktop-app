@@ -1,19 +1,12 @@
 
 import re
-import mysql.connector
+
+from sympy import false
+
 
 class transaction():
-    def __init__(self, raw_transaction):
-        mysqldb = mysql.connector.connect(
-            host="pilahlimbah.mariadb.database.azure.com", 
-            user="pilahlimbah@pilahlimbah", 
-            password="BDDL&g38Mv", 
-            database = "pilahlimbahid"
-        )
-        sqlcursor = mysqldb.cursor()
-        sqlcursor.execute("SELECT * FROM task limit 5")
-        for i in sqlcursor:
-            print(i)
+    def __init__(self, raw_transaction, pageManager):
+        self.origin = pageManager
         self.user = raw_transaction["user"]
         self.cardNumber = raw_transaction['card number']
         self.bank = raw_transaction['bank']
@@ -24,16 +17,21 @@ class transaction():
         self.postalCode = raw_transaction['postal code']
         self.timeStamp = raw_transaction['timestamp']
         self.activePeriod = raw_transaction['active period']
+        self.price = raw_transaction['price']
         self.status = True
         self.warning = ""
         self.validateCard()
         for key in raw_transaction:
-            print(key, "->", raw_transaction[key])
-            if(self.status and key!="user" and key!="timestamp" and key!= "active period" and len(raw_transaction[key])==0):
-                self.warning = key + " must not empty"
+            if(self.status and key!="user" and key!="timestamp" and key!= "active period" and key != 'price' and len(raw_transaction[key])==0):
+                if(key == "bank"):
+                    self.warning = "Your card is not registered in any bank account"
+                else:
+                    self.warning = key + " must not empty"
                 self.status = False
 
         self.validatePostalCode()
+        if(self.status):
+            self.verifyTransaction()
 
     def validateCardNumber(self):
         if(not(self.status) or len(self.cardNumber)!=19 or re.search(r"[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}", self.cardNumber)==None):
@@ -59,3 +57,28 @@ class transaction():
 
     def getWarning(self):
         return self.warning
+
+    def verifyTransaction(self):
+        input_account = self.cardNumber.replace("-", "")
+        credit_infos = self.origin.mydb.cursor(buffered=True)
+        credit_infos.execute(f"select * from account where account_number = '{input_account}'")
+        if(credit_infos.rowcount==0):
+            self.warning = "Invalid card number"
+            self.status = false
+            return
+        credit_info = credit_infos.fetchone()
+        if(self.securityCode != credit_info[3]):
+            self.warning = "Invalid security code"
+            self.status = false
+            return
+        if(credit_info[5] < self.price):
+            self.warning = "Your card balance is not enough"
+            self.status = false
+            return
+        self.origin.mydb.cursor().execute(f"insert into orderlist values (0, '{credit_info[0]}', SYSDATE(), SYSDATE(), {self.price})")
+        self.origin.mydb.commit()
+        
+
+
+        
+

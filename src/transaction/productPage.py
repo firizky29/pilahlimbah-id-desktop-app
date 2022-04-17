@@ -413,11 +413,3 @@ class productPage(tk.Frame):
     def _on_click_join(self):
         self.origin.orderPage()
     
-
-# def startPage():
-#     window = Tk()
-#     window.geometry("1080x700")
-#     window.configure(bg = "#FFFFFF")
-#     window.resizable(False, False)
-#     orderPage = productPage(master = window)
-#     orderPage.mainloop()

@@ -3,11 +3,19 @@ import transaction.productPage as product
 import transaction.myTransactionPage as mytransaction
 import transaction.successPage as success
 import transaction.transactionDetailsPage as transactionDetails
+import mysql.connector
 from tkinter import Tk
 
 
 class pageManager():
     def __init__(self):
+        self.mydb = mysql.connector.connect(
+            host="pilahlimbah.mariadb.database.azure.com", 
+            user="pilahlimbah@pilahlimbah", 
+            password="BDDL&g38Mv", 
+            database = "pilahlimbahid"
+        )
+
         self.user = None
         self.window = Tk()
         self.window.geometry("1080x700")
@@ -18,9 +26,10 @@ class pageManager():
         # inisialisasi dengan page login/register, tapi sementara pake page product dulu
         # self.page = transactionDetails.transactionDetailsPage(master = self.window, pageManager = self)
         # self.page = success.successPage(master = self.window, pageManager=self)
-        self.page = order.orderPage(master = self.window, pageManager=self)
+        # self.page = order.orderPage(master = self.window, pageManager=self)
         # self.page = product.productPage(master = self.window, pageManager = self)
         # self.page = mytransaction.myTransactionPage(master = self.window, pageManager = self)
+        self.page = order.orderPage(master = self.window, pageManager=self)
     
     def run(self):
         self.page.startPage()
@@ -33,6 +42,10 @@ class pageManager():
         self.page.startPage()
 
     def productPage(self):
+        self.page = product.productPage(master = self.window, pageManager = self)
+        self.page.startPage()
+
+    def successPage(self):
         self.page = product.productPage(master = self.window, pageManager = self)
         self.page.startPage()
 

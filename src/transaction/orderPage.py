@@ -25,7 +25,6 @@ class orderPage(tk.Frame):
 
         self.cardNumber = tk.StringVar()
         self.securityCode = tk.StringVar()
-        self.bank = tk.StringVar()
         self.address = tk.StringVar()
         self.city = tk.StringVar()
         self.country = tk.StringVar()
@@ -257,9 +256,14 @@ class orderPage(tk.Frame):
         )
         self.payButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredPay))
         self.payButton.bind("<Leave>", lambda e: e.widget.config(image = self.payImage))
+        
 
         
 
+        self.largeEntryImage = PhotoImage(
+            file=relative_to_assets("largeEntry.png"))
+        self.smallEntryImage = PhotoImage(
+            file=relative_to_assets("smallEntry.png"))
         self.midEntryImage = PhotoImage(
             file=relative_to_assets("midEntry.png"))
         self.entry_bg_1 = self.canvas.create_image(
@@ -281,25 +285,41 @@ class orderPage(tk.Frame):
             height=36.0
         )
 
-        self.largeEntryImage = PhotoImage(
-            file=relative_to_assets("largeEntry.png"))
+        self.entry_bg_7 = self.canvas.create_image(
+            908.5,
+            261.0,
+            image=self.smallEntryImage
+        )
+        self.securityCodeEntry = Entry(
+            bd=0,
+            bg="#F2EFF9",
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.securityCode,
+            show="*"
+        )
+        self.securityCodeEntry.place(
+            x=830.0,
+            y=229.0 + 28.0,
+            width=157.0,
+            height=36.0
+        )
+
         self.entry_bg_2 = self.canvas.create_image(
             676.0,
             341.0,
             image=self.largeEntryImage
         )
-        self.bankEntry = Entry(
+        self.bank = Label(
             bd=0,
             bg="#F2EFF9",
             highlightthickness=0,
             font=("Calibri", 20 * -1),
-            textvariable=self.bank
         )
-        self.bankEntry.place(
+        self.bank.place(
             x=360.0,
             y=309.0 + 28.0,
-            width=632.0,
-            height=36.0
+            anchor = "nw"
         )
 
         self.entry_bg_3 = self.canvas.create_image(
@@ -361,8 +381,6 @@ class orderPage(tk.Frame):
             height=36.0
         )
 
-        self.smallEntryImage = PhotoImage(
-            file=relative_to_assets("smallEntry.png"))
         self.entry_bg_6 = self.canvas.create_image(
             908.5,
             581.0,
@@ -383,25 +401,7 @@ class orderPage(tk.Frame):
         )
 
 
-        self.entry_bg_7 = self.canvas.create_image(
-            908.5,
-            261.0,
-            image=self.smallEntryImage
-        )
-        self.securityCodeEntry = Entry(
-            bd=0,
-            bg="#F2EFF9",
-            highlightthickness=0,
-            font=("Calibri", 20 * -1),
-            textvariable=self.securityCode,
-            show="*"
-        )
-        self.securityCodeEntry.place(
-            x=830.0,
-            y=229.0 + 28.0,
-            width=157.0,
-            height=36.0
-        )
+        
 
         self.canvas.create_text(
             354.0,
@@ -486,6 +486,7 @@ class orderPage(tk.Frame):
         self.warning = Label(
             self.canvas,
             text="Warning",
+            bg = "white",
             fg="white",
             font=("Helvetica", 16 * -1)
         )
@@ -495,6 +496,8 @@ class orderPage(tk.Frame):
             y = 629.0,
             anchor="nw"
         )
+
+        self.canvas.bind_class("Entry","<Return>", lambda e: self._on_submit_pay())
 
         
 
@@ -509,19 +512,22 @@ class orderPage(tk.Frame):
         raw_transaction = {
             "user" : self.origin.user,
             "card number" : self.cardNumber.get(),
-            "bank" : self.bank.get(),
+            "bank" : self.bank['text'],
             "security code" : hashlib.sha256(self.securityCode.get().encode()).hexdigest(),
             "address" : self.address.get(),
             "city"  : self.city.get(),
             "country" : self.country.get(),
             "postal code" : self.postalCode.get(),
             "timestamp" : datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
-            "active period" : 30
+            "active period" : 30,
+            "price" : 46000
         }
-        temp = transaction.transaction(raw_transaction)
-        if(temp.getWarning()!=""):
+        temp = transaction.transaction(raw_transaction, self.origin)
+        if(not(temp.status)):
             self.warning["text"] = temp.getWarning()
             self.warning["fg"] = "#FF0101"
+        else:
+            self.origin.successPage()
 
 
     def _cardNumber_trace(self, *args):
@@ -531,9 +537,14 @@ class orderPage(tk.Frame):
             self.cardNumber.set(value[:idx-1]+value[idx:19])
             self.cardEntry.icursor(idx-1)
         if len(value) == 16:
+            credit_bank = self.origin.mydb.cursor(buffered=True)
+            credit_bank.execute(f"select branch_name from account natural inner join bank where account_number = '{value}'")
+            if(credit_bank.rowcount!=0):
+                self.bank["text"] = credit_bank.fetchone()[0]
             self.cardNumber.set(value[:4]+"-"+value[4:8] + "-" + value[8:12] + "-" + value[12:16])
         if len(value) == 18:
             self.cardNumber.set(value.replace("-", ""))
+            self.bank["text"] = ""
 
     def _securityCode_trace(self, *args):
         value = self.securityCode.get()
