@@ -43,71 +43,92 @@ class transactionDetailsPage(tk.Frame):
             font=("Helvetica", 20 * -1, "bold")
         )
 
-        self.button_image_1 = PhotoImage(
-            file=relative_to_assets("button_1.png"))
-        self.button_1 = Button(
-            image=self.button_image_1,
+        self.hoveredTat = PhotoImage(
+            file=relative_to_assets("hoveredTat.png")) 
+        self.tatImage = PhotoImage(
+            file=relative_to_assets("tatButton.png")) 
+        self.tatButton = Button(
+            image =self.tatImage,
             borderwidth=0,
             highlightthickness=0,
             bg = "white",
-            command=lambda: print("button_1 clicked"),
+            command=lambda: print("tatButton clicked"),
             relief="flat"
-        )
-        self.button_1.place(
+        ) 
+        self.tatButton.place(
             x=682.0,
             y=24.0,
-            width=112.0,
-            height=22.0
+            width=117.0,
+            height=21.0
         )
+        self.tatButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredTat))
+        self.tatButton.bind("<Leave>", lambda e: e.widget.config(image = self.tatImage))
 
-        self.button_image_2 = PhotoImage(
-            file=relative_to_assets("button_2.png"))
-        self.button_2 = Button(
-            image=self.button_image_2,
+        self.profileImage = PhotoImage(
+            file=relative_to_assets("profileButton.png")) 
+        self.profileButton = Button(
+            image =self.profileImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
+            command=lambda: print("profileButton clicked"),
             relief="flat"
-        )
-        self.button_2.place(
+        ) 
+        self.profileButton.place(
             x=990.0,
             y=18.0,
             width=42.0,
             height=41.0
         )
 
-        self.button_image_3 = PhotoImage(
-            file=relative_to_assets("button_3.png"))
-        self.button_3 = Button(
-            image=self.button_image_3,
+        self.hoveredCalendar = PhotoImage(
+            file=relative_to_assets("hoveredCalendar.png")) 
+        self.calendarImage = PhotoImage(
+            file=relative_to_assets("calendarButton.png")) 
+        self.calendarButton = Button(
+            image =self.calendarImage,
             borderwidth=0,
             highlightthickness=0,
             bg = "white",
-            command=lambda: print("button_3 clicked"),
+            command=lambda: print("calendarButton clicked"),
             relief="flat"
-        )
-        self.button_3.place(
+        ) 
+        self.calendarButton.place(
             x=858.0,
             y=24.0,
             width=68.0,
             height=22.0
         )
+        self.calendarButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredCalendar))
+        self.calendarButton.bind("<Leave>", lambda e: e.widget.config(image = self.calendarImage))
 
-        self.button_image_4 = PhotoImage(
-            file=relative_to_assets("button_4.png"))
-        self.button_4 = Button(
-            image=self.button_image_4,
+        self.hoveredHome = PhotoImage(
+            file=relative_to_assets("hoveredHome.png"))
+        self.homeImage = PhotoImage(
+            file=relative_to_assets("homeButton.png")) 
+        self.homeButton = Button(
+            image =self.homeImage,
             borderwidth=0,
             highlightthickness=0,
             bg = "white",
-            command=lambda: print("button_4 clicked"),
+            command=lambda: print("homeButton clicked"),
             relief="flat"
-        )
-        self.button_4.place(
+        ) 
+        
+        self.homeButton.place(
             x=559.0,
             y=24.0,
             width=47.0,
             height=22.0
+        )
+        
+        self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
+        self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
+        self.image_image_1 = PhotoImage(
+            file=relative_to_assets("image_1.png"))
+        self.image_1 = self.canvas.create_image(
+            540.0,
+            319.0,
+            image=self.image_image_1
         )
 
 
@@ -298,17 +319,17 @@ class transactionDetailsPage(tk.Frame):
             image=self.image_image_4
         )
 
-        self.button_image_6 = PhotoImage(
-            file=relative_to_assets("button_6.png"))
-        self.button_6 = Button(
-            image=self.button_image_6,
+        self.backImage = PhotoImage(
+            file=relative_to_assets("backButton.png"))
+        self.backButton = Button(
+            image=self.backImage,
             borderwidth=0,
             highlightthickness=0,
             bg = "#10429A",
-            command=lambda: print("button_6 clicked"),
+            command=lambda: print("backButton clicked"),
             relief="flat"
         )
-        self.button_6.place(
+        self.backButton.place(
             x=57.0,
             y=137.0,
             width=28.0,

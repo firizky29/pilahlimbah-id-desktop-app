@@ -42,73 +42,90 @@ class successPage(tk.Frame):
             font=("Helvetica", 20 * -1, "bold")
         )
 
-        self.button_image_1 = PhotoImage(
-            file=relative_to_assets("button_1.png"))
-        self.button_1 = Button(
-            image=self.button_image_1,
+        self.hoveredTat = PhotoImage(
+            file=relative_to_assets("hoveredTat.png")) 
+        self.tatImage = PhotoImage(
+            file=relative_to_assets("tatButton.png")) 
+        self.tatButton = Button(
+            image =self.tatImage,
             borderwidth=0,
             highlightthickness=0,
             bg = "white",
-            command=lambda: print("button_1 clicked"),
+            command=lambda: print("tatButton clicked"),
             relief="flat"
-        )
-        self.button_1.place(
+        ) 
+        self.tatButton.place(
             x=682.0,
             y=24.0,
-            width=112.0,
+            width=117.0,
             height=21.0
         )
+        self.tatButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredTat))
+        self.tatButton.bind("<Leave>", lambda e: e.widget.config(image = self.tatImage))
 
-        self.button_image_2 = PhotoImage(
-            file=relative_to_assets("button_2.png"))
-        self.button_2 = Button(
-            image=self.button_image_2,
+        self.hoveredProfile = PhotoImage(
+            file=relative_to_assets("hoveredProfile.png"))
+        self.profileImage = PhotoImage(
+            file=relative_to_assets("profileButton.png"))
+        self.profileButton = Button(
+            image=self.profileImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
+            command=lambda: print("profileButton clicked"),
             relief="flat"
         )
-        self.button_2.place(
+        self.profileButton.place(
             x=990.0,
             y=18.0,
             width=42.0,
             height=41.0
         )
+        self.profileButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredProfile))
+        self.profileButton.bind("<Leave>", lambda e: e.widget.config(image = self.profileImage))
 
-        self.button_image_3 = PhotoImage(
-            file=relative_to_assets("button_3.png"))
-        self.button_3 = Button(
-            image=self.button_image_3,
+        self.hoveredCalendar = PhotoImage(
+            file=relative_to_assets("hoveredCalendar.png")) 
+        self.calendarImage = PhotoImage(
+            file=relative_to_assets("calendarButton.png")) 
+        self.calendarButton = Button(
+            image =self.calendarImage,
             borderwidth=0,
             highlightthickness=0,
             bg = "white",
-            command=lambda: print("button_3 clicked"),
+            command=lambda: print("calendarButton clicked"),
             relief="flat"
-        )
-        self.button_3.place(
+        ) 
+        self.calendarButton.place(
             x=858.0,
             y=24.0,
             width=68.0,
             height=22.0
         )
+        self.calendarButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredCalendar))
+        self.calendarButton.bind("<Leave>", lambda e: e.widget.config(image = self.calendarImage))
 
-        self.button_image_4 = PhotoImage(
-            file=relative_to_assets("button_4.png"))
-        self.button_4 = Button(
-            image=self.button_image_4,
+        self.hoveredHome = PhotoImage(
+            file=relative_to_assets("hoveredHome.png"))
+        self.homeImage = PhotoImage(
+            file=relative_to_assets("homeButton.png")) 
+        self.homeButton = Button(
+            image =self.homeImage,
             borderwidth=0,
             highlightthickness=0,
             bg = "white",
-            command=lambda: print("button_4 clicked"),
+            command=lambda: print("homeButton clicked"),
             relief="flat"
-        )
-        self.button_4.place(
-            x=539.0,
+        ) 
+        
+        self.homeButton.place(
+            x=559.0,
             y=24.0,
             width=47.0,
             height=22.0
         )
-
+        
+        self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
+        self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
         self.image_image_1 = PhotoImage(
             file=relative_to_assets("image_1.png"))
         self.image_1 = self.canvas.create_image(
@@ -117,37 +134,45 @@ class successPage(tk.Frame):
             image=self.image_image_1
         )
 
-        self.button_image_5 = PhotoImage(
-            file=relative_to_assets("button_5.png"))
-        self.button_5 = Button(
-            image=self.button_image_5,
+        self.hoveredGetStarted = PhotoImage(
+            file=relative_to_assets("hoveredGetStarted.png"))
+        self.getStartedImage = PhotoImage(
+            file=relative_to_assets("getStartedButton.png"))
+        self.getStartedButton = Button(
+            image=self.getStartedImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_5 clicked"),
+            command=lambda: print("getStartedButton clicked"),
             relief="flat"
         )
-        self.button_5.place(
+        self.getStartedButton.place(
             x=441.0,
             y=514.0,
             width=198.0,
             height=42.0
         )
+        self.getStartedButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredGetStarted))
+        self.getStartedButton.bind("<Leave>", lambda e: e.widget.config(image = self.getStartedImage))
 
-        self.button_image_6 = PhotoImage(
-            file=relative_to_assets("button_6.png"))
-        self.button_6 = Button(
-            image=self.button_image_6,
+        self.hoveredSeeDetails = PhotoImage(
+            file=relative_to_assets("hoveredSeeDetails.png"))
+        self.seeDetailsImage = PhotoImage(
+            file=relative_to_assets("seeDetailsButton.png"))
+        self.seeDetailsButton = Button(
+            image=self.seeDetailsImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_6 clicked"),
+            command=lambda: print("seeDetailsButton clicked"),
             relief="flat"
         )
-        self.button_6.place(
+        self.seeDetailsButton.place(
             x=441.0,
             y=572.0,
             width=198.0,
             height=42.0
         )
+        self.seeDetailsButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredSeeDetails))
+        self.seeDetailsButton.bind("<Leave>", lambda e: e.widget.config(image = self.seeDetailsImage))
 
         self.canvas.create_text(
             461.0,

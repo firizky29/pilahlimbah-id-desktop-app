@@ -103,39 +103,42 @@ class productPage(tk.Frame):
             font=("Helvetica", 32 * -1)
         )
 
-        self.button_image_1 = PhotoImage(
-            file=relative_to_assets("button_1.png"))
-        self.button_1 = Button(
-            image=self.button_image_1,
+        self.pricingImage = PhotoImage(
+            file=relative_to_assets("pricingButton.png"))
+        self.pricingButton = Button(
+            image=self.pricingImage,
             borderwidth=0,
             highlightthickness=0,
             bg = "white",
-            command=lambda: print("button_1 clicked"),
+            command=lambda: print("pricingButton clicked"),
             relief="flat"
         )
-        self.button_1.place(
+        self.pricingButton.place(
             x=803.0,
             y=24.0,
             width=54.0,
             height=21.0
         )
 
-        self.button_image_2 = PhotoImage(
-            file=relative_to_assets("button_2.png"))
-        self.button_2 = Button(
-            image=self.button_image_2,
+        self.hoveredProfile = PhotoImage(
+            file=relative_to_assets("hoveredProfile.png"))
+        self.profileImage = PhotoImage(
+            file=relative_to_assets("profileButton.png"))
+        self.profileButton = Button(
+            image=self.profileImage,
             borderwidth=0,
             highlightthickness=0,
-            bg = "white",
-            command=lambda: print("button_2 clicked"),
+            command=lambda: print("profileButton clicked"),
             relief="flat"
         )
-        self.button_2.place(
+        self.profileButton.place(
             x=990.0,
             y=18.0,
             width=42.0,
             height=41.0
         )
+        self.profileButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredProfile))
+        self.profileButton.bind("<Leave>", lambda e: e.widget.config(image = self.profileImage))
 
         self.canvas.create_text(
             768.0,
@@ -289,22 +292,27 @@ class productPage(tk.Frame):
             image=self.image_image_5
         )
 
-        self.button_image_3 = PhotoImage(
-            file=relative_to_assets("button_3.png"))
-        self.button_3 = Button(
-            image=self.button_image_3,
+        self.hoveredJoin = PhotoImage(
+            file=relative_to_assets("hoveredJoin.png")
+        )
+        self.joinImage = PhotoImage(
+            file=relative_to_assets("joinButton.png"))
+        self.joinButton = Button(
+            image=self.joinImage,
             borderwidth=0,
             highlightthickness=0,
             bg="white",
             command= lambda: self.origin.orderPage(),
             relief="flat"
         )
-        self.button_3.place(
+        self.joinButton.place(
             x=789.0,
             y=590.0,
             width=198.0,
             height=42.0
         )
+        self.joinButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredJoin))
+        self.joinButton.bind("<Leave>", lambda e: e.widget.config(image = self.joinImage))
 
         self.canvas.create_rectangle(
             442.0,
@@ -378,22 +386,26 @@ class productPage(tk.Frame):
             image=self.image_image_12
         )
 
-        self.button_image_4 = PhotoImage(
-            file=relative_to_assets("button_4.png"))
-        self.button_4 = Button(
-            image=self.button_image_4,
+        self.hoveredHome = PhotoImage(
+            file= relative_to_assets("hoveredHome.png"))
+        self.homeImage = PhotoImage(
+            file=relative_to_assets("homeButton.png"))
+        self.homeButton = Button(
+            image=self.homeImage,
             borderwidth=0,
             highlightthickness=0,
-            bg = "white",
-            command=lambda: print("button_4 clicked"),
+            bg="white",
+            command=lambda: print("homeButton clicked"),
             relief="flat"
         )
-        self.button_4.place(
+        self.homeButton.place(
             x=681.0,
             y=24.0,
             width=47.0,
             height=22.0
         )
+        self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
+        self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
 
     def startPage(self):
         self.mainloop()

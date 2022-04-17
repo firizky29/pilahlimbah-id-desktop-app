@@ -42,55 +42,63 @@ class orderPage(tk.Frame):
             font=("Helvetica", 20 * -1, "bold")
         )
 
-        self.button_image_1 = PhotoImage(
-            file=relative_to_assets("button_1.png"))
-        self.button_1 = Button(
-            image=self.button_image_1,
+        self.pricingImage = PhotoImage(
+            file=relative_to_assets("pricingButton.png"))
+        self.pricingButton = Button(
+            image=self.pricingImage,
             borderwidth=0,
-            bg = "white",
             highlightthickness=0,
-            command= lambda: self.origin.productPage(),
+            bg="white",
+            command=lambda: print("pricingButton clicked"),
             relief="flat"
         )
-        self.button_1.place(
+        self.pricingButton.place(
             x=803.0,
             y=24.0,
             width=54.0,
             height=21.0
         )
 
-        self.button_image_2 = PhotoImage(
-            file=relative_to_assets("button_2.png"))
-        self.button_2 = Button(
-            image=self.button_image_2,
+        self.hoveredProfile = PhotoImage(
+            file=relative_to_assets("hoveredProfile.png"))
+        self.profileImage = PhotoImage(
+            file=relative_to_assets("profileButton.png"))
+        self.profileButton = Button(
+            image=self.profileImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
+            command=lambda: print("profileButton clicked"),
             relief="flat"
         )
-        self.button_2.place(
+        self.profileButton.place(
             x=990.0,
             y=18.0,
             width=42.0,
             height=41.0
         )
+        self.profileButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredProfile))
+        self.profileButton.bind("<Leave>", lambda e: e.widget.config(image = self.profileImage))
 
-        self.button_image_3 = PhotoImage(
-            file=relative_to_assets("button_3.png"))
-        self.button_3 = Button(
-            image=self.button_image_3,
+        self.hoveredHome = PhotoImage(
+            file= relative_to_assets("hoveredHome.png"))
+        self.homeImage = PhotoImage(
+            file=relative_to_assets("homeButton.png"))
+        self.homeButton = Button(
+            image=self.homeImage,
             borderwidth=0,
-            bg = "white",
             highlightthickness=0,
-            command=lambda: print("button_3 clicked"),
+            bg="white",
+            command=lambda: print("homeButton clicked"),
             relief="flat"
         )
-        self.button_3.place(
+        self.homeButton.place(
             x=681.0,
             y=24.0,
             width=47.0,
             height=22.0
         )
+        self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
+        self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
 
         self.image_image_1 = PhotoImage(
             file=relative_to_assets("image_1.png"))
@@ -100,40 +108,42 @@ class orderPage(tk.Frame):
             image=self.image_image_1
         )
 
-        self.entry_image_1 = PhotoImage(
-            file=relative_to_assets("entry_1.png"))
+        self.midEntryImage = PhotoImage(
+            file=relative_to_assets("midEntry.png"))
         self.entry_bg_1 = self.canvas.create_image(
-            676.0,
+            569.0,
             261.0,
-            image=self.entry_image_1
+            image=self.midEntryImage
         )
         self.entry_1 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1)
         )
         self.entry_1.place(
             x=360.0,
             y=229.0 + 28.0,
-            width=632.0,
+            width=418.0,
             height=36.0
         )
 
-        self.entry_image_2 = PhotoImage(
-            file=relative_to_assets("entry_2.png"))
+        self.largeEntryImage = PhotoImage(
+            file=relative_to_assets("largeEntry.png"))
         self.entry_bg_2 = self.canvas.create_image(
             676.0,
             341.0,
-            image=self.entry_image_2
+            image=self.largeEntryImage
         )
         self.entry_2 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1)
         )
         self.entry_2.place(
             x=360.0,
-            y=309.0  + 28.0,
+            y=309.0 + 28.0,
             width=632.0,
             height=36.0
         )
@@ -156,7 +166,7 @@ class orderPage(tk.Frame):
 
         self.canvas.create_text(
             76.0,
-            72.0,
+            83.0,
             anchor="nw",
             text="Pro",
             fill="#F7F9FA",
@@ -248,21 +258,27 @@ class orderPage(tk.Frame):
             image=self.image_image_7
         )
 
-        self.button_image_4 = PhotoImage(
-            file=relative_to_assets("button_4.png"))
-        self.button_4 = Button(
-            image=self.button_image_4,
+        
+        self.hoveredPay = PhotoImage(
+            file= relative_to_assets("hoveredPay.png"))
+        self.payImage = PhotoImage(
+            file=relative_to_assets("payButton.png"))
+        self.payButton = Button(
+            image=self.payImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_4 clicked"),
+            bg="white",
+            command=lambda: print("payButton clicked"),
             relief="flat"
         )
-        self.button_4.place(
+        self.payButton.place(
             x=812.0,
             y=629.0,
             width=198.0,
             height=42.0
         )
+        self.payButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredPay))
+        self.payButton.bind("<Leave>", lambda e: e.widget.config(image = self.payImage))
 
         self.canvas.create_text(
             354.0,
@@ -282,17 +298,16 @@ class orderPage(tk.Frame):
             font=("Helvetica", 16 * -1)
         )
 
-        self.entry_image_3 = PhotoImage(
-            file=relative_to_assets("entry_3.png"))
         self.entry_bg_3 = self.canvas.create_image(
             676.0,
             421.0,
-            image=self.entry_image_3
+            image=self.largeEntryImage
         )
         self.entry_3 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1)
         )
         self.entry_3.place(
             x=360.0,
@@ -310,55 +325,55 @@ class orderPage(tk.Frame):
             font=("Helvetica", 16 * -1)
         )
 
-        self.entry_image_4 = PhotoImage(
-            file=relative_to_assets("entry_4.png"))
+
         self.entry_bg_4 = self.canvas.create_image(
             676.0,
             501.0,
-            image=self.entry_image_4
+            image=self.largeEntryImage
         )
         self.entry_4 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1)
         )
         self.entry_4.place(
             x=360.0,
-            y=469.0  + 28.0,
+            y=469.0 + 28.0,
             width=632.0,
             height=36.0
         )
 
-        self.entry_image_5 = PhotoImage(
-            file=relative_to_assets("entry_5.png"))
         self.entry_bg_5 = self.canvas.create_image(
             569.0,
             581.0,
-            image=self.entry_image_5
+            image=self.midEntryImage
         )
         self.entry_5 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1)
         )
         self.entry_5.place(
             x=360.0,
-            y=549.0  + 28.0,
+            y=549.0 + 28.0,
             width=418.0,
             height=36.0
         )
 
-        self.entry_image_6 = PhotoImage(
-            file=relative_to_assets("entry_6.png"))
+        self.smallEntryImage = PhotoImage(
+            file=relative_to_assets("smallEntry.png"))
         self.entry_bg_6 = self.canvas.create_image(
             908.5,
             581.0,
-            image=self.entry_image_6
+            image=self.smallEntryImage
         )
         self.entry_6 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1)
         )
         self.entry_6.place(
             x=830.0,
@@ -403,6 +418,34 @@ class orderPage(tk.Frame):
             font=("Helvetica", 16 * -1)
         )
 
+
+        self.entry_bg_7 = self.canvas.create_image(
+            908.5,
+            261.0,
+            image=self.smallEntryImage
+        )
+        self.entry_7 = Entry(
+            bd=0,
+            bg="#F2EFF9",
+            highlightthickness=0,
+            font=("Calibri", 20 * -1)
+        )
+        self.entry_7.place(
+            x=830.0,
+            y=229.0 + 28.0,
+            width=157.0,
+            height=36.0
+        )
+
+        self.canvas.create_text(
+            829.0,
+            234.0,
+            anchor="nw",
+            text="Security Code",
+            fill="#000000",
+            font=("Helvetica", 16 * -1)
+        )
+
         self.canvas.create_text(
             76.0,
             263.0,
@@ -420,6 +463,7 @@ class orderPage(tk.Frame):
             fill="#000000",
             font=("Helvetica", 32 * -1)
         )
+        
 
     def startPage(self):
         self.mainloop()

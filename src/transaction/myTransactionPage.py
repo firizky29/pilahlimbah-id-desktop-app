@@ -44,75 +44,87 @@ class myTransactionPage(tk.Frame):
             font=("Helvetica", 20 * -1, "bold")
         )
         
-        self.button_image_1 = PhotoImage(
-            file=relative_to_assets("button_1.png")) 
-        self.button_1 = Button(
-            image =self.button_image_1,
+        self.hoveredTat = PhotoImage(
+            file=relative_to_assets("hoveredTat.png")) 
+        self.tatImage = PhotoImage(
+            file=relative_to_assets("tatButton.png")) 
+        self.tatButton = Button(
+            image =self.tatImage,
             borderwidth=0,
             highlightthickness=0,
             bg = "white",
-            command=lambda: print("button_1 clicked"),
+            command=lambda: print("tatButton clicked"),
             relief="flat"
         ) 
-        self.button_1.place(
+        self.tatButton.place(
             x=682.0,
             y=24.0,
             width=117.0,
             height=21.0
         )
+        self.tatButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredTat))
+        self.tatButton.bind("<Leave>", lambda e: e.widget.config(image = self.tatImage))
         
-        self.button_image_2 = PhotoImage(
-            file=relative_to_assets("button_2.png")) 
-        self.button_2 = Button(
-            image =self.button_image_2,
+        self.profileImage = PhotoImage(
+            file=relative_to_assets("profileButton.png")) 
+        self.profileButton = Button(
+            image =self.profileImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
+            command=lambda: print("profileButton clicked"),
             relief="flat"
         ) 
-        self.button_2.place(
+        self.profileButton.place(
             x=990.0,
             y=18.0,
             width=42.0,
             height=41.0
         )
         
-
-        self.button_image_3 = PhotoImage(
-            file=relative_to_assets("button_3.png")) 
-        self.button_3 = Button(
-            image =self.button_image_3,
+        
+        self.hoveredCalendar = PhotoImage(
+            file=relative_to_assets("hoveredCalendar.png")) 
+        self.calendarImage = PhotoImage(
+            file=relative_to_assets("calendarButton.png")) 
+        self.calendarButton = Button(
+            image =self.calendarImage,
             borderwidth=0,
             highlightthickness=0,
             bg = "white",
-            command=lambda: print("button_3 clicked"),
+            command=lambda: print("calendarButton clicked"),
             relief="flat"
         ) 
-        self.button_3.place(
+        self.calendarButton.place(
             x=858.0,
             y=24.0,
             width=68.0,
             height=22.0
         )
+        self.calendarButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredCalendar))
+        self.calendarButton.bind("<Leave>", lambda e: e.widget.config(image = self.calendarImage))
         
-        
-        self.button_image_5 = PhotoImage(
-            file=relative_to_assets("button_5.png")) 
-        self.button_5 = Button(
-            image =self.button_image_5,
+        self.hoveredHome = PhotoImage(
+            file=relative_to_assets("hoveredHome.png"))
+        self.homeImage = PhotoImage(
+            file=relative_to_assets("homeButton.png")) 
+        self.homeButton = Button(
+            image =self.homeImage,
             borderwidth=0,
             highlightthickness=0,
             bg = "white",
-            command=lambda: print("button_5 clicked"),
+            command=lambda: print("homeButton clicked"),
             relief="flat"
         ) 
         
-        self.button_5.place(
+        self.homeButton.place(
             x=559.0,
             y=24.0,
             width=47.0,
             height=22.0
         )
+        
+        self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
+        self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
         
         self.image_image_1 = PhotoImage(
             file=relative_to_assets("image_1.png")) 
@@ -148,38 +160,46 @@ class myTransactionPage(tk.Frame):
             image =self.image_image_2
         )
         
-        self.button_image_6 = PhotoImage(
-            file=relative_to_assets("button_6.png")) 
-        self.button_6 = Button(
-            image =self.button_image_6,
+        
+        self.hoveredMyTransaction = PhotoImage(
+            file=relative_to_assets("hoveredMyTransaction.png")) 
+        self.myTransactionImage = PhotoImage(
+            file=relative_to_assets("myTransactionButton.png")) 
+        self.myTransactionButton = Button(
+            image =self.myTransactionImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_6 clicked"),
+            command=lambda: print("myTransactionButton clicked"),
             relief="flat"
         ) 
-        self.button_6.place(
+        self.myTransactionButton.place(
             x=591.0,
             y=94.0,
             width=198.0,
             height=42.0
         )
-        
-        self.button_image_7 = PhotoImage(
-            file=relative_to_assets("button_7.png")) 
-        self.button_7 = Button(
-            image =self.button_image_7,
+
+        self.hoveredMyProfile = PhotoImage(
+            file=relative_to_assets("hoveredMyProfile.png")) 
+        self.myProfileImage = PhotoImage(
+            file=relative_to_assets("myProfileButton.png")) 
+        self.myProfileButton = Button(
+            image =self.myProfileImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_7 clicked"),
+            command=lambda: print("myProfileButton clicked"),
             relief="flat"
         ) 
-        self.button_7.place(
+        self.myProfileButton.place(
             x=384.0,
             y=94.0,
             width=198.0,
             height=42.0
         )
+        self.myProfileButton.bind("<Enter>", self._on_hover_transaction)
+        self.myProfileButton.bind("<Leave>", self._leave_hover_transaction)
 
+        
         
         self.image_image_3 = PhotoImage(
             file=relative_to_assets("image_3.png")) 
@@ -213,8 +233,8 @@ class myTransactionPage(tk.Frame):
 
         self.frame = Frame(self.scrollcanvas, bg = "white")
         
-        self.button_image_8 = PhotoImage(
-            file=relative_to_assets("button_8.png")) 
+        self.seeDetailsImage = PhotoImage(
+            file=relative_to_assets("seeDetailsButton.png")) 
         self.image_image_4 = PhotoImage(
             file=relative_to_assets("image_4.png"))
 
@@ -230,12 +250,12 @@ class myTransactionPage(tk.Frame):
 
             self.newCanvas.create_image(0, 0, image = self.image_image_4, anchor="nw")
 
-            self.button_8 = Button(
+            self.seeDetailsButton = Button(
                 self.frame,
-                image =self.button_image_8,
+                image =self.seeDetailsImage,
                 borderwidth=0,
                 highlightthickness=0,
-                command=lambda: print("button_8 clicked"),
+                command=lambda: print("seeDetailsButton clicked"),
                 relief="flat"
             ) 
 
@@ -258,7 +278,7 @@ class myTransactionPage(tk.Frame):
                 font=("Helvetica", 15 * -1)
             )
 
-            self.newCanvas.create_window(537.0, 24.0, window = self.button_8, anchor = "nw")
+            self.newCanvas.create_window(537.0, 24.0, window = self.seeDetailsButton, anchor = "nw")
             self.newCanvas.grid(row = i, column=0, padx=10, pady=10)
 
 
@@ -283,6 +303,14 @@ class myTransactionPage(tk.Frame):
 
     def _on_mousewheel(self, event):
         self.scrollcanvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
+    def _on_hover_transaction(self, event):
+        event.widget.config(image = self.hoveredMyProfile)
+        self.myTransactionButton.config(image=self.hoveredMyTransaction)
+
+    def _leave_hover_transaction(self, event):
+        event.widget.config(image = self.myProfileImage)
+        self.myTransactionButton.config(image=self.myTransactionImage)
 
     
 
