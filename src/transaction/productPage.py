@@ -5,7 +5,7 @@
 
 from pathlib import Path
 import tkinter as tk
-from tkinter import Tk, Canvas, Button, PhotoImage
+from tkinter import *
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -302,7 +302,7 @@ class productPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             bg="white",
-            command= lambda: self.origin.orderPage(),
+            command= self._on_click_join,
             relief="flat"
         )
         self.joinButton.place(
@@ -409,6 +409,10 @@ class productPage(tk.Frame):
 
     def startPage(self):
         self.mainloop()
+
+    def _on_click_join(self):
+        self.origin.orderPage()
+    
 
 # def startPage():
 #     window = Tk()

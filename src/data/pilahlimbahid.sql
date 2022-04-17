@@ -1,4 +1,5 @@
-create table region (
+
+create table if not exists region (
 	region_id INT PRIMARY KEY,
 	region VARCHAR(500) NOT NULL,
     city VARCHAR(100) NOT NULL,
@@ -6,8 +7,7 @@ create table region (
     postal_code INT(5) NOT NULL
 );
 
-
-create table bank (
+create table if not exists bank (
     bank_id INT PRIMARY KEY,
     branch_name VARCHAR(100) NOT NULL,
     region_id INT,
@@ -17,65 +17,74 @@ create table bank (
     ON UPDATE CASCADE
 );
 
-create table account (
-    account_id INT PRIMARY KEY,
-    account_number VARCHAR(15) UNIQUE NOT NULL,
-    bank_id INT,
+create table if not exists user(
+    user_id INT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    fullname VARCHAR(100) NOT NULL,
+    birthdate DATE NOT NULL,
+    gender ENUM('Male', 'Female') NOT NULL
+);
+
+create table if not exists account (
+	account_id INT PRIMARY KEY,
+	user_id INT,
+	account_number VARCHAR(16) UNIQUE NOT NULL,
+	security_code VARCHAR(50),
+	bank_id INT,
+	amount DECIMAL(15,2),
     FOREIGN KEY (bank_id)
     REFERENCES bank(bank_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    FOREIGN KEY (user_id)
+    REFERENCES user(user_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
+drop table if exists orderlist;
 create table orderlist (
     orderlist_id INT PRIMARY KEY,
     account_id INT,
     order_date datetime NOT NULL,
     deadline_date datetime NOT NULL,
+    amount DECIMAL(15,2) NOT NULL,
     FOREIGN KEY (account_id)
     REFERENCES account(account_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
-
-create table user(
-    user_id INT PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(100) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    fullname VARCHAR(100) NOT NULL,
-    birthdate DATE,
-    gender ENUM('Male', 'Female')
-);
-
-create table admin(
+create table if not exists admin(
     admin_id INT PRIMARY KEY,
+    account_id INT, 
     profile_photo_url VARCHAR(50),
     FOREIGN KEY (admin_id)
     REFERENCES user(user_id)
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    FOREIGN KEY (account_id)
+    REFERENCES account(account_id)
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
-create table member(
+create table if not exists member(
     member_id INT PRIMARY KEY,
-    account_id INT NOT NULL,
     region_id INT NOT NULL,
     profile_photo_url VARCHAR(50),
     FOREIGN KEY (member_id)
     REFERENCES user(user_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    FOREIGN KEY (account_id)
-    REFERENCES account(account_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
     FOREIGN KEY (region_id)
     REFERENCES region(region_id)
 );
 
-create table guest(
+
+create table if not exists guest(
     guest_id INT PRIMARY KEY,
     account_id INT,
     region_id INT,
@@ -84,15 +93,12 @@ create table guest(
     REFERENCES user(user_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    FOREIGN KEY (account_id)
-    REFERENCES account(account_id)
-    ON DELETE SET NULL,
     FOREIGN KEY (region_id)
     REFERENCES region(region_id)
     ON DELETE SET NULL
 );
 
-create table task(
+create table if not exists task(
     task_date DATE,
     task_id INT,
     task_name VARCHAR(100),
@@ -100,7 +106,7 @@ create table task(
     PRIMARY KEY (task_date, task_id)
 );
 
-create table activity(
+create table if not exists activity(
     activity_date DATE,
     task_id INT, 
     member_id INT,
@@ -116,13 +122,29 @@ create table activity(
     ON UPDATE CASCADE
 );
 
-
-create table withdrawal(
-    admin_id INT PRIMARY KEY,
-    amount INT NOT NULL,
-    FOREIGN KEY (admin_id)
-    REFERENCES admin(admin_id)
+create table if not exists transactions(
+    transaction_time datetime, 
+    account_id INT, 
+    PRIMARY KEY(transaction_time, account_id),
+    amount DECIMAL(15,2) NOT NULL,
+    FOREIGN KEY (account_id)
+    REFERENCES account(account_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
+
+delimiter //
+CREATE TRIGGER insert_order AFTER INSERT ON orderlist
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO transactions(
+          transaction_time, account_id, amount  
+        ) values(
+            NEW.order_date, NEW.account_id, NEW.amount
+        );
+        UPDATE account SET amount = amount - NEW.amount;
+    END;//
+delimiter ;
 
 
 insert into region (region_id, region, city, country, postal_code) values (1, '92 Dunning Lane', 'Old Kilcullen', 'Ireland', 84575);
@@ -1228,107 +1250,6 @@ insert into bank (bank_id, branch_name, region_id) values (98, 'Kindred Healthca
 insert into bank (bank_id, branch_name, region_id) values (99, 'First Community Financial Partners, Inc.', 797);
 insert into bank (bank_id, branch_name, region_id) values (100, 'Alliance One International, Inc.', 10);
 
-
-insert into account (account_id, account_number, bank_id) values (1, '374622733026396', 60);
-insert into account (account_id, account_number, bank_id) values (2, '374283623457892', 87);
-insert into account (account_id, account_number, bank_id) values (3, '337941851943489', 40);
-insert into account (account_id, account_number, bank_id) values (4, '374283905444311', 72);
-insert into account (account_id, account_number, bank_id) values (5, '374622162730732', 44);
-insert into account (account_id, account_number, bank_id) values (6, '374288200233764', 18);
-insert into account (account_id, account_number, bank_id) values (7, '374288075217223', 54);
-insert into account (account_id, account_number, bank_id) values (8, '340908531116377', 98);
-insert into account (account_id, account_number, bank_id) values (9, '376396101910931', 85);
-insert into account (account_id, account_number, bank_id) values (10, '371618297920688', 86);
-insert into account (account_id, account_number, bank_id) values (11, '374288557476297', 73);
-insert into account (account_id, account_number, bank_id) values (12, '374283139524599', 93);
-insert into account (account_id, account_number, bank_id) values (13, '374283505314435', 55);
-insert into account (account_id, account_number, bank_id) values (14, '341575980018054', 49);
-insert into account (account_id, account_number, bank_id) values (15, '374288124050641', 88);
-insert into account (account_id, account_number, bank_id) values (16, '374283879985554', 87);
-insert into account (account_id, account_number, bank_id) values (17, '374622849063135', 52);
-insert into account (account_id, account_number, bank_id) values (18, '374622707198684', 30);
-insert into account (account_id, account_number, bank_id) values (19, '374288755782603', 88);
-insert into account (account_id, account_number, bank_id) values (20, '374288218108388', 1);
-insert into account (account_id, account_number, bank_id) values (21, '342661072392968', 8);
-insert into account (account_id, account_number, bank_id) values (22, '372301531898791', 50);
-insert into account (account_id, account_number, bank_id) values (23, '340754907505516', 24);
-insert into account (account_id, account_number, bank_id) values (24, '372301403144720', 59);
-insert into account (account_id, account_number, bank_id) values (25, '374622118392207', 64);
-insert into account (account_id, account_number, bank_id) values (26, '374288471469444', 77);
-insert into account (account_id, account_number, bank_id) values (27, '349458582396057', 23);
-insert into account (account_id, account_number, bank_id) values (28, '371984263272789', 5);
-insert into account (account_id, account_number, bank_id) values (29, '372301239596929', 42);
-insert into account (account_id, account_number, bank_id) values (30, '374622120143796', 75);
-insert into account (account_id, account_number, bank_id) values (31, '374283676550759', 2);
-insert into account (account_id, account_number, bank_id) values (32, '337941710960674', 57);
-insert into account (account_id, account_number, bank_id) values (33, '374283389806993', 41);
-insert into account (account_id, account_number, bank_id) values (34, '377844562115788', 35);
-insert into account (account_id, account_number, bank_id) values (35, '337941045417432', 59);
-insert into account (account_id, account_number, bank_id) values (36, '374622784184243', 54);
-insert into account (account_id, account_number, bank_id) values (37, '346072683675591', 90);
-insert into account (account_id, account_number, bank_id) values (38, '348499966415809', 21);
-insert into account (account_id, account_number, bank_id) values (39, '337941684137911', 3);
-insert into account (account_id, account_number, bank_id) values (40, '374622163934473', 9);
-insert into account (account_id, account_number, bank_id) values (41, '348983570950905', 72);
-insert into account (account_id, account_number, bank_id) values (42, '372301687039877', 81);
-insert into account (account_id, account_number, bank_id) values (43, '374622938118410', 81);
-insert into account (account_id, account_number, bank_id) values (44, '346381862400816', 41);
-insert into account (account_id, account_number, bank_id) values (45, '346300595990844', 39);
-insert into account (account_id, account_number, bank_id) values (46, '345338332648813', 50);
-insert into account (account_id, account_number, bank_id) values (47, '374288672327003', 27);
-insert into account (account_id, account_number, bank_id) values (48, '374288406241637', 21);
-insert into account (account_id, account_number, bank_id) values (49, '337941022175250', 10);
-insert into account (account_id, account_number, bank_id) values (50, '374283909061392', 17);
-insert into account (account_id, account_number, bank_id) values (51, '371398435921845', 2);
-insert into account (account_id, account_number, bank_id) values (52, '340698973009806', 17);
-insert into account (account_id, account_number, bank_id) values (53, '337941227845772', 97);
-insert into account (account_id, account_number, bank_id) values (54, '344348675867566', 8);
-insert into account (account_id, account_number, bank_id) values (55, '374288730859823', 44);
-insert into account (account_id, account_number, bank_id) values (56, '374622454621797', 17);
-insert into account (account_id, account_number, bank_id) values (57, '374622714693701', 87);
-insert into account (account_id, account_number, bank_id) values (58, '337941356132000', 84);
-insert into account (account_id, account_number, bank_id) values (59, '341954068301288', 42);
-insert into account (account_id, account_number, bank_id) values (60, '374288550934920', 85);
-insert into account (account_id, account_number, bank_id) values (61, '374622114890519', 66);
-insert into account (account_id, account_number, bank_id) values (62, '374283552243701', 100);
-insert into account (account_id, account_number, bank_id) values (63, '374283033048687', 65);
-insert into account (account_id, account_number, bank_id) values (64, '337941881270325', 47);
-insert into account (account_id, account_number, bank_id) values (65, '374283318550696', 81);
-insert into account (account_id, account_number, bank_id) values (66, '376099347576751', 36);
-insert into account (account_id, account_number, bank_id) values (67, '374622183826527', 17);
-insert into account (account_id, account_number, bank_id) values (68, '340076981334419', 27);
-insert into account (account_id, account_number, bank_id) values (69, '374622100977577', 99);
-insert into account (account_id, account_number, bank_id) values (70, '345128030004009', 3);
-insert into account (account_id, account_number, bank_id) values (71, '346521131629675', 8);
-insert into account (account_id, account_number, bank_id) values (72, '374622718048407', 47);
-insert into account (account_id, account_number, bank_id) values (73, '374622249337311', 66);
-insert into account (account_id, account_number, bank_id) values (74, '377384583551075', 90);
-insert into account (account_id, account_number, bank_id) values (75, '372301201254903', 78);
-insert into account (account_id, account_number, bank_id) values (76, '348776889760134', 74);
-insert into account (account_id, account_number, bank_id) values (77, '346413171505389', 38);
-insert into account (account_id, account_number, bank_id) values (78, '372301193237577', 10);
-insert into account (account_id, account_number, bank_id) values (79, '374283125590364', 50);
-insert into account (account_id, account_number, bank_id) values (80, '377487998175867', 65);
-insert into account (account_id, account_number, bank_id) values (81, '374288499373115', 85);
-insert into account (account_id, account_number, bank_id) values (82, '337941293643184', 5);
-insert into account (account_id, account_number, bank_id) values (83, '337941229434799', 61);
-insert into account (account_id, account_number, bank_id) values (84, '374288669540998', 69);
-insert into account (account_id, account_number, bank_id) values (85, '374288594444076', 67);
-insert into account (account_id, account_number, bank_id) values (86, '374288820136694', 52);
-insert into account (account_id, account_number, bank_id) values (87, '371764354002562', 85);
-insert into account (account_id, account_number, bank_id) values (88, '374283836660316', 30);
-insert into account (account_id, account_number, bank_id) values (89, '374288405605808', 22);
-insert into account (account_id, account_number, bank_id) values (90, '372301361816509', 8);
-insert into account (account_id, account_number, bank_id) values (91, '374482628485086', 5);
-insert into account (account_id, account_number, bank_id) values (92, '377284709496678', 54);
-insert into account (account_id, account_number, bank_id) values (93, '376385380387713', 8);
-insert into account (account_id, account_number, bank_id) values (94, '374283070389283', 74);
-insert into account (account_id, account_number, bank_id) values (95, '374288607961686', 28);
-insert into account (account_id, account_number, bank_id) values (96, '347251492599957', 71);
-insert into account (account_id, account_number, bank_id) values (97, '337941573006474', 86);
-insert into account (account_id, account_number, bank_id) values (98, '344172261241444', 40);
-insert into account (account_id, account_number, bank_id) values (99, '373543786301737', 24);
-insert into account (account_id, account_number, bank_id) values (100, '337941674345789', 40);
 
 
 insert into task (task_date, task_id, task_name, description) values ('2021-04-17', 1, 'Pilah Sampah', 'Bypass Left Femoral Artery to Left Femoral Artery with Nonautologous Tissue Substitute, Open Approach');

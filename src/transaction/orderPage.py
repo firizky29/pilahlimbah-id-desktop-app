@@ -1,8 +1,11 @@
 
 
 import tkinter as tk
+import hashlib
+from . import transaction
 from pathlib import Path
 from tkinter import *
+from datetime import datetime
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -19,6 +22,20 @@ class orderPage(tk.Frame):
         self.master = master
         self.origin = pageManager
         self.pack()
+
+        self.cardNumber = tk.StringVar()
+        self.securityCode = tk.StringVar()
+        self.bank = tk.StringVar()
+        self.address = tk.StringVar()
+        self.city = tk.StringVar()
+        self.country = tk.StringVar()
+        self.postalCode = tk.StringVar()
+
+        self.cardNumber.trace("w", self._cardNumber_trace)
+        self.securityCode.trace("w", self._securityCode_trace)
+        self.postalCode.trace("w", self._postalCode_trace)
+        
+
         self.orderPage()
 
     def orderPage(self):
@@ -49,7 +66,7 @@ class orderPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             bg="white",
-            command=lambda: print("pricingButton clicked"),
+            command=self._on_click_pricing,
             relief="flat"
         )
         self.pricingButton.place(
@@ -108,45 +125,6 @@ class orderPage(tk.Frame):
             image=self.image_image_1
         )
 
-        self.midEntryImage = PhotoImage(
-            file=relative_to_assets("midEntry.png"))
-        self.entry_bg_1 = self.canvas.create_image(
-            569.0,
-            261.0,
-            image=self.midEntryImage
-        )
-        self.entry_1 = Entry(
-            bd=0,
-            bg="#F2EFF9",
-            highlightthickness=0,
-            font=("Calibri", 20 * -1)
-        )
-        self.entry_1.place(
-            x=360.0,
-            y=229.0 + 28.0,
-            width=418.0,
-            height=36.0
-        )
-
-        self.largeEntryImage = PhotoImage(
-            file=relative_to_assets("largeEntry.png"))
-        self.entry_bg_2 = self.canvas.create_image(
-            676.0,
-            341.0,
-            image=self.largeEntryImage
-        )
-        self.entry_2 = Entry(
-            bd=0,
-            bg="#F2EFF9",
-            highlightthickness=0,
-            font=("Calibri", 20 * -1)
-        )
-        self.entry_2.place(
-            x=360.0,
-            y=309.0 + 28.0,
-            width=632.0,
-            height=36.0
-        )
 
         self.image_image_2 = PhotoImage(
             file=relative_to_assets("image_2.png"))
@@ -268,7 +246,7 @@ class orderPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             bg="white",
-            command=lambda: print("payButton clicked"),
+            command=self._on_submit_pay,
             relief="flat"
         )
         self.payButton.place(
@@ -279,6 +257,151 @@ class orderPage(tk.Frame):
         )
         self.payButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredPay))
         self.payButton.bind("<Leave>", lambda e: e.widget.config(image = self.payImage))
+
+        
+
+        self.midEntryImage = PhotoImage(
+            file=relative_to_assets("midEntry.png"))
+        self.entry_bg_1 = self.canvas.create_image(
+            569.0,
+            261.0,
+            image=self.midEntryImage
+        )
+        self.cardEntry = Entry(
+            bd=0,
+            bg="#F2EFF9",
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.cardNumber
+        )
+        self.cardEntry.place(
+            x=360.0,
+            y=229.0 + 28.0,
+            width=418.0,
+            height=36.0
+        )
+
+        self.largeEntryImage = PhotoImage(
+            file=relative_to_assets("largeEntry.png"))
+        self.entry_bg_2 = self.canvas.create_image(
+            676.0,
+            341.0,
+            image=self.largeEntryImage
+        )
+        self.bankEntry = Entry(
+            bd=0,
+            bg="#F2EFF9",
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.bank
+        )
+        self.bankEntry.place(
+            x=360.0,
+            y=309.0 + 28.0,
+            width=632.0,
+            height=36.0
+        )
+
+        self.entry_bg_3 = self.canvas.create_image(
+            676.0,
+            421.0,
+            image=self.largeEntryImage
+        )
+        self.addressEntry = Entry(
+            bd=0,
+            bg="#F2EFF9",
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.address
+        )
+        self.addressEntry.place(
+            x=360.0,
+            y=389.0 + 28.0,
+            width=632.0,
+            height=36.0
+        )
+
+
+
+        self.entry_bg_4 = self.canvas.create_image(
+            676.0,
+            501.0,
+            image=self.largeEntryImage
+        )
+        self.cityEntry = Entry(
+            bd=0,
+            bg="#F2EFF9",
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.city
+        )
+        self.cityEntry.place(
+            x=360.0,
+            y=469.0 + 28.0,
+            width=632.0,
+            height=36.0
+        )
+
+        self.entry_bg_5 = self.canvas.create_image(
+            569.0,
+            581.0,
+            image=self.midEntryImage
+        )
+        self.countryEntry = Entry(
+            bd=0,
+            bg="#F2EFF9",
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.country
+        )
+        self.countryEntry.place(
+            x=360.0,
+            y=549.0 + 28.0,
+            width=418.0,
+            height=36.0
+        )
+
+        self.smallEntryImage = PhotoImage(
+            file=relative_to_assets("smallEntry.png"))
+        self.entry_bg_6 = self.canvas.create_image(
+            908.5,
+            581.0,
+            image=self.smallEntryImage
+        )
+        self.postalCodeEntry = Entry(
+            bd=0,
+            bg="#F2EFF9",
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.postalCode
+        )
+        self.postalCodeEntry.place(
+            x=830.0,
+            y=549.0 + 28.0,
+            width=157.0,
+            height=36.0
+        )
+
+
+        self.entry_bg_7 = self.canvas.create_image(
+            908.5,
+            261.0,
+            image=self.smallEntryImage
+        )
+        self.securityCodeEntry = Entry(
+            bd=0,
+            bg="#F2EFF9",
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.securityCode,
+            show="*"
+        )
+        self.securityCodeEntry.place(
+            x=830.0,
+            y=229.0 + 28.0,
+            width=157.0,
+            height=36.0
+        )
 
         self.canvas.create_text(
             354.0,
@@ -297,25 +420,6 @@ class orderPage(tk.Frame):
             fill="#000000",
             font=("Helvetica", 16 * -1)
         )
-
-        self.entry_bg_3 = self.canvas.create_image(
-            676.0,
-            421.0,
-            image=self.largeEntryImage
-        )
-        self.entry_3 = Entry(
-            bd=0,
-            bg="#F2EFF9",
-            highlightthickness=0,
-            font=("Calibri", 20 * -1)
-        )
-        self.entry_3.place(
-            x=360.0,
-            y=389.0 + 28.0,
-            width=632.0,
-            height=36.0
-        )
-
         self.canvas.create_text(
             354.0,
             394.0,
@@ -323,63 +427,6 @@ class orderPage(tk.Frame):
             text="Address",
             fill="#000000",
             font=("Helvetica", 16 * -1)
-        )
-
-
-        self.entry_bg_4 = self.canvas.create_image(
-            676.0,
-            501.0,
-            image=self.largeEntryImage
-        )
-        self.entry_4 = Entry(
-            bd=0,
-            bg="#F2EFF9",
-            highlightthickness=0,
-            font=("Calibri", 20 * -1)
-        )
-        self.entry_4.place(
-            x=360.0,
-            y=469.0 + 28.0,
-            width=632.0,
-            height=36.0
-        )
-
-        self.entry_bg_5 = self.canvas.create_image(
-            569.0,
-            581.0,
-            image=self.midEntryImage
-        )
-        self.entry_5 = Entry(
-            bd=0,
-            bg="#F2EFF9",
-            highlightthickness=0,
-            font=("Calibri", 20 * -1)
-        )
-        self.entry_5.place(
-            x=360.0,
-            y=549.0 + 28.0,
-            width=418.0,
-            height=36.0
-        )
-
-        self.smallEntryImage = PhotoImage(
-            file=relative_to_assets("smallEntry.png"))
-        self.entry_bg_6 = self.canvas.create_image(
-            908.5,
-            581.0,
-            image=self.smallEntryImage
-        )
-        self.entry_6 = Entry(
-            bd=0,
-            bg="#F2EFF9",
-            highlightthickness=0,
-            font=("Calibri", 20 * -1)
-        )
-        self.entry_6.place(
-            x=830.0,
-            y=549.0 + 28.0,
-            width=157.0,
-            height=36.0
         )
 
         self.canvas.create_text(
@@ -400,14 +447,6 @@ class orderPage(tk.Frame):
             font=("Helvetica", 16 * -1)
         )
 
-        self.canvas.create_text(
-            350.0,
-            629.0,
-            anchor="nw",
-            text="Warning",
-            fill="#FF0101",
-            font=("Helvetica", 16 * -1)
-        )
 
         self.canvas.create_text(
             829.0,
@@ -417,26 +456,6 @@ class orderPage(tk.Frame):
             fill="#000000",
             font=("Helvetica", 16 * -1)
         )
-
-
-        self.entry_bg_7 = self.canvas.create_image(
-            908.5,
-            261.0,
-            image=self.smallEntryImage
-        )
-        self.entry_7 = Entry(
-            bd=0,
-            bg="#F2EFF9",
-            highlightthickness=0,
-            font=("Calibri", 20 * -1)
-        )
-        self.entry_7.place(
-            x=830.0,
-            y=229.0 + 28.0,
-            width=157.0,
-            height=36.0
-        )
-
         self.canvas.create_text(
             829.0,
             234.0,
@@ -463,15 +482,66 @@ class orderPage(tk.Frame):
             fill="#000000",
             font=("Helvetica", 32 * -1)
         )
+
+        self.warning = Label(
+            self.canvas,
+            text="Warning",
+            fg="white",
+            font=("Helvetica", 16 * -1)
+        )
+
+        self.warning.place(
+            x = 350.0,
+            y = 629.0,
+            anchor="nw"
+        )
+
         
 
     def startPage(self):
         self.mainloop()
 
-# def startPage():
-#     window = Tk()
-#     window.geometry("1080x700")
-#     window.configure(bg = "#FFFFFF")
-#     window.resizable(False, False)
-#     page = orderPage(master = window)
-#     page.mainloop()
+    def _on_click_pricing(self):
+        self.origin.productPage()
+
+    def _on_submit_pay(self):
+        self.warning["fg"] = "white"
+        raw_transaction = {
+            "user" : self.origin.user,
+            "card number" : self.cardNumber.get(),
+            "bank" : self.bank.get(),
+            "security code" : hashlib.sha256(self.securityCode.get().encode()).hexdigest(),
+            "address" : self.address.get(),
+            "city"  : self.city.get(),
+            "country" : self.country.get(),
+            "postal code" : self.postalCode.get(),
+            "timestamp" : datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+            "active period" : 30
+        }
+        temp = transaction.transaction(raw_transaction)
+        if(temp.getWarning()!=""):
+            self.warning["text"] = temp.getWarning()
+            self.warning["fg"] = "#FF0101"
+
+
+    def _cardNumber_trace(self, *args):
+        value = self.cardNumber.get()
+        idx = self.cardEntry.index(INSERT)
+        if len(value) > 19: 
+            self.cardNumber.set(value[:idx-1]+value[idx:19])
+            self.cardEntry.icursor(idx-1)
+        if len(value) == 16:
+            self.cardNumber.set(value[:4]+"-"+value[4:8] + "-" + value[8:12] + "-" + value[12:16])
+        if len(value) == 18:
+            self.cardNumber.set(value.replace("-", ""))
+
+    def _securityCode_trace(self, *args):
+        value = self.securityCode.get()
+        if len(value) > 5: self.securityCode.set(value[:5])
+    
+    def _postalCode_trace(self, *args):
+        value = self.postalCode.get()
+        if len(value) > 5: self.postalCode.set(value[:5])
+
+        
+

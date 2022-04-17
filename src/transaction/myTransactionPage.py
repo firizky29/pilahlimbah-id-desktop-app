@@ -125,7 +125,7 @@ class myTransactionPage(tk.Frame):
         
         self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
         self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
-        
+
         self.image_image_1 = PhotoImage(
             file=relative_to_assets("image_1.png")) 
         self.image_1 = self.canvas.create_image(
@@ -311,6 +311,7 @@ class myTransactionPage(tk.Frame):
     def _leave_hover_transaction(self, event):
         event.widget.config(image = self.myProfileImage)
         self.myTransactionButton.config(image=self.myTransactionImage)
+
 
     
 

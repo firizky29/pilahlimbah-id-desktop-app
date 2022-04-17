@@ -16,9 +16,9 @@ class pageManager():
         self.window.bind_class("Button", "<Enter>", self.__onHover__)
         self.window.bind_class("Button", "<Button-1>", self.__onClick__)
         # inisialisasi dengan page login/register, tapi sementara pake page product dulu
-        self.page = transactionDetails.transactionDetailsPage(master = self.window, pageManager = self)
+        # self.page = transactionDetails.transactionDetailsPage(master = self.window, pageManager = self)
         # self.page = success.successPage(master = self.window, pageManager=self)
-        # self.page = order.orderPage(master = self.window, pageManager=self)
+        self.page = order.orderPage(master = self.window, pageManager=self)
         # self.page = product.productPage(master = self.window, pageManager = self)
         # self.page = mytransaction.myTransactionPage(master = self.window, pageManager = self)
     
