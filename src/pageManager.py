@@ -1,5 +1,6 @@
 import transaction.orderPage as order
 import transaction.productPage as product
+import calendarmanagement.calendarPage as calendarmanage
 from tkinter import Tk
 
 
@@ -27,4 +28,9 @@ class pageManager():
     def productPage(self):
         self.page = product.productPage(master = self.window, pageManager = self)
         self.page.startPage()
-        
+    
+    def calendarPage(self):
+        self.page = calendarmanage.calendarPage(master = self.window, pageManager = self)
+        self.page.startPage()
+
+    

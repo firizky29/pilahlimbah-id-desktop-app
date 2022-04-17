@@ -54,7 +54,7 @@ class calendarPage(tk.Frame):
         self.button_image_1 = PhotoImage(
             file=relative_to_assets("button_1.png"))
         self.button_1 = Button(
-            image=button_image_1,
+            image=self.button_image_1,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_1 clicked"),
@@ -71,7 +71,7 @@ class calendarPage(tk.Frame):
             file=relative_to_assets("button_2.png"))
 
         self.button_2 = Button(
-            image=button_image_2,
+            image = self.button_image_2,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_2 clicked"),
@@ -88,7 +88,7 @@ class calendarPage(tk.Frame):
             file=relative_to_assets("button_3.png"))
         
         self.button_3 = Button(
-            image=button_image_3,
+            image=self.button_image_3,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_3 clicked"),
@@ -104,7 +104,7 @@ class calendarPage(tk.Frame):
         self.button_image_4 = PhotoImage(
             file=relative_to_assets("button_4.png"))
         self.button_4 = Button(
-            image=button_image_4,
+            image=self.button_image_4,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_4 clicked"),
@@ -400,7 +400,7 @@ class calendarPage(tk.Frame):
         self.button_image_5 = PhotoImage(
             file=relative_to_assets("button_5.png"))
         self.button_5 = Button(
-            image=button_image_5,
+            image=self.button_image_5,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_5 clicked"),
@@ -416,7 +416,7 @@ class calendarPage(tk.Frame):
         self.button_image_6 = PhotoImage(
             file=relative_to_assets("button_6.png"))
         self.button_6 = Button(
-            image=button_image_6,
+            image=self.button_image_6,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_6 clicked"),
@@ -432,7 +432,7 @@ class calendarPage(tk.Frame):
         self.button_image_7 = PhotoImage(
             file=relative_to_assets("button_7.png"))
         self.button_7 = Button(
-            image=button_image_7,
+            image=self.button_image_7,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_7 clicked"),
