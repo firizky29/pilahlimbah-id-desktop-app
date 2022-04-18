@@ -1,8 +1,11 @@
 
+from msvcrt import setmode
 from pathlib import Path
 import tkinter as tk
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
+from tkcalendar import *
+import mysql.connector
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("../../img/calendar page")
@@ -30,6 +33,12 @@ class calendarPage(tk.Frame):
             highlightthickness = 0,
             relief = "ridge"
         )
+
+        self.calendar = Calendar(self.master, setmode="day", date_pattern = 'yyyy-mm-dd')
+        self.calendar.pack(pady=145)
+
+        self.open_calendar = Button(self.calendar, text="open to do list") 
+        self.open_calendar.pack(padx=15,pady=15)
 
         self.canvas.place(x = 0, y = 0)
         self.image_image_1 = PhotoImage(
