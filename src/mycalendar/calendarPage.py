@@ -7,12 +7,10 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("../../img/calendar page")
 
-import sys
-sys.path.insert(1, "..")
-import pageManager as pm
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
+
 
 class calendarPage(tk.Frame):
     def __init__(self, master, pageManager):
@@ -25,30 +23,29 @@ class calendarPage(tk.Frame):
     def calendarPage(self):
         self.canvas = Canvas(
             self.master,
-            bg="#FFFFFF",
-            height=700,
-            width=1080,
-            bd=0,
-            highlightthickness=0,
-            relief="ridge"
+            bg = "#FFFFFF",
+            height = 700,
+            width = 1080,
+            bd = 0,
+            highlightthickness = 0,
+            relief = "ridge"
         )
 
-        self.canvas.place(x=0, y=0)
-        self.canvas.create_rectangle(
-            383.0,
-            418.0,
-            690.0,
-            636.0,
-            fill="#D2F0FF",
-            outline="")
+        self.canvas.place(x = 0, y = 0)
+        self.image_image_1 = PhotoImage(
+            file=relative_to_assets("image_1.png"))
+        self.image_1 = self.canvas.create_image(
+            536.0,
+            527.0,
+            image=self.image_image_1
+        )
 
-        self.canvas.create_text(
-            36.0,
-            24.0,
-            anchor="nw",
-            text="PilahLimbah.id",
-            fill="#000000",
-            font=("Helvetica", 20 * -1, "bold")
+        self.image_image_2 = PhotoImage(
+            file=relative_to_assets("image_2.png"))
+        self.image_2 = self.canvas.create_image(
+            120.0,
+            39.0,
+            image=self.image_image_2
         )
 
         self.button_image_1 = PhotoImage(
@@ -69,9 +66,8 @@ class calendarPage(tk.Frame):
 
         self.button_image_2 = PhotoImage(
             file=relative_to_assets("button_2.png"))
-
         self.button_2 = Button(
-            image = self.button_image_2,
+            image=self.button_image_2,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_2 clicked"),
@@ -86,7 +82,6 @@ class calendarPage(tk.Frame):
 
         self.button_image_3 = PhotoImage(
             file=relative_to_assets("button_3.png"))
-        
         self.button_3 = Button(
             image=self.button_image_3,
             borderwidth=0,
@@ -117,21 +112,20 @@ class calendarPage(tk.Frame):
             height=22.0
         )
 
-        self.canvas.create_rectangle(
-            36.0,
-            78.0,
-            370.0,
-            636.0,
-            fill="#F7F9FA",
-            outline="")
+        self.image_image_3 = PhotoImage(
+            file=relative_to_assets("image_3.png"))
+        self.image_3 = self.canvas.create_image(
+            203.0,
+            357.0,
+            image=self.image_image_3
+        )
 
-        self.canvas.create_text(
-            61.0,
-            165.0,
-            anchor="nw",
-            text="I do?",
-            fill="#000000",
-            font=("Helvetica", 32 * -1, "bold")
+        self.image_image_4 = PhotoImage(
+            file=relative_to_assets("image_4.png"))
+        self.image_4 = self.canvas.create_image(
+            155.0,
+            180.0,
+            image=self.image_image_4
         )
 
         self.canvas.create_text(
@@ -140,16 +134,15 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="n",
             fill="#585E62",
-            font=("Helvetica", 40 * -1, "bold")
+            font=("OpenSansRoman Bold", 40 * -1)
         )
 
-        self.canvas.create_text(
-            515.0,
-            466.0,
-            anchor="nw",
-            text="task",
-            fill="#000000",
-            font=("Helvetica", 40 * -1, "bold")
+        self.image_image_5 = PhotoImage(
+            file=relative_to_assets("image_5.png"))
+        self.image_5 = self.canvas.create_image(
+            558.0,
+            493.0,
+            image=self.image_image_5
         )
 
         self.canvas.create_text(
@@ -158,41 +151,40 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="22-04-2022",
             fill="#585E62",
-            font=("Helvetica", 40 * -1, "bold")
+            font=("OpenSansRoman Bold", 40 * -1)
         )
 
-        self.canvas.create_text(
-            61.0,
-            125.0,
-            anchor="nw",
-            text="What should",
-            fill="#000000",
-            font=("Helvetica", 32 * -1)
+        self.image_image_6 = PhotoImage(
+            file=relative_to_assets("image_6.png"))
+        self.image_6 = self.canvas.create_image(
+            169.0,
+            140.0,
+            image=self.image_image_6
         )
 
-        self.canvas.create_rectangle(
-            93.0,
-            303.0,
-            312.0,
-            580.0,
-            fill="#000000",
-            outline="")
+        self.image_image_7 = PhotoImage(
+            file=relative_to_assets("image_7.png"))
+        self.image_7 = self.canvas.create_image(
+            202.0,
+            441.0,
+            image=self.image_image_7
+        )
 
-        self.canvas.create_rectangle(
-            383.0,
-            82.0,
-            690.0,
-            406.0,
-            fill="#10429A",
-            outline="")
+        self.image_image_8 = PhotoImage(
+            file=relative_to_assets("image_8.png"))
+        self.image_8 = self.canvas.create_image(
+            536.0,
+            244.0,
+            image=self.image_image_8
+        )
 
-        self.canvas.create_rectangle(
-            703.0,
-            82.0,
-            1032.0,
-            636.0,
-            fill="#F2EFF9",
-            outline="")
+        self.image_image_9 = PhotoImage(
+            file=relative_to_assets("image_9.png"))
+        self.image_9 = self.canvas.create_image(
+            867.0,
+            359.0,
+            image=self.image_image_9
+        )
 
         self.canvas.create_text(
             768.0,
@@ -200,7 +192,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="To-Do-1",
             fill="#000000",
-            font=("Helvetica", 16 * -1)
+            font=("OpenSansRoman Light", 16 * -1)
         )
 
         self.canvas.create_text(
@@ -209,7 +201,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="To-Do-2",
             fill="#000000",
-            font=("Helvetica", 16 * -1)
+            font=("OpenSansRoman Light", 16 * -1)
         )
 
         self.canvas.create_text(
@@ -218,49 +210,47 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="To-Do-3",
             fill="#000000",
-            font=("Helvetica", 16 * -1)
+            font=("OpenSansRoman Light", 16 * -1)
         )
 
-        self.image_image_1 = PhotoImage(
-            file=relative_to_assets("image_1.png"))
-        self.image_1 = self.canvas.create_image(
+        self.image_image_10 = PhotoImage(
+            file=relative_to_assets("image_10.png"))
+        self.image_10 = self.canvas.create_image(
             736.0,
             174.0,
-            image=self.image_image_1
+            image=self.image_image_10
         )
 
-        self.image_image_2 = PhotoImage(
-            file=relative_to_assets("image_2.png"))
-        self.image_2 = self.canvas.create_image(
+        self.image_image_11 = PhotoImage(
+            file=relative_to_assets("image_11.png"))
+        self.image_11 = self.canvas.create_image(
             735.0,
             332.0,
-            image=self.image_image_2
+            image=self.image_image_11
         )
 
-        self.image_image_3 = PhotoImage(
-            file=relative_to_assets("image_3.png"))
-        self.image_3 = self.canvas.create_image(
+        self.image_image_12 = PhotoImage(
+            file=relative_to_assets("image_12.png"))
+        self.image_12 = self.canvas.create_image(
             736.0,
             493.0,
-            image=self.image_image_3
+            image=self.image_image_12
         )
 
-        self.canvas.create_text(
-            457.0,
-            105.0,
-            anchor="nw",
-            text="Calendar",
-            fill="#FFFFFF",
-            font=("Helvetica", 24 * -1, "bold")
+        self.image_image_13 = PhotoImage(
+            file=relative_to_assets("image_13.png"))
+        self.image_13 = self.canvas.create_image(
+            534.0,
+            121.0,
+            image=self.image_image_13
         )
 
-        self.canvas.create_text(
-            780.0,
-            105.0,
-            anchor="nw",
-            text="To Do List",
-            fill="#000000",
-            font=("Helvetica", 24 * -1)
+        self.image_image_14 = PhotoImage(
+            file=relative_to_assets("image_14.png"))
+        self.image_14 = self.canvas.create_image(
+            857.0,
+            121.0,
+            image=self.image_image_14
         )
 
         self.canvas.create_rectangle(
@@ -268,7 +258,7 @@ class calendarPage(tk.Frame):
             152.0,
             644.0,
             365.0,
-            fill="#000000",
+            fill="#E1E7EB",
             outline="")
 
         self.canvas.create_text(
@@ -277,7 +267,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Description:\n",
             fill="#000000",
-            font=("Helvetica", 12 * -1)
+            font=("OpenSansRoman Light", 12 * -1)
         )
 
         self.canvas.create_text(
@@ -286,7 +276,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Description:\n",
             fill="#000000",
-            font=("Helvetica", 12 * -1)
+            font=("OpenSansRoman Light", 12 * -1)
         )
 
         self.canvas.create_text(
@@ -295,7 +285,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Description:\n",
             fill="#000000",
-            font=("Helvetica", 12 * -1)
+            font=("OpenSansRoman Light", 12 * -1)
         )
 
         self.canvas.create_text(
@@ -304,7 +294,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Done",
             fill="#298F55",
-            font=("Helvetica", 16 * -1, "bold")
+            font=("OpenSansRoman Bold", 16 * -1)
         )
 
         self.canvas.create_text(
@@ -313,7 +303,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Not Done",
             fill="#F5C855",
-            font=("Helvetica", 16 * -1, "bold")
+            font=("OpenSansRoman Bold", 16 * -1)
         )
 
         self.canvas.create_text(
@@ -322,7 +312,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Not Done",
             fill="#F5C855",
-            font=("Helvetica", 16 * -1, "bold")
+            font=("OpenSansRoman Bold", 16 * -1)
         )
 
         self.canvas.create_text(
@@ -331,7 +321,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Not Done",
             fill="#F5C855",
-            font=("Helvetica", 16 * -1, "bold")
+            font=("OpenSansRoman Bold", 16 * -1)
         )
 
         self.canvas.create_text(
@@ -340,7 +330,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Done",
             fill="#298F55",
-            font=("Helvetica", 16 * -1, "bold")
+            font=("OpenSansRoman Bold", 16 * -1)
         )
 
         self.canvas.create_text(
@@ -349,7 +339,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Done",
             fill="#298F55",
-            font=("Helvetica", 16 * -1, "bold")
+            font=("OpenSansRoman Bold", 16 * -1)
         )
 
         self.canvas.create_text(
@@ -358,7 +348,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
             fill="#000000",
-            font=("Helvetica", 12 * -1)
+            font=("OpenSansRoman Light", 12 * -1)
         )
 
         self.canvas.create_text(
@@ -367,7 +357,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
             fill="#000000",
-            font=("Helvetica", 12 * -1)
+            font=("OpenSansRoman Light", 12 * -1)
         )
 
         self.canvas.create_text(
@@ -376,25 +366,23 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
             fill="#000000",
-            font=("Helvetica", 12 * -1)
+            font=("OpenSansRoman Light", 12 * -1)
         )
 
-        self.canvas.create_text(
-            483.0,
-            435.0,
-            anchor="nw",
-            text="You have ",
-            fill="#000000",
-            font=("Helvetica", 20 * -1)
+        self.image_image_15 = PhotoImage(
+            file=relative_to_assets("image_15.png"))
+        self.image_15 = self.canvas.create_image(
+            529.0,
+            446.0,
+            image=self.image_image_15
         )
 
-        self.canvas.create_text(
-            493.0,
-            534.0,
-            anchor="nw",
-            text="on",
-            fill="#000000",
-            font=("Helvetica", 20 * -1)
+        self.image_image_16 = PhotoImage(
+            file=relative_to_assets("image_16.png"))
+        self.image_16 = self.canvas.create_image(
+            529.0,
+            544.0,
+            image=self.image_image_16
         )
 
         self.button_image_5 = PhotoImage(
@@ -444,7 +432,6 @@ class calendarPage(tk.Frame):
             width=98.0,
             height=19.0
         )
-
+        
     def startPage(self):
         self.mainloop()
-        
