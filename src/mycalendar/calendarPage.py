@@ -63,13 +63,13 @@ class calendarPage(tk.Frame):
         self.canvas.itemconfig(self.display_cnt_task, text=str(cnt))
         if(list_task_name[0] != ""):
             self.canvas.itemconfig(self.task1_name, text = list_task_name[0])
-            self.canvas.itemconfig(self.task1_desc, text = list_task_desc[0][:20])
+            self.canvas.itemconfig(self.task1_desc, text = list_task_desc[0][:35]+'...')
         if(list_task_name[1] != ""):
             self.canvas.itemconfig(self.task2_name, text = list_task_name[1])
-            self.canvas.itemconfig(self.task2_desc, text = list_task_desc[1][:20])
+            self.canvas.itemconfig(self.task2_desc, text = list_task_desc[1][:35]+'...')
         if(list_task_name[2] != ""):
             self.canvas.itemconfig(self.task3_name, text = list_task_name[2])
-            self.canvas.itemconfig(self.task3_desc, text = list_task_desc[2][:20])
+            self.canvas.itemconfig(self.task3_desc, text = list_task_desc[2][:35]+'...')
 
     def calendarPage(self):
         self.canvas = Canvas(
