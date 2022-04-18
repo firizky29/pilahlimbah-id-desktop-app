@@ -5,7 +5,7 @@ import hashlib
 from . import transaction
 from pathlib import Path
 from tkinter import *
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -518,16 +518,16 @@ class orderPage(tk.Frame):
             "city"  : self.city.get(),
             "country" : self.country.get(),
             "postal code" : self.postalCode.get(),
-            "timestamp" : datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+            "timestamp" : datetime.now(timezone.utc),
             "active period" : 30,
             "price" : 46000
         }
-        temp = transaction.transaction(raw_transaction, self.origin)
+        temp = transaction.transaction(raw_transaction = raw_transaction, pageManager = self.origin)
         if(not(temp.status)):
             self.warning["text"] = temp.getWarning()
             self.warning["fg"] = "#FF0101"
         else:
-            self.origin.successPage()
+            self.origin.successPage(temp)
 
 
     def _cardNumber_trace(self, *args):

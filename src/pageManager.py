@@ -2,6 +2,7 @@ import transaction.orderPage as order
 import transaction.productPage as product
 import transaction.myTransactionPage as mytransaction
 import transaction.successPage as success
+from transaction.transaction import transaction
 import transaction.transactionDetailsPage as transactionDetails
 import mysql.connector
 from tkinter import Tk
@@ -28,8 +29,8 @@ class pageManager():
         # self.page = success.successPage(master = self.window, pageManager=self)
         # self.page = order.orderPage(master = self.window, pageManager=self)
         # self.page = product.productPage(master = self.window, pageManager = self)
-        # self.page = mytransaction.myTransactionPage(master = self.window, pageManager = self)
-        self.page = order.orderPage(master = self.window, pageManager=self)
+        self.page = mytransaction.myTransactionPage(master = self.window, pageManager = self)
+        # self.page = order.orderPage(master = self.window, pageManager=self)
     
     def run(self):
         self.page.startPage()
@@ -45,8 +46,16 @@ class pageManager():
         self.page = product.productPage(master = self.window, pageManager = self)
         self.page.startPage()
 
-    def successPage(self):
-        self.page = product.productPage(master = self.window, pageManager = self)
+    def successPage(self, transaction):
+        self.page = success.successPage(master = self.window,  pageManager = self, transaction = transaction)
+        self.page.startPage()
+    
+    def transactionDetails(self, transaction):
+        self.page = transactionDetails.transactionDetailsPage(master = self.window,  pageManager = self, transaction = transaction)
+        self.page.startPage()
+
+    def myTransaction(self):
+        self.page = mytransaction.myTransactionPage(master = self.window, pageManager = self)
         self.page.startPage()
 
     def __onHover__(self, event):

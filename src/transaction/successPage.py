@@ -14,8 +14,9 @@ def relative_to_assets(path: str) -> Path:
 
 
 class successPage(tk.Frame):
-    def __init__(self, master, pageManager):
+    def __init__(self, master, pageManager, transaction):
         super().__init__(master)
+        self.transaction = transaction
         self.master = master
         self.origin = pageManager
         self.pack()
@@ -162,7 +163,7 @@ class successPage(tk.Frame):
             image=self.seeDetailsImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("seeDetailsButton clicked"),
+            command=self._on_click_seeDetails,
             relief="flat"
         )
         self.seeDetailsButton.place(
@@ -194,3 +195,6 @@ class successPage(tk.Frame):
 
     def startPage(self):
         self.mainloop()
+
+    def _on_click_seeDetails(self):
+        self.origin.transactionDetails(self.transaction)

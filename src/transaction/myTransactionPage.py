@@ -1,8 +1,10 @@
 
 
 import tkinter as tk
+from . import transaction
 from pathlib import Path
 from tkinter import *
+
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -16,6 +18,7 @@ def relative_to_assets(path: str) -> Path:
 class myTransactionPage(tk.Frame):
     def __init__(self, master, pageManager):
         super().__init__(master)
+        self.user = None
         self.master = master
         self.origin = pageManager
         self.pack()
@@ -44,27 +47,127 @@ class myTransactionPage(tk.Frame):
             font=("Helvetica", 20 * -1, "bold")
         )
         
-        self.hoveredTat = PhotoImage(
-            file=relative_to_assets("hoveredTat.png")) 
-        self.tatImage = PhotoImage(
-            file=relative_to_assets("tatButton.png")) 
-        self.tatButton = Button(
-            image =self.tatImage,
-            borderwidth=0,
-            highlightthickness=0,
-            bg = "white",
-            command=lambda: print("tatButton clicked"),
-            relief="flat"
-        ) 
-        self.tatButton.place(
-            x=682.0,
-            y=24.0,
-            width=117.0,
-            height=21.0
-        )
-        self.tatButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredTat))
-        self.tatButton.bind("<Leave>", lambda e: e.widget.config(image = self.tatImage))
         
+        if(self.origin.user == None):
+            self.hoveredTat = PhotoImage(
+            file=relative_to_assets("hoveredTat.png")) 
+            self.tatImage = PhotoImage(
+                file=relative_to_assets("tatButton.png")) 
+            self.tatButton = Button(
+                image =self.tatImage,
+                borderwidth=0,
+                highlightthickness=0,
+                bg = "white",
+                command=lambda: print("tatButton clicked"),
+                relief="flat"
+            ) 
+            self.tatButton.place(
+                x=682.0,
+                y=24.0,
+                width=117.0,
+                height=21.0
+            )
+            self.tatButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredTat))
+            self.tatButton.bind("<Leave>", lambda e: e.widget.config(image = self.tatImage))
+            
+            
+            self.hoveredCalendar = PhotoImage(
+                file=relative_to_assets("hoveredCalendar.png")) 
+            self.calendarImage = PhotoImage(
+                file=relative_to_assets("calendarButton.png")) 
+            self.calendarButton = Button(
+                image =self.calendarImage,
+                borderwidth=0,
+                highlightthickness=0,
+                bg = "white",
+                command=lambda: print("calendarButton clicked"),
+                relief="flat"
+            ) 
+            self.calendarButton.place(
+                x=858.0,
+                y=24.0,
+                width=68.0,
+                height=22.0
+            )
+            self.calendarButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredCalendar))
+            self.calendarButton.bind("<Leave>", lambda e: e.widget.config(image = self.calendarImage))
+
+            self.hoveredHome = PhotoImage(
+                file=relative_to_assets("hoveredHome.png"))
+            self.homeImage = PhotoImage(
+                file=relative_to_assets("homeButton.png")) 
+            self.homeButton = Button(
+                image =self.homeImage,
+                borderwidth=0,
+                highlightthickness=0,
+                bg = "white",
+                command=lambda: print("homeButton clicked"),
+                relief="flat"
+            ) 
+            
+            self.homeButton.place(
+                x=559.0,
+                y=24.0,
+                width=47.0,
+                height=22.0
+            )
+            self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
+            self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
+        else:
+            self.hoveredHome = PhotoImage(
+                file= relative_to_assets("hoveredHome.png"))
+            self.homeImage = PhotoImage(
+                file=relative_to_assets("homeButton.png"))
+            self.homeButton = Button(
+                image=self.homeImage,
+                borderwidth=0,
+                highlightthickness=0,
+                bg="white",
+                command=lambda: print("homeButton clicked"),
+                relief="flat"
+            )
+            self.homeButton.place(
+                x=681.0,
+                y=24.0,
+                width=47.0,
+                height=22.0
+            )
+            self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
+            self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
+
+            self.image_image_1 = PhotoImage(
+                file=relative_to_assets("image_1.png"))
+            self.image_1 = self.canvas.create_image(
+                538.0,
+                443.0,
+                image=self.image_image_1
+            )
+            
+            self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
+            self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
+
+            self.hoveredPricing = PhotoImage(
+            file=relative_to_assets("hoveredPricing.png"))
+            self.pricingImage = PhotoImage(
+            file=relative_to_assets("pricingButton.png"))
+            self.pricingButton = Button(
+                image=self.pricingImage,
+                borderwidth=0,
+                highlightthickness=0,
+                bg="white",
+                command=self._on_click_pricing,
+                relief="flat"
+            )
+            self.pricingButton.place(
+                x=803.0,
+                y=24.0,
+                width=54.0,
+                height=21.0
+            )
+            self.pricingButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredPricing))
+            self.pricingButton.bind("<Leave>", lambda e: e.widget.config(image = self.pricingImage))
+
+
         self.profileImage = PhotoImage(
             file=relative_to_assets("profileButton.png")) 
         self.profileButton = Button(
@@ -79,59 +182,6 @@ class myTransactionPage(tk.Frame):
             y=18.0,
             width=42.0,
             height=41.0
-        )
-        
-        
-        self.hoveredCalendar = PhotoImage(
-            file=relative_to_assets("hoveredCalendar.png")) 
-        self.calendarImage = PhotoImage(
-            file=relative_to_assets("calendarButton.png")) 
-        self.calendarButton = Button(
-            image =self.calendarImage,
-            borderwidth=0,
-            highlightthickness=0,
-            bg = "white",
-            command=lambda: print("calendarButton clicked"),
-            relief="flat"
-        ) 
-        self.calendarButton.place(
-            x=858.0,
-            y=24.0,
-            width=68.0,
-            height=22.0
-        )
-        self.calendarButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredCalendar))
-        self.calendarButton.bind("<Leave>", lambda e: e.widget.config(image = self.calendarImage))
-        
-        self.hoveredHome = PhotoImage(
-            file=relative_to_assets("hoveredHome.png"))
-        self.homeImage = PhotoImage(
-            file=relative_to_assets("homeButton.png")) 
-        self.homeButton = Button(
-            image =self.homeImage,
-            borderwidth=0,
-            highlightthickness=0,
-            bg = "white",
-            command=lambda: print("homeButton clicked"),
-            relief="flat"
-        ) 
-        
-        self.homeButton.place(
-            x=559.0,
-            y=24.0,
-            width=47.0,
-            height=22.0
-        )
-        
-        self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
-        self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
-
-        self.image_image_1 = PhotoImage(
-            file=relative_to_assets("image_1.png")) 
-        self.image_1 = self.canvas.create_image(
-            203.0,
-            376.0,
-            image =self.image_image_1
         )
 
         self.canvas.create_text(
@@ -238,7 +288,15 @@ class myTransactionPage(tk.Frame):
         self.image_image_4 = PhotoImage(
             file=relative_to_assets("image_4.png"))
 
-        for i in range(20):
+        myTransactions = self.origin.mydb.cursor(buffered = True)
+        transaction_info = "account_number, cast(order_date as date)"
+        transaction_details = "branch_name, order_date, ol.amount, deadline_date"
+        tables = "orderlist as ol inner join account as ac on ol.account_id = ac.account_id natural inner join user natural inner join bank"
+        requirement = "user_id = 1"
+        addition = "order by order_date desc"
+        myTransactions.execute("select " + transaction_info + " , " + transaction_details + " from " + tables + " where " + requirement + " "+ addition)
+        sz = myTransactions.rowcount
+        for i, order in enumerate(myTransactions):
             self.newCanvas = Canvas(self.frame, 
                 width = 635, 
                 height=64,
@@ -247,15 +305,24 @@ class myTransactionPage(tk.Frame):
                 highlightthickness = 0,
                 relief = "ridge"                
             )
-
+            cardNumber = order[0]
+            order_date = order[1]
+            cardNumber = cardNumber[:4]+"-"+cardNumber[4:8] + "-" + cardNumber[8:12] + "-" + cardNumber[12:16]
             self.newCanvas.create_image(0, 0, image = self.image_image_4, anchor="nw")
 
+            order_details = {
+                "card number" : cardNumber,
+                "bank" : order[2],
+                "timestamp" : order[3],
+                "price" : order[4],
+                "deadline" : order[5]
+            }
             self.seeDetailsButton = Button(
                 self.frame,
                 image =self.seeDetailsImage,
                 borderwidth=0,
                 highlightthickness=0,
-                command=lambda: print("seeDetailsButton clicked"),
+                command= lambda: self._on_click_see_details(transaction.transaction(order_details)),
                 relief="flat"
             ) 
 
@@ -264,7 +331,7 @@ class myTransactionPage(tk.Frame):
                 165.0,
                 24.0,
                 anchor="nw",
-                text="123456789101234",
+                text=cardNumber,
                 fill="#000000",
                 font=("Helvetica", 15 * -1)
             )
@@ -273,7 +340,7 @@ class myTransactionPage(tk.Frame):
                 27.0,
                 24.0,
                 anchor="nw",
-                text="2021-02-11",
+                text=order_date,
                 fill="#000000",
                 font=("Helvetica", 15 * -1)
             )
@@ -311,6 +378,12 @@ class myTransactionPage(tk.Frame):
     def _leave_hover_transaction(self, event):
         event.widget.config(image = self.myProfileImage)
         self.myTransactionButton.config(image=self.myTransactionImage)
+
+    def _on_click_see_details(self, transaction):
+        self.origin.transactionDetails(transaction)
+
+    def _on_click_pricing(self):
+        self.origin.productPage()
 
 
     
