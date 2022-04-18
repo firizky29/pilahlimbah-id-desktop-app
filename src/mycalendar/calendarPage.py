@@ -21,7 +21,23 @@ class calendarPage(tk.Frame):
         self.master = master
         self.origin = pageManager
         self.pack()
+        self.canvas = Canvas()
+        self.calendar = Calendar()
+        self.display_date = ""
+        self.display_cnt_task = ""
         self.calendarPage()    
+
+    def open_to_do(self): 
+        mysqldb = mysql.connector.connect(host="pilahlimbah.mariadb.database.azure.com", user="pilahlimbah@pilahlimbah", password="BDDL&g38Mv", database = "pilahlimbahid")     
+        sqlcursor = mysqldb.cursor()
+        self.canvas.itemconfig(self.display_date, text=self.calendar.get_date())
+        sqlcursor.execute("SELECT * FROM task")
+        cnt = 0
+        for i in sqlcursor:
+            if str(i[0]) == str(self.calendar.get_date()):
+                cnt += 1;
+        self.canvas.itemconfig(self.display_cnt_task, text=str(cnt))
+
 
     def calendarPage(self):
         self.canvas = Canvas(
@@ -37,7 +53,7 @@ class calendarPage(tk.Frame):
         self.calendar = Calendar(self.master, setmode="day", date_pattern = 'yyyy-mm-dd')
         self.calendar.pack(pady=145)
 
-        self.open_calendar = Button(self.calendar, text="open to do list") 
+        self.open_calendar = Button(self.calendar, text="open to do list",command=self.open_to_do) 
         self.open_calendar.pack(padx=15,pady=15)
 
         self.canvas.place(x = 0, y = 0)
@@ -137,11 +153,11 @@ class calendarPage(tk.Frame):
             image=self.image_image_4
         )
 
-        self.canvas.create_text(
-            466.0,
-            466.0,
+        self.display_cnt_task = self.canvas.create_text(
+            475.0,
+            472.0,
             anchor="nw",
-            text="n",
+            text="0",
             fill="#585E62",
             font=("Helvetica", 40 * -1, "bold")
         )
@@ -154,13 +170,13 @@ class calendarPage(tk.Frame):
             image=self.image_image_5
         )
 
-        self.canvas.create_text(
+        self.display_date = self.canvas.create_text(
             425.0,
             565.0,
             anchor="nw",
-            text="22-04-2022",
+            text=self.calendar.get_date(),
             fill="#585E62",
-            font=("Helvetica", 40 * -1, "bold")
+            font=("Helvetica", 40 * -1, "bold"),
         )
 
         self.image_image_6 = PhotoImage(
