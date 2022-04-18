@@ -143,7 +143,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="n",
             fill="#585E62",
-            font=("OpenSansRoman Bold", 40 * -1)
+            font=("Helvetica", 40 * -1, "bold")
         )
 
         self.image_image_5 = PhotoImage(
@@ -160,7 +160,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="22-04-2022",
             fill="#585E62",
-            font=("OpenSansRoman Bold", 40 * -1)
+            font=("Helvetica", 40 * -1, "bold")
         )
 
         self.image_image_6 = PhotoImage(
@@ -201,7 +201,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="To-Do-1",
             fill="#000000",
-            font=("OpenSansRoman Light", 16 * -1)
+            font=("Helvetica", 16 * -1)
         )
 
         self.canvas.create_text(
@@ -210,7 +210,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="To-Do-2",
             fill="#000000",
-            font=("OpenSansRoman Light", 16 * -1)
+            font=("Helvetica", 16 * -1)
         )
 
         self.canvas.create_text(
@@ -219,7 +219,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="To-Do-3",
             fill="#000000",
-            font=("OpenSansRoman Light", 16 * -1)
+            font=("Helvetica", 16 * -1)
         )
 
         self.image_image_10 = PhotoImage(
@@ -276,7 +276,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Description:\n",
             fill="#000000",
-            font=("OpenSansRoman Light", 12 * -1)
+            font=("Helvetica", 12 * -1)
         )
 
         self.canvas.create_text(
@@ -285,7 +285,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Description:\n",
             fill="#000000",
-            font=("OpenSansRoman Light", 12 * -1)
+            font=("Helvetica", 12 * -1)
         )
 
         self.canvas.create_text(
@@ -294,7 +294,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Description:\n",
             fill="#000000",
-            font=("OpenSansRoman Light", 12 * -1)
+            font=("Helvetica", 12 * -1)
         )
 
         self.canvas.create_text(
@@ -303,7 +303,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Done",
             fill="#298F55",
-            font=("OpenSansRoman Bold", 16 * -1)
+            font=("Helvetica", 16 * -1, "bold")
         )
 
         self.canvas.create_text(
@@ -312,7 +312,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Not Done",
             fill="#F5C855",
-            font=("OpenSansRoman Bold", 16 * -1)
+            font=("Helvetica", 16 * -1, "bold")
         )
 
         self.canvas.create_text(
@@ -321,7 +321,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Not Done",
             fill="#F5C855",
-            font=("OpenSansRoman Bold", 16 * -1)
+            font=("Helvetica", 16 * -1, "bold")
         )
 
         self.canvas.create_text(
@@ -330,7 +330,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Not Done",
             fill="#F5C855",
-            font=("OpenSansRoman Bold", 16 * -1)
+            font=("Helvetica", 16 * -1, "bold")
         )
 
         self.canvas.create_text(
@@ -339,7 +339,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Done",
             fill="#298F55",
-            font=("OpenSansRoman Bold", 16 * -1)
+            font=("Helvetica", 16 * -1, "bold")
         )
 
         self.canvas.create_text(
@@ -348,7 +348,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="Done",
             fill="#298F55",
-            font=("OpenSansRoman Bold", 16 * -1)
+            font=("Helvetica", 16 * -1, "bold")
         )
 
         self.canvas.create_text(
@@ -357,7 +357,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
             fill="#000000",
-            font=("OpenSansRoman Light", 12 * -1)
+            font=("Helvetica", 12 * -1)
         )
 
         self.canvas.create_text(
@@ -366,7 +366,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
             fill="#000000",
-            font=("OpenSansRoman Light", 12 * -1)
+            font=("Helvetica", 12 * -1)
         )
 
         self.canvas.create_text(
@@ -375,7 +375,7 @@ class calendarPage(tk.Frame):
             anchor="nw",
             text="CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
             fill="#000000",
-            font=("OpenSansRoman Light", 12 * -1)
+            font=("Helvetica", 12 * -1)
         )
 
         self.image_image_15 = PhotoImage(
