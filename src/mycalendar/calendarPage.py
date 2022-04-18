@@ -25,6 +25,26 @@ class calendarPage(tk.Frame):
         self.calendar = Calendar()
         self.display_date = ""
         self.display_cnt_task = ""
+
+        # to do list
+        # task 1
+        self.task1_done = ""
+        self.task1_not_done = ""
+        self.task1_name = ""
+        self.task1_desc = ""
+
+        # task 2
+        self.task2_done = ""
+        self.task2_not_done = ""
+        self.task2_name = ""
+        self.task2_desc = ""
+
+        # task 3
+        self.task3_done = ""
+        self.task3_not_done = ""
+        self.task3_name = ""
+        self.task3_desc = ""
+
         self.calendarPage()    
 
     def open_to_do(self): 
@@ -33,11 +53,23 @@ class calendarPage(tk.Frame):
         self.canvas.itemconfig(self.display_date, text=self.calendar.get_date())
         sqlcursor.execute("SELECT * FROM task")
         cnt = 0
+        list_task_name = ["" for i in range(3)]
+        list_task_desc = ["" for i in range(3)]
         for i in sqlcursor:
             if str(i[0]) == str(self.calendar.get_date()):
+                list_task_name[cnt] = str(i[2])
+                list_task_desc[cnt] = str(i[3])
                 cnt += 1;
         self.canvas.itemconfig(self.display_cnt_task, text=str(cnt))
-
+        if(list_task_name[0] != ""):
+            self.canvas.itemconfig(self.task1_name, text = list_task_name[0])
+            self.canvas.itemconfig(self.task1_desc, text = list_task_desc[0][:20])
+        if(list_task_name[1] != ""):
+            self.canvas.itemconfig(self.task2_name, text = list_task_name[1])
+            self.canvas.itemconfig(self.task2_desc, text = list_task_desc[1][:20])
+        if(list_task_name[2] != ""):
+            self.canvas.itemconfig(self.task3_name, text = list_task_name[2])
+            self.canvas.itemconfig(self.task3_desc, text = list_task_desc[2][:20])
 
     def calendarPage(self):
         self.canvas = Canvas(
@@ -211,29 +243,29 @@ class calendarPage(tk.Frame):
             image=self.image_image_9
         )
 
-        self.canvas.create_text(
+        self.task1_name = self.canvas.create_text(
             768.0,
             163.0,
             anchor="nw",
-            text="To-Do-1",
+            text="-",
             fill="#000000",
             font=("Helvetica", 16 * -1)
         )
 
-        self.canvas.create_text(
+        self.task2_name = self.canvas.create_text(
             768.0,
             318.0,
             anchor="nw",
-            text="To-Do-2",
+            text="-",
             fill="#000000",
             font=("Helvetica", 16 * -1)
         )
 
-        self.canvas.create_text(
+        self.task3_name = self.canvas.create_text(
             768.0,
             482.0,
             anchor="nw",
-            text="To-Do-3",
+            text="-",
             fill="#000000",
             font=("Helvetica", 16 * -1)
         )
@@ -313,16 +345,16 @@ class calendarPage(tk.Frame):
             font=("Helvetica", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.task1_done = self.canvas.create_text(
             926.0,
             163.0,
             anchor="nw",
-            text="Done",
+            text="",
             fill="#298F55",
             font=("Helvetica", 16 * -1, "bold")
         )
 
-        self.canvas.create_text(
+        self.task1_not_done = self.canvas.create_text(
             926.0,
             163.0,
             anchor="nw",
@@ -331,7 +363,16 @@ class calendarPage(tk.Frame):
             font=("Helvetica", 16 * -1, "bold")
         )
 
-        self.canvas.create_text(
+        self.task2_done = self.canvas.create_text(
+            926.0,
+            318.0,
+            anchor="nw",
+            text="",
+            fill="#298F55",
+            font=("Helvetica", 16 * -1, "bold")
+        )
+
+        self.task2_not_done = self.canvas.create_text(
             926.0,
             318.0,
             anchor="nw",
@@ -340,7 +381,16 @@ class calendarPage(tk.Frame):
             font=("Helvetica", 16 * -1, "bold")
         )
 
-        self.canvas.create_text(
+        self.task3_done = self.canvas.create_text(
+            926.0,
+            483.0,
+            anchor="nw",
+            text="",
+            fill="#298F55",
+            font=("Helvetica", 16 * -1, "bold")
+        )
+
+        self.task3_not_done = self.canvas.create_text(
             926.0,
             483.0,
             anchor="nw",
@@ -349,47 +399,29 @@ class calendarPage(tk.Frame):
             font=("Helvetica", 16 * -1, "bold")
         )
 
-        self.canvas.create_text(
-            926.0,
-            318.0,
-            anchor="nw",
-            text="Done",
-            fill="#298F55",
-            font=("Helvetica", 16 * -1, "bold")
-        )
-
-        self.canvas.create_text(
-            926.0,
-            483.0,
-            anchor="nw",
-            text="Done",
-            fill="#298F55",
-            font=("Helvetica", 16 * -1, "bold")
-        )
-
-        self.canvas.create_text(
+        self.task1_desc = self.canvas.create_text(
             727.0,
             223.0,
             anchor="nw",
-            text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            text="-",
             fill="#000000",
             font=("Helvetica", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.task2_desc = self.canvas.create_text(
             723.0,
             379.0,
             anchor="nw",
-            text="BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+            text="-",
             fill="#000000",
             font=("Helvetica", 12 * -1)
         )
 
-        self.canvas.create_text(
+        self.task3_desc = self.canvas.create_text(
             723.0,
             540.0,
             anchor="nw",
-            text="CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+            text="-",
             fill="#000000",
             font=("Helvetica", 12 * -1)
         )
