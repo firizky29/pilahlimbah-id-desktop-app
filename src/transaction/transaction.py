@@ -2,8 +2,6 @@
 import re
 from datetime import datetime, timedelta
 import hashlib
-from sympy import false
-
 
 class transaction():
     def __init__(self, raw_transaction, pageManager = None):
