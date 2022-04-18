@@ -1,10 +1,8 @@
 import pytest
-import hashlib
 from datetime import datetime
 import sys
 import mysql.connector
 
-from regex import R
 sys.path.insert(1, "..")
 import src.transaction.transaction as transaction
 
