@@ -1,14 +1,11 @@
 import transaction.orderPage as order
 import transaction.productPage as product
-<<<<<<< HEAD
 import calendarmanagement.calendarPage as calendarmanage
-=======
 import transaction.myTransactionPage as mytransaction
 import transaction.successPage as success
 from transaction.transaction import transaction
 import transaction.transactionDetailsPage as transactionDetails
 import mysql.connector
->>>>>>> transaction-management
 from tkinter import Tk
 
 
