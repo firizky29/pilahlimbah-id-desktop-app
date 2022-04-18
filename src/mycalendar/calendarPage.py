@@ -16,7 +16,7 @@ def relative_to_assets(path: str) -> Path:
 
 class calendarPage(tk.Frame):
     def __init__(self, master, pageManager):
-        super().__Init__(master)
+        super().__init__(master)
         self.master = master
         self.origin = pageManager
         self.pack()
@@ -221,25 +221,25 @@ class calendarPage(tk.Frame):
             font=("Helvetica", 16 * -1)
         )
 
-        image_image_1 = PhotoImage(
+        self.image_image_1 = PhotoImage(
             file=relative_to_assets("image_1.png"))
-        image_1 = self.canvas.create_image(
+        self.image_1 = self.canvas.create_image(
             736.0,
             174.0,
             image=self.image_image_1
         )
 
-        image_image_2 = PhotoImage(
+        self.image_image_2 = PhotoImage(
             file=relative_to_assets("image_2.png"))
-        image_2 = self.canvas.create_image(
+        self.image_2 = self.canvas.create_image(
             735.0,
             332.0,
             image=self.image_image_2
         )
 
-        image_image_3 = PhotoImage(
+        self.image_image_3 = PhotoImage(
             file=relative_to_assets("image_3.png"))
-        image_3 = self.canvas.create_image(
+        self.image_3 = self.canvas.create_image(
             736.0,
             493.0,
             image=self.image_image_3

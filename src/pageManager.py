@@ -1,6 +1,6 @@
 import transaction.orderPage as order
 import transaction.productPage as product
-import calendarmanagement.calendarPage as calendarmanage
+import mycalendar.calendarPage as mycal
 from tkinter import Tk
 
 
@@ -13,7 +13,7 @@ class pageManager():
         self.window.resizable(False, False)
 
         # inisialisasi dengan page login/register, tapi sementara pake page product dulu
-        self.page = product.productPage(master = self.window, pageManager = self)
+        self.page = mycal.calendarPage(master = self.window, pageManager = self)
     
     def run(self):
         self.page.startPage()
@@ -30,7 +30,7 @@ class pageManager():
         self.page.startPage()
     
     def calendarPage(self):
-        self.page = calendarmanage.calendarPage(master = self.window, pageManager = self)
+        self.page = mycal.calendarPage(master = self.window, pageManager = self)
         self.page.startPage()
 
     
