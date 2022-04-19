@@ -12,23 +12,22 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path("./assets")
+ASSETS_PATH = OUTPUT_PATH / Path("../../img/dashboard page")
 
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-class TipsAndTricksPage(tk.Frame):
+class DashboardUserPage(tk.Frame):
     def __init__(self, master, pageManager):
         super().__init__(master)
         self.master = master
         self.origin = pageManager
         self.pack()
-        self.TipsAndTricksPage()
-    
-    def TipsAndTricksPage(self):
+        self.DashboardUserPage()
         
-
+    def DashboardUserPage(self):
+        
         self.canvas = Canvas(
             self.master,
             bg = "#FFFFFF",
@@ -50,13 +49,14 @@ class TipsAndTricksPage(tk.Frame):
         )
 
         self.button_image_1 = PhotoImage(
-            file=relative_to_assets("button_1.png"))
+            file=relative_to_assets("button_6.png"))
         self.button_1 = Button(
             image= self.button_image_1,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_1 clicked"),
-            relief="flat"
+            relief="flat",
+            bg="white"
         )
         self.button_1.place(
             x=682.0,
@@ -72,7 +72,8 @@ class TipsAndTricksPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_2 clicked"),
-            relief="flat"
+            relief="flat",
+            bg="white"
         )
         self.button_2.place(
             x=990.0,
@@ -82,58 +83,103 @@ class TipsAndTricksPage(tk.Frame):
         )
 
         self.button_image_3 = PhotoImage(
-            file=relative_to_assets("button_3.png"))
+            file=relative_to_assets("button_7.png"))
         self.button_3 = Button(
             image= self.button_image_3,
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_3 clicked"),
-            relief="flat"
+            relief="flat",
+            bg="white"
         )
         self.button_3.place(
+            x=414.0,
+            y=584.0,
+            width=160.0,
+            height=60.0
+        )
+
+        self.button_image_4 = PhotoImage(
+            file=relative_to_assets("button_8.png"))
+        self.button_4 = Button(
+            image= self.button_image_4,
+            borderwidth=0,
+            highlightthickness=0,
+            command=lambda: print("button_4 clicked"),
+            relief="flat",
+            bg="white"
+        )
+        self.button_4.place(
+            x=872.0,
+            y=584.0,
+            width=160.0,
+            height=60.0
+        )
+
+        self.button_image_5 = PhotoImage(
+            file=relative_to_assets("button_3.png"))
+        self.button_5 = Button(
+            image= self.button_image_5,
+            borderwidth=0,
+            highlightthickness=0,
+            command=lambda: print("button_5 clicked"),
+            relief="flat",
+            bg="white"
+        )
+        self.button_5.place(
             x=858.0,
             y=24.0,
             width=68.0,
             height=22.0
         )
 
-        self.button_image_4 = PhotoImage(
+        self.button_image_6 = PhotoImage(
             file=relative_to_assets("button_4.png"))
-        self.button_4 = Button(
-            image= self.button_image_4,
+        self.button_6 = Button(
+            image= self.button_image_6,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_4 clicked"),
-            relief="flat"
+            command=lambda: print("button_6 clicked"),
+            relief="flat",
+            bg="white"
         )
-        self.button_4.place(
+        self.button_6.place(
             x=559.0,
             y=24.0,
             width=47.0,
             height=22.0
         )
 
-        self.canvas.create_rectangle(
-            36.0,
-            78.0,
-            370.0,
-            674.0,
-            fill="#10429A",
-            outline="")
+        self.button_image_7 = PhotoImage(
+            file=relative_to_assets("button_5.png"))
+        self.button_7 = Button(
+            image= self.button_image_7,
+            borderwidth=0,
+            highlightthickness=0,
+            command=lambda: print("button_7 clicked"),
+            relief="flat",
+            bg="white"
+        )
+        self.button_7.place(
+            x=559.0,
+            y=24.0,
+            width=47.0,
+            height=22.0
+        )
 
-        self.canvas.create_rectangle(
-            404.0,
-            78.0,
-            1032.0,
-            674.0,
-            fill="#F7F9FA",
-            outline="")
+        self.image_image_1 = PhotoImage(
+            file=relative_to_assets("image_1.png"))
+        self.image_1 = self.canvas.create_image(
+            203.0,
+            376.0,
+            image= self.image_image_1
+        )
 
         self.canvas.create_text(
             56.0,
             128.0,
             anchor="nw",
-            text="Tricks.",
+            text="PilahLimbah.id!",
             fill="#FFFFFF",
             font=("Helvetica", 32 * -1, "bold")
         )
@@ -142,16 +188,24 @@ class TipsAndTricksPage(tk.Frame):
             56.0,
             94.0,
             anchor="nw",
-            text="Tips and",
+            text="Welcome to",
             fill="#FFFFFF",
             font=("Helvetica", 32 * -1)
+        )
+
+        self.image_image_2 = PhotoImage(
+            file=relative_to_assets("image_6.png"))
+        self.image_2 = self.canvas.create_image(
+            718.0,
+            325.0,
+            image= self.image_image_2
         )
 
         self.canvas.create_text(
             444.0,
             154.0,
             anchor="nw",
-            text="Terdapat beberapa tips dalam membuang sampah, antara lain\nKetahui jenis-jenis sampah \nSampah pada umumnya dibedakan menjadi dua, yaitu organik dan anorganik. Untuk pemilahan sampah, biasanya sampah dibedakan menjadi beberapa jenis yang spesifik, seperti sampah kaca, sampah plastik, sampah kertas, sampah organik, sampah metal, dan sampah elektronik.\nPilah sampah berdasarkan jenisnya\nSetelah mengetahui jenis-jenis sampah, kelompokkan sampah berdasarkan jenisnya.\nBuang sampah di tempat yang tepat",
+            text="Sustainable Development Goal adalah program aksi\nyang dilakukan PBB untuk mengakhiri kemisikinan,\nmenjaga bumi, dan menjamin semua orang hidup\ndalam kedamaian dan kesejahteraan di tahun 2030.",
             fill="#000000",
             font=("Helvetica", 24 * -1)
         )
@@ -160,27 +214,27 @@ class TipsAndTricksPage(tk.Frame):
             444.0,
             109.0,
             anchor="nw",
-            text="Tips Membuang Sampah",
+            text="Tentang SDG",
             fill="#000000",
             font=("Helvetica", 32 * -1, "bold")
         )
 
-        self.image_image_1 = PhotoImage(
-            file=relative_to_assets("image_1.png"))
-        self.image_1 = self.canvas.create_image(
-            204.0,
-            456.0,
-            image= self.image_image_1
+        self.canvas.create_text(
+            662.0,
+            597.0,
+            anchor="nw",
+            text="1/10",
+            fill="#000000",
+            font=("Helvetica", 32 * -1)
+        )
+
+        self.image_image_3 = PhotoImage(
+            file=relative_to_assets("image_3.png"))
+        self.image_3 = self.canvas.create_image(
+            203.0,
+            460.0,
+            image= self.image_image_3
         )
     
     def startPage(self):
         self.mainloop()
-        
-#def startPage():
-#    window = Tk()
-
-#    window.geometry("1080x700")
-#    window.configure(bg = "#FFFFFF")
-#    window.resizable(False, False)
-#    Page = TipsAndTricksPage(master = window)
-#    Page.mainloop()
