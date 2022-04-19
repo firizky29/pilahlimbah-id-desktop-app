@@ -50,55 +50,92 @@ class calendarPage(tk.Frame):
         set_done = self.origin.mydb.cursor(buffered=True)
 
     def open_to_do(self): 
+        # display date which is selected by button
         self.canvas.itemconfig(self.display_date, text=self.calendar.get_date())
+        
+        # create new cursor
         mytask = self.origin.mydb.cursor(buffered=True)
         mytask.execute(f"SELECT * FROM task WHERE task_date='{self.calendar.get_date()}'")
+        
+        # count task
         cnt = 0
+
+        # initialize array of task
         list_task_name = ["" for i in range(3)]
         list_task_desc = ["" for i in range(3)]
         list_task_id = [0 for i in range(3)]
+
+        # store database in array
         for i in mytask:
             list_task_name[cnt] = str(i[2])
             list_task_desc[cnt] = str(i[3])
             list_task_id[cnt] = str(i[2])
             cnt += 1;
+
+        # display count task
         self.canvas.itemconfig(self.display_cnt_task, text=str(cnt))
-        if(list_task_name[0] != ""):
-            activity1 = self.origin.mydb.cursor(buffered=True)
-            activity1.execute(f"SELECT activity_date, task_id FROM activity WHERE task_id='{list_task_id[0]}' AND activity_date='{self.calendar.get_date()}'")
-            cnt_activity1 = 0
-            for j in activity1:
-                cnt_activity1 += 1;
-            if cnt_activity1 == 0:
-                self.canvas.itemconfig(self.task1_not_done, text = "Not Done")
-            else:
-                self.canvas.itemconfig(self.task1_done,text = "Done")
-            self.canvas.itemconfig(self.task1_name, text = list_task_name[0])
-            self.canvas.itemconfig(self.task1_desc, text = list_task_desc[0][:35]+'...')
-        if(list_task_name[1] != ""):
-            activity2 = self.origin.mydb.cursor(buffered=True)
-            activity2.execute(f"SELECT activity_date, task_id FROM activity WHERE task_id='{list_task_id[1]}' AND activity_date='{self.calendar.get_date()}'")
-            cnt_activity2 = 0
-            for j in activity2:
-                cnt_activity2 += 1;
-            if cnt_activity2 == 0:
-                self.canvas.itemconfig(self.task2_not_done, text = "Not Done")
-            else:
-                self.canvas.itemconfig(self.task2_done,text = "Done") 
-            self.canvas.itemconfig(self.task2_name, text = list_task_name[1])
-            self.canvas.itemconfig(self.task2_desc, text = list_task_desc[1][:35]+'...')
-        if(list_task_name[2] != ""):
-            activity3 = self.origin.mydb.cursor(buffered=True)
-            activity3.execute(f"SELECT activity_date, task_id FROM activity WHERE task_id='{list_task_id[2]}' AND activity_date='{self.calendar.get_date()}'")
-            cnt_activity3 = 0
-            for j in activity3:
-                cnt_activity3 += 1;
-            if cnt_activity3 == 0:
-                self.canvas.itemconfig(self.task3_not_done, text = "Not Done")
-            else:
-                self.canvas.itemconfig(self.task3_done,text = "Done")
-            self.canvas.itemconfig(self.task3_name, text = list_task_name[2])
-            self.canvas.itemconfig(self.task3_desc, text = list_task_desc[2][:35]+'...')
+
+        # clear display because there're no task
+        if(cnt == 0): 
+            self.canvas.itemconfig(self.task1_desc, text="-")
+            self.canvas.itemconfig(self.task1_name, text="-")  
+            self.canvas.itemconfig(self.task1_done, text="")
+            self.canvas.itemconfig(self.task1_not_done, text="")
+
+            self.canvas.itemconfig(self.task2_desc, text="-")
+            self.canvas.itemconfig(self.task2_name, text="-")  
+            self.canvas.itemconfig(self.task2_done, text="")
+            self.canvas.itemconfig(self.task2_not_done, text="")
+
+            self.canvas.itemconfig(self.task3_desc, text="-")
+            self.canvas.itemconfig(self.task3_name, text="-")  
+            self.canvas.itemconfig(self.task3_done, text="")
+            self.canvas.itemconfig(self.task3_not_done, text="")
+        
+        # there are more than 1 task that should be done
+        else: 
+            
+            # task 1
+            if(list_task_name[0] != ""):
+                activity1 = self.origin.mydb.cursor(buffered=True)
+                activity1.execute(f"SELECT activity_date, task_id FROM activity WHERE task_id='{list_task_id[0]}' AND activity_date='{self.calendar.get_date()}'")
+                cnt_activity1 = 0
+                for j in activity1:
+                    cnt_activity1 += 1;
+                if cnt_activity1 == 0:
+                    self.canvas.itemconfig(self.task1_not_done, text = "Not Done")
+                else:
+                    self.canvas.itemconfig(self.task1_done,text = "Done")
+                self.canvas.itemconfig(self.task1_name, text = list_task_name[0])
+                self.canvas.itemconfig(self.task1_desc, text = list_task_desc[0][:35]+'...')
+            
+            # task 2
+            if(list_task_name[1] != ""):
+                activity2 = self.origin.mydb.cursor(buffered=True)
+                activity2.execute(f"SELECT activity_date, task_id FROM activity WHERE task_id='{list_task_id[1]}' AND activity_date='{self.calendar.get_date()}'")
+                cnt_activity2 = 0
+                for j in activity2:
+                    cnt_activity2 += 1;
+                if cnt_activity2 == 0:
+                    self.canvas.itemconfig(self.task2_not_done, text = "Not Done")
+                else:
+                    self.canvas.itemconfig(self.task2_done,text = "Done") 
+                self.canvas.itemconfig(self.task2_name, text = list_task_name[1])
+                self.canvas.itemconfig(self.task2_desc, text = list_task_desc[1][:35]+'...')
+            
+            # task 3
+            if(list_task_name[2] != ""):
+                activity3 = self.origin.mydb.cursor(buffered=True)
+                activity3.execute(f"SELECT activity_date, task_id FROM activity WHERE task_id='{list_task_id[2]}' AND activity_date='{self.calendar.get_date()}'")
+                cnt_activity3 = 0
+                for j in activity3:
+                    cnt_activity3 += 1;
+                if cnt_activity3 == 0:
+                    self.canvas.itemconfig(self.task3_not_done, text = "Not Done")
+                else:
+                    self.canvas.itemconfig(self.task3_done,text = "Done")
+                self.canvas.itemconfig(self.task3_name, text = list_task_name[2])
+                self.canvas.itemconfig(self.task3_desc, text = list_task_desc[2][:35]+'...')
 
     def calendarPage(self):
         self.canvas = Canvas(
