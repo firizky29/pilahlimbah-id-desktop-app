@@ -30,7 +30,8 @@ class pageManager():
         # self.page = success.successPage(master = self.window, pageManager=self)
         # self.page = order.orderPage(master = self.window, pageManager=self)
         # self.page = product.productPage(master = self.window, pageManager = self)
-        self.page = mycal.calendarPage(master = self.window, pageManager = self)
+        # self.page = mycal.calendarPage(master = self.window, pageManager = self)
+        self.page = product.productPage(master = self.window, pageManager = self)
         # self.page = order.orderPage(master = self.window, pageManager=self)
     
     def run(self):
