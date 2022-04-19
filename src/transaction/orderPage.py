@@ -513,7 +513,7 @@ class orderPage(tk.Frame):
             "user" : self.origin.user,
             "card number" : self.cardNumber.get(),
             "bank" : self.bank['text'],
-            "security code" : hashlib.sha256(self.securityCode.get().encode()).hexdigest(),
+            "security code" : self.securityCode.get(),
             "address" : self.address.get(),
             "city"  : self.city.get(),
             "country" : self.country.get(),
