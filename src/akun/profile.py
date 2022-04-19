@@ -149,7 +149,7 @@ class profilePage(tk.Frame):
             anchor="nw",
             text="My",
             fill="#000000",
-            font=("OpenSansRoman Light", 32 * -1)
+            font=("Helvetica", 32 * -1)
         )
 
         self.image_image_1 = PhotoImage(

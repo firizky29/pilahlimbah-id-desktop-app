@@ -44,7 +44,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="PilahLimbah.id",
             fill="#000000",
-            font=("OpenSansRoman Bold", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.image_image_1 = PhotoImage(
@@ -61,7 +61,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="Warning",
             fill="#FF0101",
-            font=("OpenSansRoman Regular", 16 * -1)
+            font=("Helvetica", 16 * -1)
         )
 
         self.canvas.create_text(
@@ -70,7 +70,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="Email",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -79,7 +79,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="Birthdate",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -88,7 +88,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="Gender",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -97,7 +97,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="Address",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -106,7 +106,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="City",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -115,7 +115,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="Country",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -124,7 +124,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="Postal Code",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -133,7 +133,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="Username",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -142,7 +142,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="Full Name",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -151,7 +151,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="New Account",
             fill="#000000",
-            font=("OpenSansRoman Bold", 24 * -1)
+            font=("Helvetica", 24 * -1)
         )
 
         self.canvas.create_text(
@@ -160,7 +160,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="More Details",
             fill="#000000",
-            font=("OpenSansRoman Bold", 24 * -1)
+            font=("Helvetica", 24 * -1)
         )
 
         self.canvas.create_text(
@@ -169,7 +169,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="Password",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -178,7 +178,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="Confirm Password",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.entry_image_1 = PhotoImage(
@@ -412,7 +412,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="Page.",
             fill="#000000",
-            font=("OpenSansRoman Bold", 32 * -1)
+            font=("Helvetica", 32 * -1)
         )
 
         self.canvas.create_text(
@@ -421,7 +421,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="Register",
             fill="#000000",
-            font=("OpenSansRoman Regular", 32 * -1)
+            font=("Helvetica", 32 * -1)
         )
 
         self.image_image_2 = PhotoImage(

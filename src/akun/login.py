@@ -45,7 +45,7 @@ class loginPage(tk.Frame):
             anchor="nw",
             text="PilahLimbah.id",
             fill="#000000",
-            font=("Helvetica Bold", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.image_image_1 = PhotoImage(
@@ -157,7 +157,7 @@ class loginPage(tk.Frame):
             anchor="nw",
             text="Page.",
             fill="#000000",
-            font=("Helvetica Bold", 32 * -1)
+            font=("Helvetica", 32 * -1)
         )
 
         self.canvas.create_text(

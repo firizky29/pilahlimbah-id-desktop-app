@@ -43,7 +43,7 @@ class editProfilePage(tk.Frame):
             anchor="nw",
             text="PilahLimbah.id",
             fill="#000000",
-            font=("OpenSansRoman Bold", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.button_image_1 = PhotoImage(
@@ -140,7 +140,7 @@ class editProfilePage(tk.Frame):
             anchor="nw",
             text="Profile.",
             fill="#000000",
-            font=("OpenSansRoman Bold", 32 * -1)
+            font=("Helvetica", 32 * -1)
         )
 
         self.canvas.create_text(
@@ -149,7 +149,7 @@ class editProfilePage(tk.Frame):
             anchor="nw",
             text="Change",
             fill="#000000",
-            font=("OpenSansRoman Light", 32 * -1)
+            font=("Helvetica", 32 * -1)
         )
 
         self.button_image_6 = PhotoImage(
@@ -214,7 +214,7 @@ class editProfilePage(tk.Frame):
             anchor="nw",
             text="Warning",
             fill="#FF0101",
-            font=("OpenSansRoman Regular", 16 * -1)
+            font=("Helvetica", 16 * -1)
         )
 
         self.image_image_2 = PhotoImage(
@@ -231,7 +231,7 @@ class editProfilePage(tk.Frame):
             anchor="nw",
             text="Email",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -240,7 +240,7 @@ class editProfilePage(tk.Frame):
             anchor="nw",
             text="Birthdate",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -249,7 +249,7 @@ class editProfilePage(tk.Frame):
             anchor="nw",
             text="Address",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -258,7 +258,7 @@ class editProfilePage(tk.Frame):
             anchor="nw",
             text="City",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -267,7 +267,7 @@ class editProfilePage(tk.Frame):
             anchor="nw",
             text="Country",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -276,7 +276,7 @@ class editProfilePage(tk.Frame):
             anchor="nw",
             text="Postal Code",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -285,7 +285,7 @@ class editProfilePage(tk.Frame):
             anchor="nw",
             text="Username",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -294,7 +294,7 @@ class editProfilePage(tk.Frame):
             anchor="nw",
             text="Full Name",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -303,7 +303,7 @@ class editProfilePage(tk.Frame):
             anchor="nw",
             text="New Password",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.canvas.create_text(
@@ -312,7 +312,7 @@ class editProfilePage(tk.Frame):
             anchor="nw",
             text="Confirm Password",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.entry_image_1 = PhotoImage(
@@ -340,7 +340,7 @@ class editProfilePage(tk.Frame):
             anchor="nw",
             text="Old Password",
             fill="#000000",
-            font=("OpenSansRoman Regular", 20 * -1)
+            font=("Helvetica", 20 * -1)
         )
 
         self.entry_image_2 = PhotoImage(
