@@ -3,7 +3,6 @@
 import tkinter as tk
 from pathlib import Path
 from tkinter import *
-from turtle import bgcolor
 from datetime import datetime, timezone
 
 
