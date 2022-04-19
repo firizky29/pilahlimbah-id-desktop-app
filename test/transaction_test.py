@@ -20,6 +20,7 @@ raw_transaction = {
     "price" : 46000
 }
 
+
 class dummyPageManager():
     def __init__(self):
         self.mydb = mysql.connector.connect(
@@ -156,24 +157,5 @@ def test_validatePostalCode():
     sc.status = True
     sc.postalCode = "123"
     assert sc.validatePostalCode() == False
-
-def test_verifyTransaction():
-    sc = transaction.transaction(raw_transaction, dummy)
-    assert sc.verifyTransaction() == False
-
-    sc = transaction.transaction(raw_transaction, dummy)
-    sc.cardNumber = "1234-5678-9012-3456"
-    sc.securityCode = "12345"
-    assert sc.verifyTransaction() == True
-
-    sc = transaction.transaction(raw_transaction, dummy)
-    sc.cardNumber = "1111-1111-1111-1111"
-    sc.securityCode = "12345"
-    assert sc.verifyTransaction() == False
-
-    sc = transaction.transaction(raw_transaction, dummy)
-    sc.cardNumber = "1234-5678-9012-3456"
-    sc.securityCode = "12346"
-    assert sc.verifyTransaction() == False
 
 
