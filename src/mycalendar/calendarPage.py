@@ -142,6 +142,7 @@ class calendarPage(tk.Frame):
             highlightthickness=0,
             command=lambda: print("button_1 clicked"),
             relief="flat"
+            , bg='white'
         )
         self.button_1.place(
             x=682.0,
@@ -158,6 +159,7 @@ class calendarPage(tk.Frame):
             highlightthickness=0,
             command=lambda: print("button_2 clicked"),
             relief="flat"
+            , bg='white'
         )
         self.button_2.place(
             x=990.0,
@@ -174,6 +176,7 @@ class calendarPage(tk.Frame):
             highlightthickness=0,
             command=lambda: print("button_3 clicked"),
             relief="flat"
+            , bg='white'
         )
         self.button_3.place(
             x=858.0,
@@ -190,6 +193,7 @@ class calendarPage(tk.Frame):
             highlightthickness=0,
             command=lambda: print("button_4 clicked"),
             relief="flat"
+            , bg='white'
         )
         self.button_4.place(
             x=559.0,
@@ -479,6 +483,7 @@ class calendarPage(tk.Frame):
             highlightthickness=0,
             command=self.mark_done_task1,
             relief="flat"
+            , bg='white'
         )
         self.button_5.place(
             x=808.0,
@@ -495,6 +500,7 @@ class calendarPage(tk.Frame):
             highlightthickness=0,
             command=lambda: print("button_6 clicked"),
             relief="flat"
+            , bg='white'
         )
         self.button_6.place(
             x=808.0,
@@ -511,6 +517,7 @@ class calendarPage(tk.Frame):
             highlightthickness=0,
             command=lambda: print("button_7 clicked"),
             relief="flat"
+            , bg='white'
         )
         self.button_7.place(
             x=808.0,
