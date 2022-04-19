@@ -1,6 +1,6 @@
 import transaction.orderPage as order
 import transaction.productPage as product
-import dashboard.build.TipsAndTricksPage as tipsandtricks
+import dashboard.TipsAndTricksPage as tipsandtricks
 from tkinter import Tk
 
 

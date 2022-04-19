@@ -12,7 +12,7 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path("./assets")
+ASSETS_PATH = OUTPUT_PATH / Path("../../img/dashboard page")
 
 
 def relative_to_assets(path: str) -> Path:
@@ -55,7 +55,8 @@ class TipsAndTricksPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_1 clicked"),
-            relief="flat"
+            relief="flat",
+            bg= "white"
         )
         self.button_1.place(
             x=682.0,
@@ -71,7 +72,8 @@ class TipsAndTricksPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_2 clicked"),
-            relief="flat"
+            relief="flat",
+            bg="white"
         )
         self.button_2.place(
             x=990.0,
@@ -87,7 +89,8 @@ class TipsAndTricksPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_3 clicked"),
-            relief="flat"
+            relief="flat",
+            bg="white"
         )
         self.button_3.place(
             x=858.0,
@@ -103,7 +106,8 @@ class TipsAndTricksPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             command=lambda: print("button_4 clicked"),
-            relief="flat"
+            relief="flat",
+            bg="white"
         )
         self.button_4.place(
             x=559.0,
@@ -150,7 +154,7 @@ class TipsAndTricksPage(tk.Frame):
             444.0,
             154.0,
             anchor="nw",
-            text="Terdapat beberapa tips dalam membuang sampah, antara lain\nKetahui jenis-jenis sampah \nSampah pada umumnya dibedakan menjadi dua, yaitu organik dan anorganik. Untuk pemilahan sampah, biasanya sampah dibedakan menjadi beberapa jenis yang spesifik, seperti sampah kaca, sampah plastik, sampah kertas, sampah organik, sampah metal, dan sampah elektronik.\nPilah sampah berdasarkan jenisnya\nSetelah mengetahui jenis-jenis sampah, kelompokkan sampah berdasarkan jenisnya.\nBuang sampah di tempat yang tepat",
+            text="Terdapat beberapa tips dalam membuang sampah,\nantara lain\n1. Ketahui jenis-jenis sampah\n    Sampah pada umumnya dibedakan menjadi\n    dua, yaitu organik dan anorganik. Untuk\n    pemilahan sampah, biasanya sampah dibedakan\n    menjadi beberapa jenis yang spesifik, seperti\n    sampah kaca, sampah plastik, sampah kertas,\n    sampah organik, sampah metal, dan sampah\n    elektronik.\n2. Pilah sampah berdasarkan jenisnya\n    Setelah mengetahui jenis-jenis sampah,\n    kelompokkan sampah berdasarkan jenisnya.\n3. Buang sampah di tempat yang tepat",
             fill="#000000",
             font=("Helvetica", 24 * -1)
         )
