@@ -59,11 +59,23 @@ class user():
             # lakukan validasi input, boleh cek di modul transaction/transaction.py, cara validasinya mirip itu
             # contoh validasi: email harus ada @, nama gaboleh angka, 
             # ubah self.warning kalau gagal jadi pesan error, dan self statusnya jadi False
+            self.validateInputRegister()
         
         if(self.status):
             self.getUserID()
         
-        
+    def validateInputRegister(self):
+        karakter = '@'
+        if (karakter not in self.email):
+            self.status = False
+            self.warning = 'email must contain @'
+            return False
+        if (type(self.fullname) != str):
+            self.status = False
+            self.warning = 'name should only contain string'
+            return False
+        return True
+
     def validateInputLogin(self):
         if(self.username == '' or self.password == ''):
             self.status = False
@@ -98,7 +110,7 @@ class user():
         # ini proses masukin info user ke database.
         # cara insertnya:
         # insert region-nya dulu (kalau input region kosong, skip aja), (region_id isi 0 aja)
-        if('INI ISI YA KONDISIONALNYA' == True):
+        if(self.regionId != 'NULL' or self.regionId != ''):
             region_info = self.origin.mydb.cursor(buffered=True)
             region_info.execute(f"select region_id from region where region = '{self.address}' and city = '{self.city}' and country = '{self.country}' and postal_code = '{self.postalCode}'")
             if(region_info.rowcount == 0):
@@ -110,21 +122,25 @@ class user():
             self.regionId = region_info.fetchone()[0]
 
         # insert user (roles set null dulu, user_id set 0 aja)
-        return
+        user_info = self.origin.mydb.cursor()
+        user_info.execute(f"insert into user values (0, '{self.username}', '{self.password}', '{self.email}', '{self.fullname}', '{self.birthdate}', '{self.gender}', 'NULL')")
+        self.origin.mydb.commit()
 
     def getUserID(self):
         # PASTIIN INI CUMA DIPANGGIL KALAU USER_ID UDAH DIDAFTARIN SETELAH VERIFY REGISTER
-        user_id = self.origin.mydb.cursor(buffered = True)
-        user_id.execute(f"select user_id from user where username = '{self.username}'")
+        if (self.verifyRegister()):
+            user_id = self.origin.mydb.cursor(buffered = True)
+            user_id.execute(f"select user_id from user where username = '{self.username}'")
 
         self.userId = user_id.fetchone()[0]
-
         
     def commitRegister(self):
         # ini proses masukin role
         # caranya:
         # langsung insert guest aja, guest_id nya self.getUserID(). region_id isi sama self.regionId
-        return
+        guest_info = self.origin.mydb.cursor(buffered=True)
+        guest_info.execute(f"insert into guest values ('{self.getUserID()}', '{self.regionId}')")
+        self.origin.mydb.commit()
 
     def commitLogin(self):
         user_info = self.origin.mydb.cursor(buffered=True)
