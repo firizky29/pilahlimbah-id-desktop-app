@@ -18,7 +18,6 @@ def relative_to_assets(path: str) -> Path:
 class myTransactionPage(tk.Frame):
     def __init__(self, master, pageManager):
         super().__init__(master)
-        self.user = None
         self.master = master
         self.origin = pageManager
         self.pack()
@@ -48,7 +47,7 @@ class myTransactionPage(tk.Frame):
         )
         
         
-        if(self.origin.user == None):
+        if(self.origin.user.role == 'Member'):
             self.hoveredTat = PhotoImage(
             file=relative_to_assets("hoveredTat.png")) 
             self.tatImage = PhotoImage(
@@ -113,7 +112,7 @@ class myTransactionPage(tk.Frame):
             )
             self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
             self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
-        else:
+        elif(self.origin.user.role == 'Member'):
             self.hoveredHome = PhotoImage(
                 file= relative_to_assets("hoveredHome.png"))
             self.homeImage = PhotoImage(
@@ -166,6 +165,27 @@ class myTransactionPage(tk.Frame):
             )
             self.pricingButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredPricing))
             self.pricingButton.bind("<Leave>", lambda e: e.widget.config(image = self.pricingImage))
+        elif(self.origin.user.role == 'Admin'):
+            self.hoveredHome = PhotoImage(
+                file= relative_to_assets("hoveredHome.png"))
+            self.homeImage = PhotoImage(
+                file=relative_to_assets("homeButton.png"))
+            self.homeButton = Button(
+                image=self.homeImage,
+                borderwidth=0,
+                highlightthickness=0,
+                bg="white",
+                command=lambda: print("homeButton clicked"),
+                relief="flat"
+            )
+            self.homeButton.place(
+                x=879.0,
+                y=28.0,
+                width=47.0,
+                height=22.0
+            )
+            self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
+            self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
 
 
         self.profileImage = PhotoImage(
@@ -291,8 +311,8 @@ class myTransactionPage(tk.Frame):
         myTransactions = self.origin.mydb.cursor(buffered = True)
         transaction_info = "account_number, cast(order_date as date)"
         transaction_details = "branch_name, order_date, ol.amount, deadline_date"
-        tables = "orderlist as ol inner join account as ac on ol.account_id = ac.account_id natural inner join user natural inner join bank"
-        requirement = "user_id = 1"
+        tables = "orderlist as ol inner join account as ac on ol.account_id = ac.account_id natural inner join bank"
+        requirement = f"user_id = {self.origin.user.userId}"
         addition = "order by order_date desc"
         myTransactions.execute("select " + transaction_info + " , " + transaction_details + " from " + tables + " where " + requirement + " "+ addition)
         sz = myTransactions.rowcount

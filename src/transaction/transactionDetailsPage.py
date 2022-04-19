@@ -3,7 +3,6 @@
 import tkinter as tk
 from pathlib import Path
 from tkinter import *
-from turtle import bgcolor
 from datetime import datetime, timezone
 
 
@@ -45,7 +44,7 @@ class transactionDetailsPage(tk.Frame):
             font=("Helvetica", 20 * -1, "bold")
         )
 
-        if(self.origin.user == None):
+        if(self.origin.user.role == 'Member'):
             self.hoveredTat = PhotoImage(
             file=relative_to_assets("hoveredTat.png")) 
             self.tatImage = PhotoImage(
@@ -109,7 +108,7 @@ class transactionDetailsPage(tk.Frame):
             )
             self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
             self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
-        else:
+        elif(self.origin.user.role == 'Guest'):
             self.hoveredHome = PhotoImage(
                 file= relative_to_assets("hoveredHome.png"))
             self.homeImage = PhotoImage(
@@ -162,6 +161,26 @@ class transactionDetailsPage(tk.Frame):
             )
             self.pricingButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredPricing))
             self.pricingButton.bind("<Leave>", lambda e: e.widget.config(image = self.pricingImage))
+
+        elif(self.origin.user.role == 'Admin'):
+            self.hoveredHome = PhotoImage(
+                file= relative_to_assets("hoveredHome.png"))
+            self.homeImage = PhotoImage(
+                file=relative_to_assets("homeButton.png"))
+            self.homeButton = Button(
+                image=self.homeImage,
+                borderwidth=0,
+                highlightthickness=0,
+                bg="white",
+                command=lambda: print("homeButton clicked"),
+                relief="flat"
+            )
+            self.homeButton.place(
+                x=879.0,
+                y=28.0,
+                width=47.0,
+                height=22.0
+            )
 
         self.profileImage = PhotoImage(
             file=relative_to_assets("profileButton.png")) 

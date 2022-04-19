@@ -34,6 +34,10 @@ class orderPage(tk.Frame):
         self.securityCode.trace("w", self._securityCode_trace)
         self.postalCode.trace("w", self._postalCode_trace)
         
+        self.address.set(self.origin.user.address)
+        self.city.set(self.origin.user.city)
+        self.country.set(self.origin.user.country)
+        self.postalCode.set(self.origin.user.postalCode)
 
         self.orderPage()
 
@@ -513,7 +517,7 @@ class orderPage(tk.Frame):
             "user" : self.origin.user,
             "card number" : self.cardNumber.get(),
             "bank" : self.bank['text'],
-            "security code" : hashlib.sha256(self.securityCode.get().encode()).hexdigest(),
+            "security code" : self.securityCode.get(),
             "address" : self.address.get(),
             "city"  : self.city.get(),
             "country" : self.country.get(),

@@ -24,7 +24,8 @@ create table if not exists user(
     email VARCHAR(100) UNIQUE NOT NULL,
     fullname VARCHAR(100) NOT NULL,
     birthdate DATE NOT NULL,
-    gender ENUM('Male', 'Female') NOT NULL
+    gender ENUM('Male', 'Female') NOT NULL,
+    roles VARCHAR(50)
 );
 
 create table if not exists account (
@@ -58,23 +59,16 @@ create table orderlist (
 );
 
 create table if not exists admin(
-    admin_id INT PRIMARY KEY AUTO_INCREMENT,
-    account_id INT, 
-    profile_photo_url VARCHAR(50),
+    admin_id INT PRIMARY KEY,
     FOREIGN KEY (admin_id)
     REFERENCES user(user_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-    FOREIGN KEY (account_id)
-    REFERENCES account(account_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
 create table if not exists member(
-    member_id INT PRIMARY KEY AUTO_INCREMENT,
+    member_id INT PRIMARY KEY,
     region_id INT NOT NULL,
-    profile_photo_url VARCHAR(50),
     FOREIGN KEY (member_id)
     REFERENCES user(user_id)
     ON DELETE CASCADE
@@ -85,10 +79,8 @@ create table if not exists member(
 
 
 create table if not exists guest(
-    guest_id INT PRIMARY KEY AUTO_INCREMENT,
-    account_id INT,
+    guest_id INT PRIMARY KEY,
     region_id INT,
-    profile_photo_url VARCHAR(50),
     FOREIGN KEY (guest_id)
     REFERENCES user(user_id)
     ON DELETE CASCADE
@@ -143,6 +135,42 @@ CREATE TRIGGER insert_order AFTER INSERT ON orderlist
             NEW.order_date, NEW.account_id, NEW.amount
         );
         UPDATE account SET amount = amount - NEW.amount;
+    END;//
+delimiter ;
+
+delimiter //
+CREATE TRIGGER insert_guest AFTER INSERT ON guest
+    FOR EACH ROW
+    BEGIN
+        UPDATE user SET roles = 'Guest'
+        WHERE user_id = NEW.guest_id;
+    END;//
+delimiter ;
+
+delimiter //
+CREATE TRIGGER delete_guest AFTER DELETE ON guest
+    FOR EACH ROW
+    BEGIN
+        UPDATE user SET roles = NULL
+        WHERE user_id = OLD.guest_id;
+    END;//
+delimiter ;
+
+delimiter //
+CREATE TRIGGER delete_member AFTER DELETE ON member
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO guest (guest_id, region_id) VALUES (OLD.member_id, OLD.region_id);
+    END;//
+delimiter ;
+
+delimiter //
+CREATE TRIGGER insert_member AFTER INSERT ON member
+    FOR EACH ROW
+    BEGIN
+        DELETE FROM guest WHERE guest_id = NEW.member_id;
+        UPDATE user SET roles = 'Member'
+        WHERE user_id = NEW.member_id;
     END;//
 delimiter ;
 
@@ -256,8 +284,8 @@ INSERT INTO bank(bank_id, branch_name, region_id) VALUES
 (50, 'International Industry Co.', 40);
 
 
--- dummy account
-insert into user values (1, 'pilahlimbahid', '08552d6b6d5545af73e9b14af205e832340ae4aca0d334f3ea52c3aae8c6ae58', 'pilahlimbah@sampah.id', 'Pilah Limbah', '2020-03-15', 'Male');
+dummy account
+insert into user values (1, 'pilahlimbahid', '08552d6b6d5545af73e9b14af205e832340ae4aca0d334f3ea52c3aae8c6ae58', 'pilahlimbah@sampah.id', 'Pilah Limbah', '2020-03-15', 'Male', NULL);
 insert into account values (1, 1, '1234567890123456', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5', 1, 100000000.0);
 
 
