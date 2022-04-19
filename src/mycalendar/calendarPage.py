@@ -5,7 +5,6 @@ import tkinter as tk
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
 from tkcalendar import *
-import mysql.connector
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("../../img/calendar page")
@@ -47,26 +46,57 @@ class calendarPage(tk.Frame):
 
         self.calendarPage()    
 
+    def mark_done_task1(self):
+        set_done = self.origin.mydb.cursor(buffered=True)
+
     def open_to_do(self): 
         self.canvas.itemconfig(self.display_date, text=self.calendar.get_date())
         mytask = self.origin.mydb.cursor(buffered=True)
-        mytask.execute("SELECT * FROM task")
+        mytask.execute(f"SELECT * FROM task WHERE task_date='{self.calendar.get_date()}'")
         cnt = 0
         list_task_name = ["" for i in range(3)]
         list_task_desc = ["" for i in range(3)]
+        list_task_id = [0 for i in range(3)]
         for i in mytask:
-            if str(i[0]) == str(self.calendar.get_date()):
-                list_task_name[cnt] = str(i[2])
-                list_task_desc[cnt] = str(i[3])
-                cnt += 1;
+            list_task_name[cnt] = str(i[2])
+            list_task_desc[cnt] = str(i[3])
+            list_task_id[cnt] = str(i[2])
+            cnt += 1;
         self.canvas.itemconfig(self.display_cnt_task, text=str(cnt))
         if(list_task_name[0] != ""):
+            activity1 = self.origin.mydb.cursor(buffered=True)
+            activity1.execute(f"SELECT activity_date, task_id FROM activity WHERE task_id='{list_task_id[0]}' AND activity_date='{self.calendar.get_date()}'")
+            cnt_activity1 = 0
+            for j in activity1:
+                cnt_activity1 += 1;
+            if cnt_activity1 == 0:
+                self.canvas.itemconfig(self.task1_not_done, text = "Not Done")
+            else:
+                self.canvas.itemconfig(self.task1_done,text = "Done")
             self.canvas.itemconfig(self.task1_name, text = list_task_name[0])
             self.canvas.itemconfig(self.task1_desc, text = list_task_desc[0][:35]+'...')
         if(list_task_name[1] != ""):
+            activity2 = self.origin.mydb.cursor(buffered=True)
+            activity2.execute(f"SELECT activity_date, task_id FROM activity WHERE task_id='{list_task_id[1]}' AND activity_date='{self.calendar.get_date()}'")
+            cnt_activity2 = 0
+            for j in activity2:
+                cnt_activity2 += 1;
+            if cnt_activity2 == 0:
+                self.canvas.itemconfig(self.task2_not_done, text = "Not Done")
+            else:
+                self.canvas.itemconfig(self.task2_done,text = "Done") 
             self.canvas.itemconfig(self.task2_name, text = list_task_name[1])
             self.canvas.itemconfig(self.task2_desc, text = list_task_desc[1][:35]+'...')
         if(list_task_name[2] != ""):
+            activity3 = self.origin.mydb.cursor(buffered=True)
+            activity3.execute(f"SELECT activity_date, task_id FROM activity WHERE task_id='{list_task_id[2]}' AND activity_date='{self.calendar.get_date()}'")
+            cnt_activity3 = 0
+            for j in activity3:
+                cnt_activity3 += 1;
+            if cnt_activity3 == 0:
+                self.canvas.itemconfig(self.task3_not_done, text = "Not Done")
+            else:
+                self.canvas.itemconfig(self.task3_done,text = "Done")
             self.canvas.itemconfig(self.task3_name, text = list_task_name[2])
             self.canvas.itemconfig(self.task3_desc, text = list_task_desc[2][:35]+'...')
 
@@ -205,7 +235,7 @@ class calendarPage(tk.Frame):
             425.0,
             565.0,
             anchor="nw",
-            text=self.calendar.get_date(),
+            text="select date",
             fill="#585E62",
             font=("Helvetica", 40 * -1, "bold"),
         )
@@ -357,7 +387,7 @@ class calendarPage(tk.Frame):
             926.0,
             163.0,
             anchor="nw",
-            text="Not Done",
+            text="",
             fill="#F5C855",
             font=("Helvetica", 16 * -1, "bold")
         )
@@ -375,7 +405,7 @@ class calendarPage(tk.Frame):
             926.0,
             318.0,
             anchor="nw",
-            text="Not Done",
+            text="",
             fill="#F5C855",
             font=("Helvetica", 16 * -1, "bold")
         )
@@ -393,7 +423,7 @@ class calendarPage(tk.Frame):
             926.0,
             483.0,
             anchor="nw",
-            text="Not Done",
+            text="",
             fill="#F5C855",
             font=("Helvetica", 16 * -1, "bold")
         )
@@ -447,7 +477,7 @@ class calendarPage(tk.Frame):
             image=self.button_image_5,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_5 clicked"),
+            command=self.mark_done_task1,
             relief="flat"
         )
         self.button_5.place(
