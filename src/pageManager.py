@@ -1,6 +1,6 @@
 import transaction.orderPage as order
 import transaction.productPage as product
-import calendarmanagement.calendarPage as calendarmanage
+import mycalendar.calendarPage as mycal
 import transaction.myTransactionPage as mytransaction
 import transaction.successPage as success
 from transaction.transaction import transaction
@@ -30,7 +30,7 @@ class pageManager():
         # self.page = success.successPage(master = self.window, pageManager=self)
         # self.page = order.orderPage(master = self.window, pageManager=self)
         # self.page = product.productPage(master = self.window, pageManager = self)
-        self.page = mytransaction.myTransactionPage(master = self.window, pageManager = self)
+        self.page = mycal.calendarPage(master = self.window, pageManager = self)
         # self.page = order.orderPage(master = self.window, pageManager=self)
     
     def run(self):
@@ -48,7 +48,7 @@ class pageManager():
         self.page.startPage()
     
     def calendarPage(self):
-        self.page = calendarmanage.calendarPage(master = self.window, pageManager = self)
+        self.page = mycal.calendarPage(master = self.window, pageManager = self)
         self.page.startPage()
 
     

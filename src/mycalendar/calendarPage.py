@@ -48,14 +48,13 @@ class calendarPage(tk.Frame):
         self.calendarPage()    
 
     def open_to_do(self): 
-        mysqldb = mysql.connector.connect(host="pilahlimbah.mariadb.database.azure.com", user="pilahlimbah@pilahlimbah", password="BDDL&g38Mv", database = "pilahlimbahid")     
-        sqlcursor = mysqldb.cursor()
         self.canvas.itemconfig(self.display_date, text=self.calendar.get_date())
-        sqlcursor.execute("SELECT * FROM task")
+        mytask = self.origin.mydb.cursor(buffered=True)
+        mytask.execute("SELECT * FROM task")
         cnt = 0
         list_task_name = ["" for i in range(3)]
         list_task_desc = ["" for i in range(3)]
-        for i in sqlcursor:
+        for i in mytask:
             if str(i[0]) == str(self.calendar.get_date()):
                 list_task_name[cnt] = str(i[2])
                 list_task_desc[cnt] = str(i[3])
