@@ -1,5 +1,6 @@
 import transaction.orderPage as order
 import transaction.productPage as product
+import dashboard.build.TipsAndTricksPage as tipsandtricks
 from tkinter import Tk
 
 
@@ -12,7 +13,7 @@ class pageManager():
         self.window.resizable(False, False)
 
         # inisialisasi dengan page login/register, tapi sementara pake page product dulu
-        self.page = product.productPage(master = self.window, pageManager = self)
+        self.page = tipsandtricks.TipsAndTricksPage(master = self.window, pageManager = self)
     
     def run(self):
         self.page.startPage()
