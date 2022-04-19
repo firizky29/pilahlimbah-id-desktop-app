@@ -1,6 +1,10 @@
 import transaction.orderPage as order
 import transaction.productPage as product
 import calendarmanagement.calendarPage as calendarmanage
+import akun.login as login
+import akun.register as register
+import akun.profile as profile
+import akun.editProfile as edit
 from tkinter import Tk
 
 
@@ -31,6 +35,22 @@ class pageManager():
     
     def calendarPage(self):
         self.page = calendarmanage.calendarPage(master = self.window, pageManager = self)
+        self.page.startPage()
+
+    def loginPage(self):
+        self.page = login.loginPage(master = self.window, pageManager = self)
+        self.page.startPage()
+    
+    def registerPage(self):
+        self.page = register.registerPage(master = self.window, pageManager = self)
+        self.page.startPage()
+
+    def editProfilePage(self):
+        self.page = edit.editProfilePage(master = self.window, pageManager = self)
+        self.page.startPage()
+
+    def profilePage(self):
+        self.page = profile.profilePage(master = self.window, pageManager = self)
         self.page.startPage()
 
     
