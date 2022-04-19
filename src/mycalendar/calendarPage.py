@@ -180,7 +180,7 @@ class calendarPage(tk.Frame):
         self.image_image_4 = PhotoImage(
             file=relative_to_assets("image_4.png"))
         self.image_4 = self.canvas.create_image(
-            155.0,
+            200.0,
             180.0,
             image=self.image_image_4
         )
@@ -214,7 +214,7 @@ class calendarPage(tk.Frame):
         self.image_image_6 = PhotoImage(
             file=relative_to_assets("image_6.png"))
         self.image_6 = self.canvas.create_image(
-            169.0,
+            200.0,
             140.0,
             image=self.image_image_6
         )
