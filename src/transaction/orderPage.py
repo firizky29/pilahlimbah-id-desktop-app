@@ -34,6 +34,10 @@ class orderPage(tk.Frame):
         self.securityCode.trace("w", self._securityCode_trace)
         self.postalCode.trace("w", self._postalCode_trace)
         
+        self.address.set(self.origin.user.address)
+        self.city.set(self.origin.user.city)
+        self.country.set(self.origin.user.country)
+        self.postalCode.set(self.origin.user.postalCode)
 
         self.orderPage()
 

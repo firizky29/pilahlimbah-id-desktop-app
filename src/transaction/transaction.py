@@ -96,6 +96,8 @@ class transaction():
             return False
         self.origin.mydb.cursor().execute(f"insert into orderlist values (0, '{credit_info[0]}', SYSDATE(), SYSDATE() + interval '{self.activePeriod}' day, {self.price})")
         self.origin.mydb.commit()
+
+        self.origin.user.changeRole('Member', self)
         return True
         
 
