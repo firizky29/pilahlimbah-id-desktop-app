@@ -31,10 +31,10 @@ class pageManager():
         # inisialisasi dengan page login/register, tapi sementara pake page product dulu
         # self.page = transactionDetails.transactionDetailsPage(master = self.window, pageManager = self)
         # self.page = success.successPage(master = self.window, pageManager=self)
-        self.page = order.orderPage(master = self.window, pageManager=self)
+        # self.page = order.orderPage(master = self.window, pageManager=self)
         # self.page = product.productPage(master = self.window, pageManager = self)
-        # self.page = mycal.calendarPage(master = self.window, pageManager = self)
-        self.page = product.productPage(master = self.window, pageManager = self)
+        self.page = mycal.calendarPage(master = self.window, pageManager = self)
+        # self.page = product.productPage(master = self.window, pageManager = self)
         # self.page = order.orderPage(master = self.window, pageManager=self)
     
     def checkMembership(self):
