@@ -3,6 +3,7 @@ from msvcrt import setmode
 from pathlib import Path
 import tkinter as tk
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from datetime import datetime
 
 from tkcalendar import *
 
@@ -46,8 +47,27 @@ class calendarPage(tk.Frame):
 
         self.calendarPage()    
 
+    # mark task as done
     def mark_done_task1(self):
-        set_done = self.origin.mydb.cursor(buffered=True)
+        set_done = self.origin.mydb.cursor()
+        set_done.execute(f"INSERT INTO activity values('{self.calendar.get_date()}',1,'{self.origin.user.userId}','{datetime.now()}')")
+        self.canvas.itemconfig(self.task1_done, text = "Done");
+        self.canvas.itemconfig(self.task1_not_done, text = "")
+        self.origin.mydb.commit()
+
+    def mark_done_task2(self):
+        set_done = self.origin.mydb.cursor()
+        set_done.execute(f"INSERT INTO activity values('{self.calendar.get_date()}',2,'{self.origin.user.userId}','{datetime.now()}')")
+        self.canvas.itemconfig(self.task2_done, text = "Done");
+        self.canvas.itemconfig(self.task2_not_done, text = "")
+        self.origin.mydb.commit()
+    
+    def mark_done_task3(self):
+        set_done = self.origin.mydb.cursor()
+        set_done.execute(f"INSERT INTO activity values('{self.calendar.get_date()}',3,'{self.origin.user.userId}','{datetime.now()}')")
+        self.canvas.itemconfig(self.task3_done, text = "Done");
+        self.canvas.itemconfig(self.task3_not_done, text = "")
+        self.origin.mydb.commit()
 
     def open_to_do(self): 
         # display date which is selected by button
@@ -69,40 +89,36 @@ class calendarPage(tk.Frame):
         for i in mytask:
             list_task_name[cnt] = str(i[2])
             list_task_desc[cnt] = str(i[3])
-            list_task_id[cnt] = str(i[2])
+            list_task_id[cnt] = str(i[1])
             cnt += 1;
 
         # display count task
         self.canvas.itemconfig(self.display_cnt_task, text=str(cnt))
 
         # clear display because there're no task
-        if(cnt == 0): 
-            self.canvas.itemconfig(self.task1_desc, text="-")
-            self.canvas.itemconfig(self.task1_name, text="-")  
-            self.canvas.itemconfig(self.task1_done, text="")
-            self.canvas.itemconfig(self.task1_not_done, text="")
+        self.canvas.itemconfig(self.task1_desc, text="-")
+        self.canvas.itemconfig(self.task1_name, text="-")  
+        self.canvas.itemconfig(self.task1_done, text="")
+        self.canvas.itemconfig(self.task1_not_done, text="")
 
-            self.canvas.itemconfig(self.task2_desc, text="-")
-            self.canvas.itemconfig(self.task2_name, text="-")  
-            self.canvas.itemconfig(self.task2_done, text="")
-            self.canvas.itemconfig(self.task2_not_done, text="")
+        self.canvas.itemconfig(self.task2_desc, text="-")
+        self.canvas.itemconfig(self.task2_name, text="-")  
+        self.canvas.itemconfig(self.task2_done, text="")
+        self.canvas.itemconfig(self.task2_not_done, text="")
 
-            self.canvas.itemconfig(self.task3_desc, text="-")
-            self.canvas.itemconfig(self.task3_name, text="-")  
-            self.canvas.itemconfig(self.task3_done, text="")
-            self.canvas.itemconfig(self.task3_not_done, text="")
+        self.canvas.itemconfig(self.task3_desc, text="-")
+        self.canvas.itemconfig(self.task3_name, text="-")  
+        self.canvas.itemconfig(self.task3_done, text="")
+        self.canvas.itemconfig(self.task3_not_done, text="")
         
         # there are more than 1 task that should be done
-        else: 
+        if(cnt > 0): 
             
             # task 1
             if(list_task_name[0] != ""):
                 activity1 = self.origin.mydb.cursor(buffered=True)
-                activity1.execute(f"SELECT activity_date, task_id FROM activity WHERE task_id='{list_task_id[0]}' AND activity_date='{self.calendar.get_date()}'")
-                cnt_activity1 = 0
-                for j in activity1:
-                    cnt_activity1 += 1;
-                if cnt_activity1 == 0:
+                activity1.execute(f"SELECT activity_date, task_id FROM activity WHERE task_id={list_task_id[0]} AND activity_date='{self.calendar.get_date()}' AND member_id = '{self.origin.user.userId}'")
+                if activity1.rowcount == 0:
                     self.canvas.itemconfig(self.task1_not_done, text = "Not Done")
                 else:
                     self.canvas.itemconfig(self.task1_done,text = "Done")
@@ -112,11 +128,8 @@ class calendarPage(tk.Frame):
             # task 2
             if(list_task_name[1] != ""):
                 activity2 = self.origin.mydb.cursor(buffered=True)
-                activity2.execute(f"SELECT activity_date, task_id FROM activity WHERE task_id='{list_task_id[1]}' AND activity_date='{self.calendar.get_date()}'")
-                cnt_activity2 = 0
-                for j in activity2:
-                    cnt_activity2 += 1;
-                if cnt_activity2 == 0:
+                activity2.execute(f"SELECT activity_date, task_id FROM activity WHERE task_id={list_task_id[1]} AND activity_date='{self.calendar.get_date()}' AND member_id = '{self.origin.user.userId}'")
+                if activity2.rowcount == 0:
                     self.canvas.itemconfig(self.task2_not_done, text = "Not Done")
                 else:
                     self.canvas.itemconfig(self.task2_done,text = "Done") 
@@ -126,11 +139,8 @@ class calendarPage(tk.Frame):
             # task 3
             if(list_task_name[2] != ""):
                 activity3 = self.origin.mydb.cursor(buffered=True)
-                activity3.execute(f"SELECT activity_date, task_id FROM activity WHERE task_id='{list_task_id[2]}' AND activity_date='{self.calendar.get_date()}'")
-                cnt_activity3 = 0
-                for j in activity3:
-                    cnt_activity3 += 1;
-                if cnt_activity3 == 0:
+                activity3.execute(f"SELECT activity_date, task_id FROM activity WHERE task_id={list_task_id[2]} AND activity_date='{self.calendar.get_date()}' AND member_id = '{self.origin.user.userId}'")
+                if activity3.rowcount == 0:
                     self.canvas.itemconfig(self.task3_not_done, text = "Not Done")
                 else:
                     self.canvas.itemconfig(self.task3_done,text = "Done")
@@ -535,7 +545,7 @@ class calendarPage(tk.Frame):
             image=self.button_image_6,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_6 clicked"),
+            command=self.mark_done_task2,
             relief="flat"
             , bg='white'
         )
@@ -552,7 +562,7 @@ class calendarPage(tk.Frame):
             image=self.button_image_7,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_7 clicked"),
+            command=self.mark_done_task3,
             relief="flat"
             , bg='white'
         )
