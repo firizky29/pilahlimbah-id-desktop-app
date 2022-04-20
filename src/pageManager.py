@@ -4,13 +4,10 @@ import transaction.productPage as product
 import mycalendar.calendarPage as mycal
 import transaction.myTransactionPage as mytransaction
 import transaction.successPage as success
-import transaction.transaction as transaction
 import transaction.transactionDetailsPage as transactionDetails
-import account.user as account
 import dashboard.DashboardUserPage as dashboarduser
 import dashboard.DashboardAdminPage as dashboardadmin
 import dashboard.TipsAndTricksPage as tipsAndTricks
-import account.editProfile as editProfile
 import account.login as login
 import account.register as register
 import account.profile as profile
@@ -45,12 +42,14 @@ class pageManager():
         # self.page = product.productPage(master = self.window, pageManager = self)
         # self.page = order.orderPage(master = self.window, pageManager=self)
         # self.page = dashboarduser.DashboardUserPage(master = self.window, pageManager = self)
-        self.page = login.loginPage(master = self.window, pageManager = self)
         # self.page = register.registerPage(self.window, self)
         # self.page = profile.profilePage(self.window, self)
         # self.page = dashboardadmin.DashboardAdminPage(master = self.window, pageManager = self)
         # self.page = mytransaction.myTransactionPage(master = self.window, pageManager = self)
         # self.page = tipsAndTricks.TipsAndTricksPage(self.window, self)
+        self.page = login.loginPage(master = self.window, pageManager = self)
+
+
     def checkMembership(self):
         if(self.user.role == 'Member'):
             if(self.user.deadline < datetime.now(pytz.utc)):
@@ -85,10 +84,6 @@ class pageManager():
     
     def registerPage(self):
         self.page = register.registerPage(master = self.window, pageManager = self)
-        self.page.startPage()
-
-    def editProfilePage(self):
-        self.page = editProfile.editProfilePage(master = self.window, pageManager = self)
         self.page.startPage()
 
     def profilePage(self):

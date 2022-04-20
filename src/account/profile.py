@@ -460,22 +460,6 @@ class profilePage(tk.Frame):
             font=("Helvetica", 16 * -1)
         )
 
-        self.button_image_4 = PhotoImage(
-            file=relative_to_assets("edit_profile.png"))
-        self.button_4 = Button(
-            image=self.button_image_4,
-            borderwidth=0,
-            highlightthickness=0,
-            bg = 'white',
-            command=lambda: self._on_click_editprofile(),
-            relief="flat"
-        )
-        self.button_4.place(
-            x=784.0,
-            y=655.0,
-            width=82.0,
-            height=22.0
-        )
 
         self.button_image_5 = PhotoImage(
             file=relative_to_assets("logout.png"))
@@ -590,8 +574,6 @@ class profilePage(tk.Frame):
     def _on_click_profile(self):
         self.origin.profilePage()
 
-    def _on_click_editprofile(self):
-        self.origin.editProfilePage()
 
     def _on_click_exit(self):
         MsgBox = msg.askquestion ('Exit Application','Are you sure you want to exit the application',icon = 'warning')
