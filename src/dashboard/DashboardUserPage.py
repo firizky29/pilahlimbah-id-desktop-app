@@ -27,15 +27,18 @@ class DashboardUserPage(tk.Frame):
         self.DashboardUserPage()
         
     def DashboardUserPage(self):
-        content_list = []
-        title_list = []
-        content = self.origin.mydb.cursor()
-        content.execute("select * from content")
-        for (i, t, c) in content.fetchall():
-            title_list.append(t)
-            content_list.append(c)
-        content_index = 0
+        self.content_list = []
+        self.title_list = []
+        self.content = self.origin.mydb.cursor()
+        self.content.execute("select * from content")
+        for (i, t, c) in self.content.fetchall():
+            self.title_list.append(t)
+            self.content_list.append(c)
+        self.content_index = 0
         
+        #self.title = self.title_list[self.content_index]
+        #self.content_text = self.content_list[self.content_index]
+         
         self.canvas = Canvas(
             self.master,
             bg = "#FFFFFF",
@@ -96,7 +99,7 @@ class DashboardUserPage(tk.Frame):
             image= self.button_image_3,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_3 clicked"),
+            command=lambda: self.prevContent(),
             relief="flat",
             bg="white"
         )
@@ -113,7 +116,7 @@ class DashboardUserPage(tk.Frame):
             image= self.button_image_4,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_4 clicked"),
+            command=lambda: self.nextContent(),
             relief="flat",
             bg="white"
         )
@@ -209,20 +212,20 @@ class DashboardUserPage(tk.Frame):
             image= self.image_image_2
         )
 
-        self.canvas.create_text(
+        self.content_text = self.canvas.create_text(
             444.0,
             154.0,
             anchor="nw",
-            text=content_list[content_index],
+            text=self.content_list[self.content_index],
             fill="#000000",
             font=("Helvetica", 24 * -1)
         )
-
-        self.canvas.create_text(
+        
+        self.title = self.canvas.create_text(
             444.0,
             109.0,
             anchor="nw",
-            text=title_list[content_index],
+            text=self.title_list[self.content_index],
             fill="#000000",
             font=("Helvetica", 32 * -1, "bold")
         )
@@ -231,7 +234,7 @@ class DashboardUserPage(tk.Frame):
             662.0,
             597.0,
             anchor="nw",
-            text=f"{content_index+1}/{len(content_list)}",
+            text=f"{self.content_index+1}/{len(self.content_list)}",
             fill="#000000",
             font=("Helvetica", 32 * -1)
         )
@@ -246,3 +249,17 @@ class DashboardUserPage(tk.Frame):
     
     def startPage(self):
         self.mainloop()
+
+    def nextContent(self):
+        n = len(self.content_list)
+        self.content_index = (self.content_index+1)%n
+        print("button next clicked")
+        self.canvas.itemconfig(self.title, text = self.title_list[self.content_index])
+        self.canvas.itemconfig(self.content_text, text = self.content_list[self.content_index])
+        
+    def prevContent(self):
+        n = len(self.content_list)
+        self.content_index = (self.content_index-1+n)%n
+        print("button prev clicked")
+        self.canvas.itemconfig(self.title, text = self.title_list[self.content_index])
+        self.canvas.itemconfig(self.content_text, text = self.content_list[self.content_index])
