@@ -205,12 +205,10 @@ class user():
 
         region_info = self.origin.mydb.cursor(buffered=True)
         proj = "region_id, region, city, country, postal_code"
-        if(self.role == 'Admin'):
-            region_info.execute(f"select {proj} from user join admin natural inner join region where user.user_id = admin.admin_id")
-        elif(self.role == 'Member'):
-            region_info.execute(f"select {proj} from user join member natural inner join region where user.user_id = member.member_id")
+        if(self.role == 'Member'):
+            region_info.execute(f"select {proj} from user join member natural inner join region where user.user_id = {self.userId} and user.user_id = member.member_id and member.region_id = region.region_id")
         elif(self.role == 'Guest'): 
-            region_info.execute(f"select {proj} from user join guest natural inner join region where user.user_id = guest.guest_id")
+            region_info.execute(f"select {proj} from user join guest natural inner join region where user.user_id = {self.userId} and user.user_id = guest.guest_id and guest.region_id = region.region_id")
 
         if(region_info.rowcount > 0):
             region_info = region_info.fetchone()
