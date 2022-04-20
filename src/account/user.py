@@ -1,6 +1,7 @@
 
 import hashlib
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
+from sqlite3 import Date
 
 import pytz
 
@@ -73,6 +74,22 @@ class user():
         if (type(self.fullname) != str):
             self.status = False
             self.warning = 'name should only contain string'
+            return False
+        if (self.gender != "Female" or self.gender != "Male"):
+            self.status = False
+            self.warning = 'Gender must be a Female or Male'
+            return False
+        if (type(self.birthdate) != date):
+            self.status = False
+            self.warning = 'Birthdate must be a date type'
+            return False
+        if (type(self.country) != str):
+            self.status = False
+            self.warning = "Country should only contain string"
+            return False
+        if (type(self.city) != str):
+            self.status = False
+            self.warning = "City should only contain string"
             return False
         return True
 
