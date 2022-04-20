@@ -1,5 +1,4 @@
 
-from msvcrt import setmode
 from pathlib import Path
 import tkinter as tk
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
