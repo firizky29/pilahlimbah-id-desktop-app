@@ -4,7 +4,6 @@
 
 import pageManager as pm
 
-
 def main():
     """
         prosedur main
@@ -15,4 +14,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
