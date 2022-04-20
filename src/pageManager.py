@@ -7,6 +7,7 @@ import transaction.successPage as success
 import transaction.transaction as transaction
 import transaction.transactionDetailsPage as transactionDetails
 import account.user as account
+import dashboard.DashboardUserPage as dashboarduser
 import dashboard.DashboardAdminPage as dashboardadmin
 import mysql.connector
 from datetime import datetime
@@ -37,8 +38,8 @@ class pageManager():
         # self.page = mycal.calendarPage(master = self.window, pageManager = self)
         # self.page = product.productPage(master = self.window, pageManager = self)
         # self.page = order.orderPage(master = self.window, pageManager=self)
-        self.page = dashboardadmin.DashboardAdminPage(master = self.window, pageManager = self)
-    
+        self.page = dashboarduser.DashboardUserPage(master = self.window, pageManager = self)
+        # self.page = dashboardadmin.DashboardAdminPage(master = self.window, pageManager = self)
     def checkMembership(self):
         if(self.user.deadline < datetime.now(pytz.utc)):
             self.user.changeRole('Guest')   

@@ -3,6 +3,7 @@
 # https://github.com/ParthJadhav/Tkinter-Designer
 
 
+from asyncio.windows_events import NULL
 from pathlib import Path
 
 # from tkinter import *
@@ -208,7 +209,8 @@ class DashboardAdminPage(tk.Frame):
         amount.execute("select sum(amount) from transactions")
         sum_amount = 0
         for s in amount:
-            sum_amount = float(s[0])
+            if(s[0] == None): sum_amount = 0
+            else: sum_amount = float(s[0])
         self.canvas.create_text(
             455.0,
             414.0,

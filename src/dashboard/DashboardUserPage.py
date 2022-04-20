@@ -27,6 +27,14 @@ class DashboardUserPage(tk.Frame):
         self.DashboardUserPage()
         
     def DashboardUserPage(self):
+        content_list = []
+        title_list = []
+        content = self.origin.mydb.cursor()
+        content.execute("select * from content")
+        for (i, t, c) in content.fetchall():
+            title_list.append(t)
+            content_list.append(c)
+        content_index = 0
         
         self.canvas = Canvas(
             self.master,
@@ -205,7 +213,7 @@ class DashboardUserPage(tk.Frame):
             444.0,
             154.0,
             anchor="nw",
-            text="Sustainable Development Goal adalah program aksi\nyang dilakukan PBB untuk mengakhiri kemisikinan,\nmenjaga bumi, dan menjamin semua orang hidup\ndalam kedamaian dan kesejahteraan di tahun 2030.",
+            text=content_list[content_index],
             fill="#000000",
             font=("Helvetica", 24 * -1)
         )
@@ -214,7 +222,7 @@ class DashboardUserPage(tk.Frame):
             444.0,
             109.0,
             anchor="nw",
-            text="Tentang SDG",
+            text=title_list[content_index],
             fill="#000000",
             font=("Helvetica", 32 * -1, "bold")
         )
@@ -223,7 +231,7 @@ class DashboardUserPage(tk.Frame):
             662.0,
             597.0,
             anchor="nw",
-            text="1/10",
+            text=f"{content_index+1}/{len(content_list)}",
             fill="#000000",
             font=("Helvetica", 32 * -1)
         )

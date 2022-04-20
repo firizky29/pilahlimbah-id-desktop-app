@@ -125,6 +125,12 @@ create table if not exists transactions(
     ON UPDATE CASCADE
 );
 
+create table if not exists content(
+    content_id INT PRIMARY KEY AUTO_INCREMENT,
+    content_title TEXT,
+    content_text TEXT
+);
+
 delimiter //
 CREATE TRIGGER insert_order AFTER INSERT ON orderlist
     FOR EACH ROW
@@ -284,7 +290,7 @@ INSERT INTO bank(bank_id, branch_name, region_id) VALUES
 (50, 'International Industry Co.', 40);
 
 
-dummy account
+-- dummy account
 insert into user values (1, 'pilahlimbahid', '08552d6b6d5545af73e9b14af205e832340ae4aca0d334f3ea52c3aae8c6ae58', 'pilahlimbah@sampah.id', 'Pilah Limbah', '2020-03-15', 'Male', NULL);
 insert into account values (1, 1, '1234567890123456', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5', 1, 100000000.0);
 
@@ -1290,3 +1296,4 @@ insert into task (task_date, task_id, task_name, description) values ('2024-01-0
 insert into task (task_date, task_id, task_name, description) values ('2024-01-08', 3, 'Pilah Sampah', 'Supplement Left Cephalic Vein with Synthetic Substitute, Open Approach');
 insert into task (task_date, task_id, task_name, description) values ('2024-01-11', 1, 'Buang Sampah', 'Revision of Autologous Tissue Substitute in Left Humeral Head, External Approach');
 
+insert into content (content_title, content_text) values ("Tentang SDG", "Sustainable Development Goal adalah program aksi\nyang dilakukan PBB untuk mengakhiri kemisikinan,\nmenjaga bumi, dan menjamin semua orang hidup\ndalam kedamaian dan kesejahteraan di tahun 2030.")
