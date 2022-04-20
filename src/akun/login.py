@@ -1,7 +1,7 @@
 import tkinter as tk
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-
+from account.user import *
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("../../img/login page")
@@ -70,7 +70,7 @@ class loginPage(tk.Frame):
             image=self.button_image_1,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_1 clicked"),
+            command=lambda: self.origin.registerPage(),
             relief="flat"
         )
         self.button_1.place(
@@ -99,7 +99,9 @@ class loginPage(tk.Frame):
         self.entry_1 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.username
         )
         self.entry_1.place(
             x=509.0,
@@ -118,7 +120,9 @@ class loginPage(tk.Frame):
         self.entry_2 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.password
         )
         self.entry_2.place(
             x=509.0,
@@ -141,7 +145,7 @@ class loginPage(tk.Frame):
             image=self.button_image_2,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
+            command= self._on_click_login,
             relief="flat"
         )
         self.button_2.place(
@@ -200,3 +204,9 @@ class loginPage(tk.Frame):
 
     def startPage(self):
         self.mainloop()
+
+    def _on_click_login(self):
+        self.validateInputLogin()
+        self.verifyLogin()
+        if (self.validateInputLogin() and self.verifyLogin()):
+            self.origin.dashboardPage()

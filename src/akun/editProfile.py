@@ -190,7 +190,7 @@ class editProfilePage(tk.Frame):
             image=self.button_image_8,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_8 clicked"),
+            command=lambda: self.origin.profilePage(),
             relief="flat"
         )
         self.button_8.place(

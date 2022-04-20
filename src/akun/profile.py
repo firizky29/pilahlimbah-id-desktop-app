@@ -1,6 +1,7 @@
 import tkinter as tk
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from account.user import *
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("../../img/profile page")
@@ -23,6 +24,29 @@ class profilePage(tk.Frame):
         self.master = master
         self.origin = pageManager
         self.pack()
+
+        self.username = tk.StringVar()
+        self.fullname = tk.StringVar()
+        self.email = tk.StringVar()
+        self.role = tk.StringVar()
+        self.birthdate = tk.StringVar()
+        self.gender = tk.StringVar()
+        self.address = tk.StringVar()
+        self.city = tk.StringVar()
+        self.country = tk.StringVar()
+        self.postalCode = tk.StringVar()
+
+        self.username.set(self.origin.user.username)
+        self.fullname.set(self.origin.user.fullname)
+        self.email.set(self.origin.user.email)
+        self.role.set(self.origin.user.role)
+        self.birthdate.set(self.origin.user.birthdate)
+        self.gender.set(self.origin.user.gender)
+        self.address.set(self.origin.user.address)
+        self.city.set(self.origin.user.city)
+        self.country.set(self.origin.user.country)
+        self.postalCode.set(self.origin.user.postalCode)
+
         self.profilePage()
 
     def profilePage(self):
@@ -380,7 +404,7 @@ class profilePage(tk.Frame):
             image=self.button_image_8,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_8 clicked"),
+            command=lambda: self.origin.editProfilePage(),
             relief="flat"
         )
         self.button_8.place(

@@ -191,7 +191,9 @@ class registerPage(tk.Frame):
         self.entry_1 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.username
         )
         self.entry_1.place(
             x=554.0,
@@ -210,7 +212,9 @@ class registerPage(tk.Frame):
         self.entry_2 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.password
         )
         self.entry_2.place(
             x=554.0,
@@ -229,7 +233,9 @@ class registerPage(tk.Frame):
         self.entry_3 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.password
         )
         self.entry_3.place(
             x=888.0,
@@ -248,7 +254,9 @@ class registerPage(tk.Frame):
         self.entry_4 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.fullname
         )
         self.entry_4.place(
             x=554.0,
@@ -267,7 +275,9 @@ class registerPage(tk.Frame):
         self.entry_5 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.email
         )
         self.entry_5.place(
             x=554.0,
@@ -286,7 +296,9 @@ class registerPage(tk.Frame):
         self.entry_6 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.birthdate
         )
         self.entry_6.place(
             x=554.0,
@@ -305,7 +317,9 @@ class registerPage(tk.Frame):
         self.entry_7 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.gender
         )
         self.entry_7.place(
             x=554.0,
@@ -324,7 +338,9 @@ class registerPage(tk.Frame):
         self.entry_8 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.address
         )
         self.entry_8.place(
             x=554.0,
@@ -343,7 +359,9 @@ class registerPage(tk.Frame):
         self.entry_9 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.city
         )
         self.entry_9.place(
             x=554.0,
@@ -362,7 +380,9 @@ class registerPage(tk.Frame):
         self.entry_10 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.country
         )
         self.entry_10.place(
             x=554.0,
@@ -381,7 +401,9 @@ class registerPage(tk.Frame):
         self.entry_11 = Entry(
             bd=0,
             bg="#F2EFF9",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Calibri", 20 * -1),
+            textvariable=self.postalCode
         )
         self.entry_11.place(
             x=554.0,
@@ -396,7 +418,7 @@ class registerPage(tk.Frame):
             image=self.button_image_1,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_1 clicked"),
+            command=lambda: self.origin.loginPage(),
             relief="flat"
         )
         self.button_1.place(
