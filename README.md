@@ -41,9 +41,10 @@ python ./src/main.py
 ### _Screenshot_ Tampilan Layar
 
 #### a. Register Page
+![](./img/screenshot/register.jpeg)
 
-
-
+#### b. Login Page
+![](./img/screenshot/login.jpeg)
 
 ## Daftar Tabel Basis Data
 
