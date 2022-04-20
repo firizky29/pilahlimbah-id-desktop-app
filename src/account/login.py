@@ -1,7 +1,7 @@
 import tkinter as tk
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-from account.user import *
+from tkinter import *
+from . import user
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("../../img/login page")
@@ -10,14 +10,9 @@ ASSETS_PATH = OUTPUT_PATH / Path("../../img/login page")
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-import sys
-sys.path.insert(1, "..")
-import pageManager as pm
 
-#window = Tk()
 
-#window.geometry("1080x700")
-#window.configure(bg = "#FFFFFF")
+
 
 class loginPage(tk.Frame):
     def __init__(self, master, pageManager):
@@ -25,6 +20,10 @@ class loginPage(tk.Frame):
         self.master = master
         self.origin = pageManager
         self.pack()
+
+        self.username = tk.StringVar()
+        self.password = tk.StringVar()
+
         self.loginPage()
 
     def loginPage(self):
@@ -45,7 +44,7 @@ class loginPage(tk.Frame):
             anchor="nw",
             text="PilahLimbah.id",
             fill="#000000",
-            font=("Helvetica", 20 * -1)
+            font=("Helvetica", 20 * -1, "bold")
         )
 
         self.image_image_1 = PhotoImage(
@@ -122,7 +121,8 @@ class loginPage(tk.Frame):
             bg="#F2EFF9",
             highlightthickness=0,
             font=("Calibri", 20 * -1),
-            textvariable=self.password
+            textvariable=self.password,
+            show = "*"
         )
         self.entry_2.place(
             x=509.0,
@@ -145,7 +145,7 @@ class loginPage(tk.Frame):
             image=self.button_image_2,
             borderwidth=0,
             highlightthickness=0,
-            command= self._on_click_login,
+            command= lambda: self._on_submit_login(),
             relief="flat"
         )
         self.button_2.place(
@@ -161,7 +161,7 @@ class loginPage(tk.Frame):
             anchor="nw",
             text="Page.",
             fill="#000000",
-            font=("Helvetica", 32 * -1)
+            font=("Helvetica", 32 * -1, "bold")
         )
 
         self.canvas.create_text(
@@ -174,10 +174,10 @@ class loginPage(tk.Frame):
         )
 
         self.canvas.create_text(
-            589.0,
+            645.0,
             153.0,
             anchor="nw",
-            text="Username/User ID/Email",
+            text="Username",
             fill="#000000",
             font=("Helvetica", 16 * -1)
         )
@@ -191,22 +191,38 @@ class loginPage(tk.Frame):
             font=("Helvetica", 16 * -1)
         )
 
-        self.canvas.create_text(
-            499.0,
-            380.0,
-            anchor="nw",
+        self.warning = Label(
+            self.canvas,
             text="Warning",
-            fill="#FF0101",
+            bg = "white",
+            fg="white",
             font=("Helvetica", 16 * -1)
         )
 
-#window.resizable(False, False)
+        self.warning.place(
+            x = 499.0,
+            y = 380.0,
+            anchor="nw",
+        )
+
+        self.canvas.bind_class("Entry","<Return>", lambda e: self._on_submit_login())
+
 
     def startPage(self):
         self.mainloop()
 
-    def _on_click_login(self):
-        self.validateInputLogin()
-        self.verifyLogin()
-        if (self.validateInputLogin() and self.verifyLogin()):
-            self.origin.dashboardPage()
+    def _on_submit_login(self):
+        self.warning["fg"] = "white"
+        self.origin.user = user.user([self.username.get(), self.password.get()], self.origin)
+        if(not self.origin.user.status):
+            self.warning["text"] = self.origin.user.warning
+            self.warning["fg"] = "#FF0101"
+        else:
+            if(self.origin.user.role == 'Admin'):
+                self.origin.homePage()
+            else:
+                self.origin.homePage()
+
+    def _on_click_create_account(self):
+        self.origin.registerPage()
+

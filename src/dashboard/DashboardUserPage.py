@@ -27,15 +27,15 @@ class DashboardUserPage(tk.Frame):
         self.DashboardUserPage()
         
     def DashboardUserPage(self):
-        content_list = []
-        title_list = []
-        content = self.origin.mydb.cursor()
-        content.execute("select * from content")
-        for (i, t, c) in content.fetchall():
-            title_list.append(t)
-            content_list.append(c)
-        content_index = 0
-        
+        self.content_list = []
+        self.title_list = []
+        self.content = self.origin.mydb.cursor()
+        self.content.execute("select * from content")
+        for (i, t, c) in self.content.fetchall():
+            self.title_list.append(t)
+            self.content_list.append(c)
+        self.content_index = 0
+         
         self.canvas = Canvas(
             self.master,
             bg = "#FFFFFF",
@@ -56,39 +56,6 @@ class DashboardUserPage(tk.Frame):
             font=("Helvetica", 20 * -1, "bold")
         )
 
-        self.button_image_1 = PhotoImage(
-            file=relative_to_assets("button_6.png"))
-        self.button_1 = Button(
-            image= self.button_image_1,
-            borderwidth=0,
-            highlightthickness=0,
-            command=lambda: print("button_1 clicked"),
-            relief="flat",
-            bg="white"
-        )
-        self.button_1.place(
-            x=682.0,
-            y=24.0,
-            width=112.0,
-            height=22.0
-        )
-
-        self.button_image_2 = PhotoImage(
-            file=relative_to_assets("button_2.png"))
-        self.button_2 = Button(
-            image= self.button_image_2,
-            borderwidth=0,
-            highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
-            relief="flat",
-            bg="white"
-        )
-        self.button_2.place(
-            x=990.0,
-            y=18.0,
-            width=42.0,
-            height=41.0
-        )
 
         self.button_image_3 = PhotoImage(
             file=relative_to_assets("button_7.png"))
@@ -96,7 +63,7 @@ class DashboardUserPage(tk.Frame):
             image= self.button_image_3,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_3 clicked"),
+            command=lambda: self.prevContent(),
             relief="flat",
             bg="white"
         )
@@ -113,7 +80,7 @@ class DashboardUserPage(tk.Frame):
             image= self.button_image_4,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_4 clicked"),
+            command=lambda: self.nextContent(),
             relief="flat",
             bg="white"
         )
@@ -124,56 +91,135 @@ class DashboardUserPage(tk.Frame):
             height=60.0
         )
 
-        self.button_image_5 = PhotoImage(
-            file=relative_to_assets("button_3.png"))
-        self.button_5 = Button(
-            image= self.button_image_5,
-            borderwidth=0,
-            highlightthickness=0,
-            command=lambda: print("button_5 clicked"),
-            relief="flat",
-            bg="white"
-        )
-        self.button_5.place(
-            x=858.0,
-            y=24.0,
-            width=68.0,
-            height=22.0
-        )
+        if(self.origin.user.role == 'Member'):
+            self.hoveredTat = PhotoImage(
+            file=relative_to_assets("hoveredTat.png")) 
+            self.tatImage = PhotoImage(
+                file=relative_to_assets("tatButton.png")) 
+            self.tatButton = Button(
+                image =self.tatImage,
+                borderwidth=0,
+                highlightthickness=0,
+                bg = "white",
+                command=lambda: self._on_click_tat(),
+                relief="flat"
+            ) 
+            self.tatButton.place(
+                x=682.0,
+                y=24.0,
+                width=117.0,
+                height=21.0
+            )
+            self.tatButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredTat))
+            self.tatButton.bind("<Leave>", lambda e: e.widget.config(image = self.tatImage))
+            
+            
+            self.hoveredCalendar = PhotoImage(
+                file=relative_to_assets("hoveredCalendar.png")) 
+            self.calendarImage = PhotoImage(
+                file=relative_to_assets("calendarButton.png")) 
+            self.calendarButton = Button(
+                image =self.calendarImage,
+                borderwidth=0,
+                highlightthickness=0,
+                bg = "white",
+                command=lambda: self._on_click_calendar(),
+                relief="flat"
+            ) 
+            self.calendarButton.place(
+                x=858.0,
+                y=24.0,
+                width=68.0,
+                height=22.0
+            )
+            self.calendarButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredCalendar))
+            self.calendarButton.bind("<Leave>", lambda e: e.widget.config(image = self.calendarImage))
 
-        self.button_image_6 = PhotoImage(
-            file=relative_to_assets("button_4.png"))
-        self.button_6 = Button(
-            image= self.button_image_6,
-            borderwidth=0,
-            highlightthickness=0,
-            command=lambda: print("button_6 clicked"),
-            relief="flat",
-            bg="white"
-        )
-        self.button_6.place(
-            x=559.0,
-            y=24.0,
-            width=47.0,
-            height=22.0
-        )
+            self.homeImage = PhotoImage(
+                file=relative_to_assets("hoveredHome.png")) 
+            self.homeButton = Button(
+                image =self.homeImage,
+                borderwidth=0,
+                highlightthickness=0,
+                bg = "white",
+                command=lambda: self._on_click_home(),
+                relief="flat"
+            ) 
+            
+            self.homeButton.place(
+                x=559.0,
+                y=24.0,
+                width=47.0,
+                height=22.0
+            )
+        elif(self.origin.user.role == 'Guest'):
+            self.homeImage = PhotoImage(
+                file=relative_to_assets("hoveredHome.png"))
+            self.homeButton = Button(
+                image=self.homeImage,
+                borderwidth=0,
+                highlightthickness=0,
+                bg="white",
+                command=lambda: self._on_click_home(),
+                relief="flat"
+            )
+            self.homeButton.place(
+                x=681.0,
+                y=24.0,
+                width=47.0,
+                height=22.0
+            )
 
-        self.button_image_7 = PhotoImage(
-            file=relative_to_assets("button_5.png"))
-        self.button_7 = Button(
-            image= self.button_image_7,
+            self.image_image_1 = PhotoImage(
+                file=relative_to_assets("image_1.png"))
+            self.image_1 = self.canvas.create_image(
+                538.0,
+                443.0,
+                image=self.image_image_1
+            )
+            
+
+            self.hoveredPricing = PhotoImage(
+            file=relative_to_assets("hoveredPricing.png"))
+            self.pricingImage = PhotoImage(
+            file=relative_to_assets("pricingButton.png"))
+            self.pricingButton = Button(
+                image=self.pricingImage,
+                borderwidth=0,
+                highlightthickness=0,
+                bg="white",
+                command=lambda:self._on_click_pricing(),
+                relief="flat"
+            )
+            self.pricingButton.place(
+                x=803.0,
+                y=24.0,
+                width=54.0,
+                height=21.0
+            )
+            self.pricingButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredPricing))
+            self.pricingButton.bind("<Leave>", lambda e: e.widget.config(image = self.pricingImage))
+
+
+        self.hoveredProfile = PhotoImage(
+            file=relative_to_assets("hoveredProfile.png"))
+        self.profileImage = PhotoImage(
+            file=relative_to_assets("profileButton.png"))
+        self.profileButton = Button(
+            image=self.profileImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_7 clicked"),
-            relief="flat",
-            bg="white"
+            command=lambda: self._on_click_profile(),
+            relief="flat"
         )
-        self.button_7.place(
-            x=559.0,
-            y=24.0,
-            width=47.0,
-            height=22.0
+        self.profileButton.place(
+            x=990.0,
+            y=18.0,
+            width=42.0,
+            height=41.0
         )
+        self.profileButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredProfile))
+        self.profileButton.bind("<Leave>", lambda e: e.widget.config(image = self.profileImage))
 
         self.image_image_1 = PhotoImage(
             file=relative_to_assets("image_1.png"))
@@ -209,20 +255,20 @@ class DashboardUserPage(tk.Frame):
             image= self.image_image_2
         )
 
-        self.canvas.create_text(
+        self.content_text = self.canvas.create_text(
             444.0,
             154.0,
             anchor="nw",
-            text=content_list[content_index],
+            text=self.content_list[self.content_index],
             fill="#000000",
             font=("Helvetica", 24 * -1)
         )
-
-        self.canvas.create_text(
+        
+        self.title = self.canvas.create_text(
             444.0,
             109.0,
             anchor="nw",
-            text=title_list[content_index],
+            text=self.title_list[self.content_index],
             fill="#000000",
             font=("Helvetica", 32 * -1, "bold")
         )
@@ -231,7 +277,7 @@ class DashboardUserPage(tk.Frame):
             662.0,
             597.0,
             anchor="nw",
-            text=f"{content_index+1}/{len(content_list)}",
+            text=f"{self.content_index+1}/{len(self.content_list)}",
             fill="#000000",
             font=("Helvetica", 32 * -1)
         )
@@ -246,3 +292,30 @@ class DashboardUserPage(tk.Frame):
     
     def startPage(self):
         self.mainloop()
+
+    def nextContent(self):
+        n = len(self.content_list)
+        self.content_index = (self.content_index+1)%n
+        self.canvas.itemconfig(self.title, text = self.title_list[self.content_index])
+        self.canvas.itemconfig(self.content_text, text = self.content_list[self.content_index])
+        
+    def prevContent(self):
+        n = len(self.content_list)
+        self.content_index = (self.content_index-1+n)%n
+        self.canvas.itemconfig(self.title, text = self.title_list[self.content_index])
+        self.canvas.itemconfig(self.content_text, text = self.content_list[self.content_index])
+
+    def _on_click_pricing(self):
+        self.origin.productPage()
+    
+    def _on_click_calendar(self):
+        self.origin.calendarPage()
+
+    def _on_click_home(self):
+        self.origin.homePage()
+    
+    def _on_click_tat(self):
+        self.origin.tipsAndTricksPage()
+    
+    def _on_click_profile(self):
+        self.origin.profilePage()

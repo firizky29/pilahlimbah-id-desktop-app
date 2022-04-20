@@ -57,7 +57,7 @@ class myTransactionPage(tk.Frame):
                 borderwidth=0,
                 highlightthickness=0,
                 bg = "white",
-                command=lambda: print("tatButton clicked"),
+                command=lambda: self._on_click_tat(),
                 relief="flat"
             ) 
             self.tatButton.place(
@@ -100,7 +100,7 @@ class myTransactionPage(tk.Frame):
                 borderwidth=0,
                 highlightthickness=0,
                 bg = "white",
-                command=lambda: print("homeButton clicked"),
+                command=lambda: self._on_click_home(),
                 relief="flat"
             ) 
             
@@ -112,7 +112,7 @@ class myTransactionPage(tk.Frame):
             )
             self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
             self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
-        elif(self.origin.user.role == 'Member'):
+        elif(self.origin.user.role == 'Guest'):
             self.hoveredHome = PhotoImage(
                 file= relative_to_assets("hoveredHome.png"))
             self.homeImage = PhotoImage(
@@ -122,7 +122,7 @@ class myTransactionPage(tk.Frame):
                 borderwidth=0,
                 highlightthickness=0,
                 bg="white",
-                command=lambda: print("homeButton clicked"),
+                command=lambda: self._on_click_home(),
                 relief="flat"
             )
             self.homeButton.place(
@@ -154,7 +154,7 @@ class myTransactionPage(tk.Frame):
                 borderwidth=0,
                 highlightthickness=0,
                 bg="white",
-                command=self._on_click_pricing,
+                command=lambda:self._on_click_pricing(),
                 relief="flat"
             )
             self.pricingButton.place(
@@ -194,7 +194,7 @@ class myTransactionPage(tk.Frame):
             image =self.profileImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("profileButton clicked"),
+            command=lambda: self._on_click_profile(),
             relief="flat"
         ) 
         self.profileButton.place(
@@ -257,7 +257,7 @@ class myTransactionPage(tk.Frame):
             image =self.myProfileImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("myProfileButton clicked"),
+            command=lambda: self._on_click_profile(),
             relief="flat"
         ) 
         self.myProfileButton.place(
@@ -407,6 +407,17 @@ class myTransactionPage(tk.Frame):
     
     def _on_click_calendar(self):
         self.origin.calendarPage()
+
+    def _on_click_home(self):
+        self.origin.homePage()
+    
+    def _on_click_tat(self):
+        self.origin.tipsAndTricksPage()
+    
+    def _on_click_profile(self):
+        self.origin.profilePage()
+
+
 
 
     

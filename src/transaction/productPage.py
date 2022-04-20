@@ -1,7 +1,3 @@
-"""
-    File ini adalah file productPage.py
-    File ini berfungsi untuk menampilkan product yang disediakan
-"""
 
 from pathlib import Path
 import tkinter as tk
@@ -110,7 +106,7 @@ class productPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             bg = "white",
-            command=lambda: print("pricingButton clicked"),
+            command=lambda: self._on_click_pricing(),
             relief="flat"
         )
         self.pricingButton.place(
@@ -128,7 +124,7 @@ class productPage(tk.Frame):
             image=self.profileImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("profileButton clicked"),
+            command=lambda: self._on_click_profile(),
             relief="flat"
         )
         self.profileButton.place(
@@ -395,7 +391,7 @@ class productPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             bg="white",
-            command=lambda: print("homeButton clicked"),
+            command=lambda: self._on_click_home(),
             relief="flat"
         )
         self.homeButton.place(
@@ -412,4 +408,13 @@ class productPage(tk.Frame):
 
     def _on_click_join(self):
         self.origin.orderPage()
+
+    def _on_click_pricing(self):
+        self.origin.productPage()
+
+    def _on_click_home(self):
+        self.origin.homePage()
+    
+    def _on_click_profile(self):
+        self.origin.profilePage()
     
