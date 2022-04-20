@@ -61,6 +61,22 @@ class pageManager():
         self.page = mycal.calendarPage(master = self.window, pageManager = self)
         self.page.startPage()
 
+#    def loginPage(self):
+#        self.page = login.loginPage(master = self.window, pageManager = self)
+#        self.page.startPage()
+#    
+#    def registerPage(self):
+#        self.page = register.registerPage(master = self.window, pageManager = self)
+#        self.page.startPage()
+#
+#    def editProfilePage(self):
+#        self.page = edit.editProfilePage(master = self.window, pageManager = self)
+#        self.page.startPage()
+#
+#    def profilePage(self):
+#        self.page = profile.profilePage(master = self.window, pageManager = self)
+#        self.page.startPage()
+
     
 
     def successPage(self, transaction):
