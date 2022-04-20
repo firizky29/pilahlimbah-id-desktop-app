@@ -42,7 +42,7 @@ python ./src/main.py
 
 ## Daftar Tabel Basis Data
 ### Diagram Basis Data
-![](/img/database/diagram.png)
+![](./img/database/diagram.jpeg)
 
 ## Author
 1. 13520047 Hana Fathiyah
