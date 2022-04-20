@@ -142,11 +142,16 @@ class DashboardAdminPage(tk.Frame):
             font=("Helvetica", 24 * -1)
         )
 
+        member_count = self.origin.mydb.cursor()
+        member_count.execute("select count(member_id) from member")
+        memcnt = 0 
+        for c in member_count:
+            memcnt = c
         self.canvas.create_text(
             466.0,
             269.0,
             anchor="nw",
-            text="24",
+            text=memcnt,
             fill="#000000",
             font=("Helvetica", 32 * -1, "bold")
         )
@@ -168,11 +173,16 @@ class DashboardAdminPage(tk.Frame):
             font=("Helvetica", 24 * -1)
         )
 
+        guest_count = self.origin.mydb.cursor()
+        guest_count.execute("select count(guest_id) from guest")
+        gstcnt = 0 
+        for c in guest_count:
+            gstcnt = c
         self.canvas.create_text(
             762.0,
             269.0,
             anchor="nw",
-            text="34",
+            text=gstcnt,
             fill="#000000",
             font=("Helvetica", 32 * -1, "bold")
         )
@@ -194,11 +204,16 @@ class DashboardAdminPage(tk.Frame):
             font=("Helvetica", 24 * -1)
         )
 
+        amount = self.origin.mydb.cursor()
+        amount.execute("select sum(amount) from transactions")
+        sum_amount = 0
+        for s in amount:
+            sum_amount = float(s[0])
         self.canvas.create_text(
             455.0,
             414.0,
             anchor="nw",
-            text="+ IDR 2500000",
+            text="IDR{:.2f}".format(sum_amount),
             fill="#000000",
             font=("Helvetica", 32 * -1, "bold")
         )
