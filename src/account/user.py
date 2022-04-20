@@ -2,6 +2,8 @@
 import hashlib
 from datetime import datetime, timezone
 
+import re
+
 import pytz
 
 class user():
@@ -12,17 +14,13 @@ class user():
         self.role = None
 
         if(len(raw_user)==2):
-            # kalau login
             self.username = raw_user[0]
             self.password = raw_user[1]
-            # lakukan validasi input dulu, kalau inputnya kosong, self warningnya ganti jadi pesan error, self statusnya jadi False
             self.validateInputLogin()
             
             if(self.status):
-                # kalau udah validasi:
                 self.verifyLogin()
 
-                # Kalau udah verified
                 self.fullname = ''
                 self.email = ''
                 self.birthdate = ''
@@ -39,31 +37,86 @@ class user():
                 if(self.status):
                     self.commitLogin()
         else:
-            # kalau register
             self.username = raw_user[0]
             self.password = raw_user[1]
-            self.fullname = raw_user[2]
-            self.email = raw_user[3]
-            self.birthdate = raw_user[4]
-            self.gender = raw_user[5]
-            self.address = raw_user[6]
-            self.city = raw_user[7]
-            self.country = raw_user[8]
-            self.postalCode = raw_user[9]
+            self.confirmPassword = raw_user[2]
+            self.fullname = raw_user[3]
+            self.email = raw_user[4]
+            self.birthdate = raw_user[5]
+            self.gender = raw_user[6]
+            self.address = raw_user[7]
+            self.city = raw_user[8]
+            self.country = raw_user[9]
+            self.postalCode = raw_user[10]
 
             self.regionId = 'NULL'
             self.userId = ''
+            self.containRegion = True
+            self.validateInputRegister()
+            
+            if(self.status):
+                self.birthdate = datetime.strptime(self.birthdate, "%d-%m-%Y").strftime("%Y-%m-%d")
+                self.password = hashlib.sha256(self.password.encode()).hexdigest()
+                self.verifyRegister()
 
-            self.verifyRegister()
-            self.commitRegister()
-            # lakukan validasi input, boleh cek di modul transaction/transaction.py, cara validasinya mirip itu
-            # contoh validasi: email harus ada @, nama gaboleh angka, 
-            # ubah self.warning kalau gagal jadi pesan error, dan self statusnya jadi False
+                if(self.status):
+                    self.commitRegister()
         
         if(self.status):
             self.getUserID()
         
-        
+    def validateInputRegister(self):
+        if(self.address == '' or self.city == '' or self.country == '' or self.postalCode == ''):
+            self.address = ''
+            self.city = ''
+            self.country = ''
+            self.postalCode = ''
+            self.containRegion = False
+
+        regexEmail = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+        regexPassword = r'[A-Za-z0-9@#$%^&+=]{8,}'
+        regexBirthdate = r'^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$'
+        if(self.username == ''):
+            self.status = False
+            self.warning = "username must not empty"
+            return False
+        if (not re.fullmatch(regexPassword, self.password)):
+            self.status = False
+            self.warning = 'password must contains minimum 8 characters'
+            return False
+        if(self.password != self.confirmPassword):
+            self.status = False
+            self.warning = 'the password doesn\'t match'
+            return False
+        if (not re.fullmatch(regexEmail, self.email)):
+            self.status = False
+            self.warning = 'email is not valid'
+            return False
+        if(self.fullname == ''):
+            self.status = False
+            self.warning = "full name must not empty"
+            return False
+        if(self.gender == ''):
+            self.status = False
+            self.warning = "please make sure you enter valid gender"
+            return False
+        if(self.birthdate != '' and not re.fullmatch(regexBirthdate, self.birthdate)):
+            self.status = False
+            self.warning = 'Your birthdate is not valid'
+            return False
+        if(len(self.postalCode)!=0 and (len(self.postalCode) != 5 or re.search(r"[0-9]{5}", self.postalCode)==None)):
+            self.status = False
+            self.warning = 'postalcode is not valid'
+            return False
+
+        user_id = self.origin.mydb.cursor(buffered = True)
+        user_id.execute(f"select user_id from user where username = '{self.username}'")
+        if(user_id.rowcount != 0):
+            self.status = False
+            self.warning = 'username has already taken'
+            return False
+        return True
+
     def validateInputLogin(self):
         if(self.username == '' or self.password == ''):
             self.status = False
@@ -75,30 +128,23 @@ class user():
         return True
 
     def verifyLogin(self):
-        # verify beda sama validasi.
-        # verify itu ngecek usernamenya ada/nggak di database
-        # kalau ada, dan hashlib.sha256(self.password.encode()).hexdigest() == password di database, berarti aman
-        # update self status dan self warning kalau error
         user_info = self.origin.mydb.cursor(buffered = True)
         user_info.execute(f"select * from user where username = '{self.username}'")
         if(user_info.rowcount == 0):
-            if(not(self.status)):
+            if(self.status):
                 self.warning = 'username is not valid'
             self.status = False
             return False
         user_info = user_info.fetchone()
         if(hashlib.sha256(self.password.encode()).hexdigest() != user_info[2]):
-            if(not(self.status)):
+            if(self.status):
                 self.warning = 'password is not valid'
             self.status = False
             return False
         return True
 
     def verifyRegister(self):
-        # ini proses masukin info user ke database.
-        # cara insertnya:
-        # insert region-nya dulu (kalau input region kosong, skip aja), (region_id isi 0 aja)
-        if('INI ISI YA KONDISIONALNYA' == True):
+        if(self.containRegion):
             region_info = self.origin.mydb.cursor(buffered=True)
             region_info.execute(f"select region_id from region where region = '{self.address}' and city = '{self.city}' and country = '{self.country}' and postal_code = '{self.postalCode}'")
             if(region_info.rowcount == 0):
@@ -109,22 +155,27 @@ class user():
                 region_info.execute(f"select region_id from region where region = '{self.address}' and city = '{self.city}' and country = '{self.country}' and postal_code = '{self.postalCode}'")
             self.regionId = region_info.fetchone()[0]
 
-        # insert user (roles set null dulu, user_id set 0 aja)
-        return
+        user_info = self.origin.mydb.cursor()
+        user_info.execute(f"insert into user values (0, '{self.username}', '{self.password}', '{self.email}', '{self.fullname}', '{self.birthdate}', '{self.gender}', NULL)")
+        self.origin.mydb.commit()
 
     def getUserID(self):
-        # PASTIIN INI CUMA DIPANGGIL KALAU USER_ID UDAH DIDAFTARIN SETELAH VERIFY REGISTER
         user_id = self.origin.mydb.cursor(buffered = True)
         user_id.execute(f"select user_id from user where username = '{self.username}'")
 
         self.userId = user_id.fetchone()[0]
-
+        return self.userId
         
     def commitRegister(self):
         # ini proses masukin role
         # caranya:
         # langsung insert guest aja, guest_id nya self.getUserID(). region_id isi sama self.regionId
-        return
+        guest_info = self.origin.mydb.cursor(buffered=True)
+        if(self.containRegion):
+            guest_info.execute(f"insert into guest values ({self.getUserID()}, {self.regionId})")
+        else:
+            guest_info.execute(f"insert into guest values ({self.getUserID()}, NULL)")
+        self.origin.mydb.commit()
 
     def commitLogin(self):
         user_info = self.origin.mydb.cursor(buffered=True)
@@ -140,12 +191,10 @@ class user():
 
         region_info = self.origin.mydb.cursor(buffered=True)
         proj = "region_id, region, city, country, postal_code"
-        if(self.role == 'Admin'):
-            region_info.execute(f"select {proj} from user join admin natural inner join region where user.user_id = admin.admin_id")
-        elif(self.role == 'Member'):
-            region_info.execute(f"select {proj} from user join member natural inner join region where user.user_id = member.member_id")
+        if(self.role == 'Member'):
+            region_info.execute(f"select {proj} from user join member natural inner join region where user.user_id = {self.userId} and user.user_id = member.member_id and member.region_id = region.region_id")
         elif(self.role == 'Guest'): 
-            region_info.execute(f"select {proj} from user join guest natural inner join region where user.user_id = guest.guest_id")
+            region_info.execute(f"select {proj} from user join guest natural inner join region where user.user_id = {self.userId} and user.user_id = guest.guest_id and guest.region_id = region.region_id")
 
         if(region_info.rowcount > 0):
             region_info = region_info.fetchone()
@@ -178,6 +227,7 @@ class user():
                 region_info.execute(f"select region_id from region where region = '{transaction.address}' and city = '{transaction.city}' and country = '{transaction.country}' and postal_code = '{transaction.postalCode}'")
 
             self.origin.mydb.cursor().execute(f"insert into member values ({self.userId},{region_info.fetchone()[0]})")
+            self.deadline = transaction.deadline
             self.origin.mydb.commit()
         else:
             self.origin.mydb.cursor().execute(f"delete from member where member_id = {self.userId}")

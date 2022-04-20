@@ -94,6 +94,10 @@ class transaction():
             self.warning = "Your card balance is not enough"
             self.status = False
             return False
+        if(credit_info[1]!=self.origin.user.userId):
+            self.warning = "Your credit card has been used on another account"
+            self.status = False
+            return False
         self.origin.mydb.cursor().execute(f"insert into orderlist values (0, '{credit_info[0]}', SYSDATE(), SYSDATE() + interval '{self.activePeriod}' day, {self.price})")
         self.origin.mydb.commit()
 

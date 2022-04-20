@@ -52,7 +52,7 @@ class successPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             bg = "white",
-            command=lambda: print("tatButton clicked"),
+            command=lambda: self._on_click_tat(),
             relief="flat"
         ) 
         self.tatButton.place(
@@ -72,7 +72,7 @@ class successPage(tk.Frame):
             image=self.profileImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("profileButton clicked"),
+            command=lambda: self._on_click_profile(),
             relief="flat"
         )
         self.profileButton.place(
@@ -93,7 +93,7 @@ class successPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             bg = "white",
-            command=lambda: print("calendarButton clicked"),
+            command=lambda: self._on_click_calendar(),
             relief="flat"
         ) 
         self.calendarButton.place(
@@ -114,7 +114,7 @@ class successPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             bg = "white",
-            command=lambda: print("homeButton clicked"),
+            command=lambda: self._on_click_home(),
             relief="flat"
         ) 
         
@@ -143,7 +143,7 @@ class successPage(tk.Frame):
             image=self.getStartedImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("getStartedButton clicked"),
+            command=lambda: self._on_click_home(),
             relief="flat"
         )
         self.getStartedButton.place(
@@ -163,7 +163,7 @@ class successPage(tk.Frame):
             image=self.seeDetailsImage,
             borderwidth=0,
             highlightthickness=0,
-            command=self._on_click_seeDetails,
+            command=lambda: self._on_click_seeDetails(),
             relief="flat"
         )
         self.seeDetailsButton.place(
@@ -198,3 +198,15 @@ class successPage(tk.Frame):
 
     def _on_click_seeDetails(self):
         self.origin.transactionDetails(self.transaction)
+
+    def _on_click_calendar(self):
+        self.origin.calendarPage()
+
+    def _on_click_home(self):
+        self.origin.homePage()
+    
+    def _on_click_tat(self):
+        self.origin.tipsAndTricksPage()
+    
+    def _on_click_profile(self):
+        self.origin.profilePage()

@@ -1,5 +1,4 @@
 
-from msvcrt import setmode
 from pathlib import Path
 import tkinter as tk
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
@@ -148,6 +147,7 @@ class calendarPage(tk.Frame):
                 self.canvas.itemconfig(self.task3_desc, text = list_task_desc[2][:35]+'...')
 
     def calendarPage(self):
+
         self.canvas = Canvas(
             self.master,
             bg = "#FFFFFF",
@@ -158,13 +158,17 @@ class calendarPage(tk.Frame):
             relief = "ridge"
         )
 
-        self.calendar = Calendar(self.master, setmode="day", date_pattern = 'yyyy-mm-dd')
-        self.calendar.pack(pady=145)
+        self.canvas.place(x = 0, y = 0)
+
+        self.calendar = Calendar(self.canvas, setmode="day", date_pattern = 'yyyy-mm-dd')
+        self.calendar.place(
+            x = 415,
+            y = 152
+        )
 
         self.open_calendar = Button(self.calendar, text="open to do list",command=self.open_to_do) 
         self.open_calendar.pack(padx=15,pady=15)
 
-        self.canvas.place(x = 0, y = 0)
         self.image_image_1 = PhotoImage(
             file=relative_to_assets("image_1.png"))
         self.image_1 = self.canvas.create_image(
@@ -181,39 +185,39 @@ class calendarPage(tk.Frame):
             image=self.image_image_2
         )
 
-        self.button_image_1 = PhotoImage(
-            file=relative_to_assets("button_1.png"))
-        self.button_1 = Button(
-            image=self.button_image_1,
-            borderwidth=0,
-            highlightthickness=0,
-            command=lambda: print("button_1 clicked"),
-            relief="flat"
-            , bg='white'
-        )
-        self.button_1.place(
-            x=682.0,
-            y=24.0,
-            width=112.0,
-            height=22.0
-        )
+        # self.button_image_1 = PhotoImage(
+        #     file=relative_to_assets("button_1.png"))
+        # self.button_1 = Button(
+        #     image=self.button_image_1,
+        #     borderwidth=0,
+        #     highlightthickness=0,
+        #     command=lambda: print("button_1 clicked"),
+        #     relief="flat"
+        #     , bg='white'
+        # )
+        # self.button_1.place(
+        #     x=682.0,
+        #     y=24.0,
+        #     width=112.0,
+        #     height=22.0
+        # )
 
-        self.button_image_2 = PhotoImage(
-            file=relative_to_assets("button_2.png"))
-        self.button_2 = Button(
-            image=self.button_image_2,
-            borderwidth=0,
-            highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
-            relief="flat"
-            , bg='white'
-        )
-        self.button_2.place(
-            x=990.0,
-            y=18.0,
-            width=42.0,
-            height=41.0
-        )
+        # self.button_image_2 = PhotoImage(
+        #     file=relative_to_assets("button_2.png"))
+        # self.button_2 = Button(
+        #     image=self.button_image_2,
+        #     borderwidth=0,
+        #     highlightthickness=0,
+        #     command=lambda: print("button_2 clicked"),
+        #     relief="flat"
+        #     , bg='white'
+        # )
+        # self.button_2.place(
+        #     x=990.0,
+        #     y=18.0,
+        #     width=42.0,
+        #     height=41.0
+        # )
 
         self.button_image_3 = PhotoImage(
             file=relative_to_assets("button_3.png"))
@@ -221,7 +225,7 @@ class calendarPage(tk.Frame):
             image=self.button_image_3,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_3 clicked"),
+            command=lambda: self._on_click_calendar(),
             relief="flat"
             , bg='white'
         )
@@ -232,22 +236,87 @@ class calendarPage(tk.Frame):
             height=22.0
         )
 
-        self.button_image_4 = PhotoImage(
-            file=relative_to_assets("button_4.png"))
-        self.button_4 = Button(
-            image=self.button_image_4,
+        # self.button_image_4 = PhotoImage(
+        #     file=relative_to_assets("button_4.png"))
+        # self.button_4 = Button(
+        #     image=self.button_image_4,
+        #     borderwidth=0,
+        #     highlightthickness=0,
+        #     command=lambda: print("button_4 clicked"),
+        #     relief="flat"
+        #     , bg='white'
+        # )
+        # self.button_4.place(
+        #     x=559.0,
+        #     y=24.0,
+        #     width=47.0,
+        #     height=22.0
+        # )
+
+        self.hoveredTat = PhotoImage(
+            file=relative_to_assets("hoveredTat.png")) 
+        self.tatImage = PhotoImage(
+            file=relative_to_assets("tatButton.png")) 
+        self.tatButton = Button(
+            image =self.tatImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_4 clicked"),
+            bg = "white",
+            command=lambda: self._on_click_tat(),
             relief="flat"
-            , bg='white'
+        ) 
+        self.tatButton.place(
+            x=682.0,
+            y=24.0,
+            width=117.0,
+            height=21.0
         )
-        self.button_4.place(
+        self.tatButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredTat))
+        self.tatButton.bind("<Leave>", lambda e: e.widget.config(image = self.tatImage))
+
+        self.hoveredProfile = PhotoImage(
+            file=relative_to_assets("hoveredProfile.png"))
+        self.profileImage = PhotoImage(
+            file=relative_to_assets("profileButton.png"))
+        self.profileButton = Button(
+            image=self.profileImage,
+            borderwidth=0,
+            highlightthickness=0,
+            command=lambda: self._on_click_profile(),
+            relief="flat"
+        )
+        self.profileButton.place(
+            x=990.0,
+            y=18.0,
+            width=42.0,
+            height=41.0
+        )
+        self.profileButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredProfile))
+        self.profileButton.bind("<Leave>", lambda e: e.widget.config(image = self.profileImage))
+
+        
+        self.hoveredHome = PhotoImage(
+            file=relative_to_assets("hoveredHome.png"))
+        self.homeImage = PhotoImage(
+            file=relative_to_assets("homeButton.png")) 
+        self.homeButton = Button(
+            image =self.homeImage,
+            borderwidth=0,
+            highlightthickness=0,
+            bg = "white",
+            command=lambda: self._on_click_home(),
+            relief="flat"
+        ) 
+        
+        self.homeButton.place(
             x=559.0,
             y=24.0,
             width=47.0,
             height=22.0
         )
+        
+        self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
+        self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
 
         self.image_image_3 = PhotoImage(
             file=relative_to_assets("image_3.png"))
@@ -575,3 +644,15 @@ class calendarPage(tk.Frame):
         
     def startPage(self):
         self.mainloop()
+
+    def _on_click_calendar(self):
+        self.origin.calendarPage()
+
+    def _on_click_home(self):
+        self.origin.homePage()
+    
+    def _on_click_tat(self):
+        self.origin.tipsAndTricksPage()
+    
+    def _on_click_profile(self):
+        self.origin.profilePage()
