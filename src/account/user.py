@@ -80,7 +80,7 @@ class user():
 
         regexEmail = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
         regexPassword = r'[A-Za-z0-9@#$%^&+=]{8,}'
-        regexBirthdate = r'(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)'
+        regexBirthdate = r'^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$'
         if(self.username == ''):
             self.status = False
             self.warning = "username must not empty"
@@ -109,7 +109,7 @@ class user():
             self.status = False
             self.warning = 'Your birthdate is not valid'
             return False
-        if(len(self.postalCode) != 5 or re.search(r"[0-9]{5}", self.postalCode)==None):
+        if(len(self.postalCode)!=0 and (len(self.postalCode) != 5 or re.search(r"[0-9]{5}", self.postalCode)==None)):
             self.status = False
             self.warning = 'postalcode is not valid'
             return False
@@ -140,13 +140,13 @@ class user():
         user_info = self.origin.mydb.cursor(buffered = True)
         user_info.execute(f"select * from user where username = '{self.username}'")
         if(user_info.rowcount == 0):
-            if(not(self.status)):
+            if(self.status):
                 self.warning = 'username is not valid'
             self.status = False
             return False
         user_info = user_info.fetchone()
         if(hashlib.sha256(self.password.encode()).hexdigest() != user_info[2]):
-            if(not(self.status)):
+            if(self.status):
                 self.warning = 'password is not valid'
             self.status = False
             return False
@@ -185,9 +185,9 @@ class user():
         # langsung insert guest aja, guest_id nya self.getUserID(). region_id isi sama self.regionId
         guest_info = self.origin.mydb.cursor(buffered=True)
         if(self.containRegion):
-            guest_info.execute(f"insert into guest values ('{self.getUserID()}', '{self.regionId}')")
+            guest_info.execute(f"insert into guest values ({self.getUserID()}, {self.regionId})")
         else:
-            guest_info.execute(f"insert into guest values ('{self.getUserID()}', NULL)")
+            guest_info.execute(f"insert into guest values ({self.getUserID()}, NULL)")
         self.origin.mydb.commit()
 
     def commitLogin(self):

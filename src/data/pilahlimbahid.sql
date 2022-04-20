@@ -20,8 +20,8 @@ create table if not exists bank (
 create table if not exists user(
     user_id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(100) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
     fullname VARCHAR(100) NOT NULL,
     birthdate DATE NOT NULL,
     gender ENUM('Male', 'Female') NOT NULL,
@@ -292,7 +292,10 @@ INSERT INTO bank(bank_id, branch_name, region_id) VALUES
 
 -- dummy account
 insert into user values (1, 'pilahlimbahid', '08552d6b6d5545af73e9b14af205e832340ae4aca0d334f3ea52c3aae8c6ae58', 'pilahlimbah@sampah.id', 'Pilah Limbah', '2020-03-15', 'Male', NULL);
+insert into user values (2, 'Admin', '08552d6b6d5545af73e9b14af205e832340ae4aca0d334f3ea52c3aae8c6ae58', 'pilahlimbah@sampah.id', 'Pilah Limbah', '2020-03-15', 'Male', 'Admin');
+insert into admin values (2);
 insert into account values (1, 1, '1234567890123456', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5', 1, 100000000.0);
+insert into guest values (1, 1);
 
 
 insert into task (task_date, task_id, task_name, description) values ('2021-04-17', 1, 'Pilah Sampah', 'Bypass Left Femoral Artery to Left Femoral Artery with Nonautologous Tissue Substitute, Open Approach');

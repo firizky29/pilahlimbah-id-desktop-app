@@ -121,7 +121,8 @@ class loginPage(tk.Frame):
             bg="#F2EFF9",
             highlightthickness=0,
             font=("Calibri", 20 * -1),
-            textvariable=self.password
+            textvariable=self.password,
+            show = "*"
         )
         self.entry_2.place(
             x=509.0,
@@ -218,9 +219,9 @@ class loginPage(tk.Frame):
             self.warning["fg"] = "#FF0101"
         else:
             if(self.origin.user.role == 'Admin'):
-                self.origin.dashboardAdmin()
+                self.origin.homePage()
             else:
-                self.origin.dashboardUser()
+                self.origin.homePage()
 
     def _on_click_create_account(self):
         self.origin.registerPage()
