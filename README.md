@@ -12,6 +12,7 @@ Perangkat lunak ini dibangun menjadi beberapa subsistem di antaranya, sistem log
 
 ## Requirements
 Python 3
+Internet Connection
 
 ## Cara Menjalankan Aplikasi
 1. Lakukan git clone pada repository ini
@@ -32,6 +33,22 @@ pip install requirements.txt
 ```shell
 python ./src/main.py
 ```
+Akun bank baru hanya bisa ditambahkan melalui database, akun bank yang tersedia hanya satu. atas nama akun berikut:
+```
+username : pilahlimbahid
+password : pilahlimbahid
+```
+Akun admin juga hanya bisa ditambahkan melalui database, akun yang telah tersedia
+```
+username : Admin 
+password : pilahlimbahid
+```
+Untuk mengedit database bisa menuliskan perintah berikut pada command line:
+```
+mysql -u pilahlimbah@pilahlimbah -h pilahlimbah.mariadb.database.azure.com -p
+password : BDDL&g38Mv
+```
+tambahkan akun sesuai kebutuhan.
 
 ## Implementasi Modul
 |NIM|Nama|Modul|
