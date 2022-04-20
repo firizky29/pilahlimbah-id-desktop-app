@@ -1,14 +1,14 @@
-create table region (
-	region_id INT PRIMARY KEY,
+
+create table if not exists region (
+	region_id INT PRIMARY KEY AUTO_INCREMENT,
 	region VARCHAR(500) NOT NULL,
     city VARCHAR(100) NOT NULL,
     country VARCHAR(100) NOT NULL,
-    postal_code INT(5) NOT NULL
+    postal_code VARCHAR(5) NOT NULL
 );
 
-
-create table bank (
-    bank_id INT PRIMARY KEY,
+create table if not exists bank (
+    bank_id INT PRIMARY KEY AUTO_INCREMENT,
     branch_name VARCHAR(100) NOT NULL,
     region_id INT,
     FOREIGN KEY (region_id)
@@ -38,75 +38,59 @@ create table if not exists account (
     FOREIGN KEY (bank_id)
     REFERENCES bank(bank_id)
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    FOREIGN KEY (user_id)
+    REFERENCES user(user_id)
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
+drop table if exists orderlist;
 create table orderlist (
-    orderlist_id INT PRIMARY KEY,
+    orderlist_id INT PRIMARY KEY AUTO_INCREMENT,
     account_id INT,
     order_date datetime NOT NULL,
     deadline_date datetime NOT NULL,
+    amount DECIMAL(15,2) NOT NULL,
     FOREIGN KEY (account_id)
     REFERENCES account(account_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
-
-create table user(
-    user_id INT PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(100) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    fullname VARCHAR(100) NOT NULL,
-    birthdate DATE,
-    gender ENUM('Male', 'Female')
-);
-
-create table admin(
+create table if not exists admin(
     admin_id INT PRIMARY KEY,
-    profile_photo_url VARCHAR(50),
     FOREIGN KEY (admin_id)
     REFERENCES user(user_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
-create table member(
+create table if not exists member(
     member_id INT PRIMARY KEY,
-    account_id INT NOT NULL,
     region_id INT NOT NULL,
-    profile_photo_url VARCHAR(50),
     FOREIGN KEY (member_id)
     REFERENCES user(user_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-    FOREIGN KEY (account_id)
-    REFERENCES account(account_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (region_id)
     REFERENCES region(region_id)
 );
 
-create table guest(
+
+create table if not exists guest(
     guest_id INT PRIMARY KEY,
-    account_id INT,
     region_id INT,
-    profile_photo_url VARCHAR(50),
     FOREIGN KEY (guest_id)
     REFERENCES user(user_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    FOREIGN KEY (account_id)
-    REFERENCES account(account_id)
-    ON DELETE SET NULL,
     FOREIGN KEY (region_id)
     REFERENCES region(region_id)
     ON DELETE SET NULL
 );
 
-create table task(
+create table if not exists task(
     task_date DATE,
     task_id INT,
     task_name VARCHAR(100),
@@ -114,7 +98,7 @@ create table task(
     PRIMARY KEY (task_date, task_id)
 );
 
-create table activity(
+create table if not exists activity(
     activity_date DATE,
     task_id INT, 
     member_id INT,
@@ -130,1228 +114,188 @@ create table activity(
     ON UPDATE CASCADE
 );
 
-
-create table withdrawal(
-    admin_id INT PRIMARY KEY,
-    amount INT NOT NULL,
-    FOREIGN KEY (admin_id)
-    REFERENCES admin(admin_id)
+create table if not exists transactions(
+    transaction_id INT PRIMARY KEY AUTO_INCREMENT,
+    transaction_time datetime, 
+    account_id INT, 
+    amount DECIMAL(15,2) NOT NULL,
+    FOREIGN KEY (account_id)
+    REFERENCES account(account_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
+create table if not exists content(
+    content_id INT PRIMARY KEY AUTO_INCREMENT,
+    content_title TEXT,
+    content_text TEXT
+);
 
-insert into region (region_id, region, city, country, postal_code) values (1, '92 Dunning Lane', 'Old Kilcullen', 'Ireland', 84575);
-insert into region (region_id, region, city, country, postal_code) values (2, '9 Morningstar Parkway', 'Anchorage', 'United States', 66505);
-insert into region (region_id, region, city, country, postal_code) values (3, '017 Loftsgordon Avenue', 'Nueva Esperanza', 'Mexico', 40308);
-insert into region (region_id, region, city, country, postal_code) values (4, '4059 Duke Center', 'Shiban', 'China', 63681);
-insert into region (region_id, region, city, country, postal_code) values (5, '65937 Di Loreto Street', 'Colonia Catuete', 'Paraguay', 64901);
-insert into region (region_id, region, city, country, postal_code) values (6, '52 Clyde Gallagher Pass', 'Constanza', 'Dominican Republic', 86911);
-insert into region (region_id, region, city, country, postal_code) values (7, '3 New Castle Circle', 'Ludwigshafen am Rhein', 'Germany', 69489);
-insert into region (region_id, region, city, country, postal_code) values (8, '739 Nova Crossing', 'Pyzdry', 'Poland', 63179);
-insert into region (region_id, region, city, country, postal_code) values (9, '15132 Little Fleur Street', 'Dongxiao', 'China', 43960);
-insert into region (region_id, region, city, country, postal_code) values (10, '61884 Carberry Center', 'Tiel', 'Netherlands', 74841);
-insert into region (region_id, region, city, country, postal_code) values (11, '3328 Esker Terrace', 'Zhuangshi', 'China', 43200);
-insert into region (region_id, region, city, country, postal_code) values (12, '5 Sherman Point', 'Remedios', 'Cuba', 81101);
-insert into region (region_id, region, city, country, postal_code) values (13, '59380 Doe Crossing Street', 'Cabalaoangan', 'Philippines', 81889);
-insert into region (region_id, region, city, country, postal_code) values (14, '01388 Buena Vista Park', 'Lages', 'Brazil', 90192);
-insert into region (region_id, region, city, country, postal_code) values (15, '7535 Oneill Terrace', 'Rada Tilly', 'Argentina', 31553);
-insert into region (region_id, region, city, country, postal_code) values (16, '5 Everett Junction', 'Ebebiyin', 'Equatorial Guinea', 80089);
-insert into region (region_id, region, city, country, postal_code) values (17, '505 Mallard Way', 'Thị Trấn Nước Hai', 'Vietnam', 67747);
-insert into region (region_id, region, city, country, postal_code) values (18, '2036 Forest Dale Crossing', 'Saint-Bruno', 'Canada', 47949);
-insert into region (region_id, region, city, country, postal_code) values (19, '49 Tomscot Crossing', 'Kiszkowo', 'Poland', 67366);
-insert into region (region_id, region, city, country, postal_code) values (20, '6 Welch Place', 'Luoyuan', 'China', 18749);
-insert into region (region_id, region, city, country, postal_code) values (21, '4 Londonderry Pass', 'Wat Bot', 'Thailand', 43925);
-insert into region (region_id, region, city, country, postal_code) values (22, '010 American Ash Terrace', 'Guluoshan', 'China', 24143);
-insert into region (region_id, region, city, country, postal_code) values (23, '158 Hoepker Hill', 'Akouda', 'Tunisia', 93153);
-insert into region (region_id, region, city, country, postal_code) values (24, '698 Hansons Plaza', 'Chupa', 'Russia', 91974);
-insert into region (region_id, region, city, country, postal_code) values (25, '94 Norway Maple Terrace', 'Vostok', 'Russia', 84049);
-insert into region (region_id, region, city, country, postal_code) values (26, '3 Dennis Hill', 'Curumaní', 'Colombia', 89801);
-insert into region (region_id, region, city, country, postal_code) values (27, '98 Ryan Park', 'Gunjur Kuta', 'Gambia', 70422);
-insert into region (region_id, region, city, country, postal_code) values (28, '447 Farwell Hill', 'Naranjos', 'Peru', 35631);
-insert into region (region_id, region, city, country, postal_code) values (29, '970 Crownhardt Park', 'Peña', 'Philippines', 47084);
-insert into region (region_id, region, city, country, postal_code) values (30, '2 Surrey Terrace', 'El Perico', 'Honduras', 56933);
-insert into region (region_id, region, city, country, postal_code) values (31, '90 Lunder Lane', 'Kouango', 'Central African Republic', 86392);
-insert into region (region_id, region, city, country, postal_code) values (32, '0081 Basil Junction', 'Jinxiang', 'China', 82565);
-insert into region (region_id, region, city, country, postal_code) values (33, '30 Artisan Way', 'Yongle', 'China', 76299);
-insert into region (region_id, region, city, country, postal_code) values (34, '2 Scoville Place', 'Sibaté', 'Colombia', 10304);
-insert into region (region_id, region, city, country, postal_code) values (35, '73 Vera Court', 'Citeureup', 'Indonesia', 22522);
-insert into region (region_id, region, city, country, postal_code) values (36, '582 Anthes Place', 'Keffin Hausa', 'Nigeria', 84232);
-insert into region (region_id, region, city, country, postal_code) values (37, '1997 Oriole Crossing', 'Hayil', 'Saudi Arabia', 20069);
-insert into region (region_id, region, city, country, postal_code) values (38, '2483 Shelley Junction', 'Huangji', 'China', 70782);
-insert into region (region_id, region, city, country, postal_code) values (39, '143 Crowley Place', 'Rasskazovo', 'Russia', 77586);
-insert into region (region_id, region, city, country, postal_code) values (40, '1 Dixon Pass', 'Dobryanka', 'Russia', 11010);
-insert into region (region_id, region, city, country, postal_code) values (41, '721 Susan Road', 'Lyon', 'France', 84260);
-insert into region (region_id, region, city, country, postal_code) values (42, '11420 Corscot Plaza', 'Karanganyar', 'Indonesia', 97017);
-insert into region (region_id, region, city, country, postal_code) values (43, '5060 Eastlawn Terrace', 'Blois', 'France', 36675);
-insert into region (region_id, region, city, country, postal_code) values (44, '1 Lukken Way', 'Talas', 'Kyrgyzstan', 28971);
-insert into region (region_id, region, city, country, postal_code) values (45, '40672 Riverside Plaza', 'Kelowna', 'Canada', 15166);
-insert into region (region_id, region, city, country, postal_code) values (46, '4 Northland Plaza', 'Tagasilay', 'Philippines', 88443);
-insert into region (region_id, region, city, country, postal_code) values (47, '83 Grover Place', 'Selasari', 'Indonesia', 73929);
-insert into region (region_id, region, city, country, postal_code) values (48, '893 Shopko Crossing', 'Montalegre', 'Portugal', 10712);
-insert into region (region_id, region, city, country, postal_code) values (49, '08134 Declaration Place', 'Paris 03', 'France', 67495);
-insert into region (region_id, region, city, country, postal_code) values (50, '6895 Summer Ridge Pass', 'Haikou', 'China', 14741);
-insert into region (region_id, region, city, country, postal_code) values (51, '077 Hanson Lane', 'Działdowo', 'Poland', 53530);
-insert into region (region_id, region, city, country, postal_code) values (52, '2 Commercial Trail', 'Kasungu', 'Malawi', 25450);
-insert into region (region_id, region, city, country, postal_code) values (53, '683 Myrtle Lane', 'El Soberbio', 'Argentina', 54661);
-insert into region (region_id, region, city, country, postal_code) values (54, '6308 Hollow Ridge Hill', 'Pasireurih', 'Indonesia', 63075);
-insert into region (region_id, region, city, country, postal_code) values (55, '659 Veith Court', 'Sokolnice', 'Czech Republic', 82551);
-insert into region (region_id, region, city, country, postal_code) values (56, '8149 Harper Terrace', 'Lenger', 'Kazakhstan', 47137);
-insert into region (region_id, region, city, country, postal_code) values (57, '0 Ruskin Parkway', 'Honghualiangzi', 'China', 13478);
-insert into region (region_id, region, city, country, postal_code) values (58, '15256 Eastwood Park', 'Ts’khinvali', 'Georgia', 18045);
-insert into region (region_id, region, city, country, postal_code) values (59, '970 Golf Street', 'Dunaivtsi', 'Ukraine', 35415);
-insert into region (region_id, region, city, country, postal_code) values (60, '969 Algoma Circle', 'Orleans', 'Brazil', 94531);
-insert into region (region_id, region, city, country, postal_code) values (61, '76 Anderson Plaza', 'København', 'Denmark', 60321);
-insert into region (region_id, region, city, country, postal_code) values (62, '8 Rieder Hill', 'Manggekompo', 'Indonesia', 23850);
-insert into region (region_id, region, city, country, postal_code) values (63, '03 Jay Street', 'Antopal’', 'Belarus', 24333);
-insert into region (region_id, region, city, country, postal_code) values (64, '9 Linden Court', 'Murici', 'Brazil', 90304);
-insert into region (region_id, region, city, country, postal_code) values (65, '013 David Plaza', 'Kurovskoye', 'Russia', 24182);
-insert into region (region_id, region, city, country, postal_code) values (66, '070 Corben Pass', 'Borisovka', 'Russia', 13615);
-insert into region (region_id, region, city, country, postal_code) values (67, '77220 Tony Road', 'Las Palmas', 'Mexico', 35481);
-insert into region (region_id, region, city, country, postal_code) values (68, '99869 Nevada Lane', 'Tatsuno', 'Japan', 33782);
-insert into region (region_id, region, city, country, postal_code) values (69, '57 Meadow Valley Circle', 'Hongjia', 'China', 18883);
-insert into region (region_id, region, city, country, postal_code) values (70, '6 Union Terrace', 'General Galarza', 'Argentina', 71663);
-insert into region (region_id, region, city, country, postal_code) values (71, '211 Montana Junction', 'Villa Bisonó', 'Dominican Republic', 35699);
-insert into region (region_id, region, city, country, postal_code) values (72, '5 Dayton Parkway', 'Rauco', 'Chile', 74369);
-insert into region (region_id, region, city, country, postal_code) values (73, '9030 Autumn Leaf Crossing', 'Useldange', 'Luxembourg', 55773);
-insert into region (region_id, region, city, country, postal_code) values (74, '5 2nd Street', 'Jacksonville', 'United States', 85577);
-insert into region (region_id, region, city, country, postal_code) values (75, '6658 Doe Crossing Center', 'Stanisław Górny', 'Poland', 68567);
-insert into region (region_id, region, city, country, postal_code) values (76, '83 Talisman Terrace', 'El Limon', 'Mexico', 46156);
-insert into region (region_id, region, city, country, postal_code) values (77, '181 Messerschmidt Place', 'Maoyang', 'China', 14955);
-insert into region (region_id, region, city, country, postal_code) values (78, '196 Bartillon Pass', 'Xinglongquan', 'China', 42905);
-insert into region (region_id, region, city, country, postal_code) values (79, '92483 Surrey Road', 'Wolowiro', 'Indonesia', 79817);
-insert into region (region_id, region, city, country, postal_code) values (80, '40932 Heath Court', 'Salaverry', 'Peru', 33793);
-insert into region (region_id, region, city, country, postal_code) values (81, '1 Vidon Circle', 'Krasnyy Yar', 'Russia', 20810);
-insert into region (region_id, region, city, country, postal_code) values (82, '88 Graceland Avenue', 'Jarocin', 'Poland', 62090);
-insert into region (region_id, region, city, country, postal_code) values (83, '44928 Bluestem Road', 'Breda', 'Netherlands', 39726);
-insert into region (region_id, region, city, country, postal_code) values (84, '87 Coolidge Pass', 'Nagano-shi', 'Japan', 85560);
-insert into region (region_id, region, city, country, postal_code) values (85, '9722 Westerfield Road', 'Biscoitos', 'Portugal', 43700);
-insert into region (region_id, region, city, country, postal_code) values (86, '4293 Menomonie Park', 'Mlaka pri Kranju', 'Slovenia', 16722);
-insert into region (region_id, region, city, country, postal_code) values (87, '5 Welch Junction', 'Masumbwe', 'Tanzania', 65398);
-insert into region (region_id, region, city, country, postal_code) values (88, '49 Moose Pass', 'Roma', 'Italy', 90293);
-insert into region (region_id, region, city, country, postal_code) values (89, '1 Toban Pass', 'Mmathubudukwane', 'Botswana', 83770);
-insert into region (region_id, region, city, country, postal_code) values (90, '16 Dottie Drive', 'Las Tablas', 'Panama', 69662);
-insert into region (region_id, region, city, country, postal_code) values (91, '5481 Havey Park', 'Wulan', 'China', 73226);
-insert into region (region_id, region, city, country, postal_code) values (92, '6907 Buhler Lane', 'Västerås', 'Sweden', 21391);
-insert into region (region_id, region, city, country, postal_code) values (93, '8 Merry Crossing', 'Sokol’niki', 'Russia', 85967);
-insert into region (region_id, region, city, country, postal_code) values (94, '3 Randy Park', 'Taketoyo', 'Japan', 23626);
-insert into region (region_id, region, city, country, postal_code) values (95, '51 Banding Avenue', 'Drawno', 'Poland', 73607);
-insert into region (region_id, region, city, country, postal_code) values (96, '00 Heath Avenue', 'Motala', 'Sweden', 41349);
-insert into region (region_id, region, city, country, postal_code) values (97, '0380 Monica Park', 'Cambanugoy', 'Philippines', 18796);
-insert into region (region_id, region, city, country, postal_code) values (98, '2 Melby Park', 'Padaran', 'Indonesia', 81903);
-insert into region (region_id, region, city, country, postal_code) values (99, '69609 Pawling Circle', 'Armopa', 'Indonesia', 97816);
-insert into region (region_id, region, city, country, postal_code) values (100, '15 Rigney Point', 'Ţubarjal', 'Saudi Arabia', 47261);
-insert into region (region_id, region, city, country, postal_code) values (101, '521 Miller Point', 'Zhangshui', 'China', 95009);
-insert into region (region_id, region, city, country, postal_code) values (102, '767 Golf Plaza', 'Malawa', 'Philippines', 42215);
-insert into region (region_id, region, city, country, postal_code) values (103, '09 Main Plaza', 'Panimbang', 'Indonesia', 69476);
-insert into region (region_id, region, city, country, postal_code) values (104, '72 Reindahl Avenue', 'Gaoxiang', 'China', 26455);
-insert into region (region_id, region, city, country, postal_code) values (105, '0395 Warner Street', 'Ngembel', 'Indonesia', 93622);
-insert into region (region_id, region, city, country, postal_code) values (106, '16 Golf View Place', 'Guantánamo', 'Cuba', 78034);
-insert into region (region_id, region, city, country, postal_code) values (107, '5238 Northland Circle', 'Ar Riqqah', 'Kuwait', 76428);
-insert into region (region_id, region, city, country, postal_code) values (108, '8 Browning Place', 'København', 'Denmark', 68538);
-insert into region (region_id, region, city, country, postal_code) values (109, '23724 Meadow Vale Trail', 'Ḏânan', 'Djibouti', 23335);
-insert into region (region_id, region, city, country, postal_code) values (110, '4596 Park Meadow Center', 'San Pa Tong', 'Thailand', 34598);
-insert into region (region_id, region, city, country, postal_code) values (111, '03051 Sachtjen Street', 'Bouarouss', 'Morocco', 72138);
-insert into region (region_id, region, city, country, postal_code) values (112, '60 Mcguire Avenue', 'Tyarlevo', 'Russia', 19968);
-insert into region (region_id, region, city, country, postal_code) values (113, '0655 Maple Center', 'Megalochórion', 'Greece', 83297);
-insert into region (region_id, region, city, country, postal_code) values (114, '9 Delaware Street', 'Vale da Pedra', 'Portugal', 35313);
-insert into region (region_id, region, city, country, postal_code) values (115, '61689 Swallow Place', 'Kota Kinabalu', 'Malaysia', 51930);
-insert into region (region_id, region, city, country, postal_code) values (116, '52 Michigan Drive', 'Kadusimbar', 'Indonesia', 99564);
-insert into region (region_id, region, city, country, postal_code) values (117, '303 Dovetail Street', 'Douba', 'China', 66426);
-insert into region (region_id, region, city, country, postal_code) values (118, '33 Pankratz Lane', 'Khvatovka', 'Russia', 97079);
-insert into region (region_id, region, city, country, postal_code) values (119, '7 Golf Course Terrace', 'Pires do Rio', 'Brazil', 77673);
-insert into region (region_id, region, city, country, postal_code) values (120, '4 Carberry Drive', 'Tbêng Méanchey', 'Cambodia', 84902);
-insert into region (region_id, region, city, country, postal_code) values (121, '07 Rockefeller Parkway', 'Baishan', 'China', 16915);
-insert into region (region_id, region, city, country, postal_code) values (122, '69 Buhler Park', 'Satte', 'Japan', 64815);
-insert into region (region_id, region, city, country, postal_code) values (123, '090 Melody Terrace', 'Amu Gulang Baolige', 'China', 98836);
-insert into region (region_id, region, city, country, postal_code) values (124, '0760 Nobel Circle', 'Pasolapida', 'Indonesia', 84848);
-insert into region (region_id, region, city, country, postal_code) values (125, '20268 Starling Court', 'Fayzabad', 'Afghanistan', 69993);
-insert into region (region_id, region, city, country, postal_code) values (126, '70 Bartillon Parkway', 'Citeguh', 'Indonesia', 43094);
-insert into region (region_id, region, city, country, postal_code) values (127, '63 Pond Parkway', 'Santo Antônio do Amparo', 'Brazil', 16155);
-insert into region (region_id, region, city, country, postal_code) values (128, '62884 Anniversary Plaza', 'Przesmyki', 'Poland', 20518);
-insert into region (region_id, region, city, country, postal_code) values (129, '20 Waxwing Place', 'Fristad', 'Sweden', 95796);
-insert into region (region_id, region, city, country, postal_code) values (130, '503 Bluejay Point', 'Ribeiro', 'Portugal', 81397);
-insert into region (region_id, region, city, country, postal_code) values (131, '66613 Northport Parkway', 'Chuqui Chuqui', 'Bolivia', 38278);
-insert into region (region_id, region, city, country, postal_code) values (132, '44497 Hoepker Road', 'Ejidal', 'Mexico', 76062);
-insert into region (region_id, region, city, country, postal_code) values (133, '4141 Luster Pass', 'Pang', 'Philippines', 36974);
-insert into region (region_id, region, city, country, postal_code) values (134, '79268 Melrose Drive', 'San Juan del Surutú', 'Bolivia', 74306);
-insert into region (region_id, region, city, country, postal_code) values (135, '024 Grover Alley', 'San José del Guaviare', 'Colombia', 49377);
-insert into region (region_id, region, city, country, postal_code) values (136, '5 Lukken Plaza', 'Gotse Delchev', 'Bulgaria', 24179);
-insert into region (region_id, region, city, country, postal_code) values (137, '2 Hagan Park', 'Indianapolis', 'United States', 47952);
-insert into region (region_id, region, city, country, postal_code) values (138, '617 Grayhawk Road', 'Hongtu', 'China', 75759);
-insert into region (region_id, region, city, country, postal_code) values (139, '15655 Springview Center', 'Dourbali', 'Chad', 90539);
-insert into region (region_id, region, city, country, postal_code) values (140, '6462 Bluestem Pass', 'Pohang', 'South Korea', 82758);
-insert into region (region_id, region, city, country, postal_code) values (141, '5096 Porter Park', 'Barras', 'Brazil', 97130);
-insert into region (region_id, region, city, country, postal_code) values (142, '62 Gale Center', 'Hurghada', 'Egypt', 74378);
-insert into region (region_id, region, city, country, postal_code) values (143, '1390 Rieder Drive', 'Francisco Beltrão', 'Brazil', 37750);
-insert into region (region_id, region, city, country, postal_code) values (144, '62791 Delladonna Drive', 'Amsterdam Oud Zuid en Rivierenbuurt', 'Netherlands', 20067);
-insert into region (region_id, region, city, country, postal_code) values (145, '18 Pond Trail', 'Zarechnyy', 'Russia', 10595);
-insert into region (region_id, region, city, country, postal_code) values (146, '3118 Darwin Crossing', 'Toride', 'Japan', 31149);
-insert into region (region_id, region, city, country, postal_code) values (147, '2 Stuart Plaza', 'Hengyang', 'China', 42608);
-insert into region (region_id, region, city, country, postal_code) values (148, '383 Canary Hill', 'Arue', 'French Polynesia', 70724);
-insert into region (region_id, region, city, country, postal_code) values (149, '0 Manley Terrace', 'Sucre', 'Colombia', 67777);
-insert into region (region_id, region, city, country, postal_code) values (150, '3 Fairfield Parkway', 'Retiro', 'Argentina', 79455);
-insert into region (region_id, region, city, country, postal_code) values (151, '00815 Mesta Place', 'Sheshory', 'Ukraine', 77391);
-insert into region (region_id, region, city, country, postal_code) values (152, '0 Cardinal Point', 'Skara', 'Sweden', 62301);
-insert into region (region_id, region, city, country, postal_code) values (153, '05 Dexter Hill', 'Duluth', 'United States', 35736);
-insert into region (region_id, region, city, country, postal_code) values (154, '9977 Main Circle', 'Huaminglou', 'China', 24016);
-insert into region (region_id, region, city, country, postal_code) values (155, '5185 Donald Plaza', 'Bilice', 'Croatia', 18153);
-insert into region (region_id, region, city, country, postal_code) values (156, '648 Pleasure Crossing', 'Magetlegar', 'Indonesia', 67516);
-insert into region (region_id, region, city, country, postal_code) values (157, '9 Miller Alley', 'Palmas De Gran Canaria, Las', 'Spain', 75638);
-insert into region (region_id, region, city, country, postal_code) values (158, '367 Evergreen Crossing', 'Nantes', 'France', 29309);
-insert into region (region_id, region, city, country, postal_code) values (159, '25981 Old Shore Street', 'Krzykosy', 'Poland', 28609);
-insert into region (region_id, region, city, country, postal_code) values (160, '62451 4th Crossing', 'Al ‘Āliyah', 'Tunisia', 26375);
-insert into region (region_id, region, city, country, postal_code) values (161, '8 Memorial Crossing', 'Pizarrete', 'Dominican Republic', 15005);
-insert into region (region_id, region, city, country, postal_code) values (162, '9 Roxbury Lane', 'Yezhou', 'China', 57975);
-insert into region (region_id, region, city, country, postal_code) values (163, '63 Duke Crossing', 'Östersund', 'Sweden', 42802);
-insert into region (region_id, region, city, country, postal_code) values (164, '79409 Bultman Parkway', 'Santa Teresa First', 'Philippines', 10281);
-insert into region (region_id, region, city, country, postal_code) values (165, '3331 Loeprich Park', 'Anin', 'Indonesia', 67481);
-insert into region (region_id, region, city, country, postal_code) values (166, '6964 Schlimgen Court', 'Baganga', 'Philippines', 65088);
-insert into region (region_id, region, city, country, postal_code) values (167, '0 Westerfield Point', 'Sumberkindagan', 'Indonesia', 50475);
-insert into region (region_id, region, city, country, postal_code) values (168, '2380 Rutledge Point', 'Plewiska', 'Poland', 40129);
-insert into region (region_id, region, city, country, postal_code) values (169, '89808 Eastwood Point', 'Navariya', 'Ukraine', 80533);
-insert into region (region_id, region, city, country, postal_code) values (170, '530 Bluestem Park', 'Cisarap', 'Indonesia', 78744);
-insert into region (region_id, region, city, country, postal_code) values (171, '7 Old Shore Way', 'Dapchi', 'Nigeria', 56278);
-insert into region (region_id, region, city, country, postal_code) values (172, '7379 Union Pass', 'Arvidsjaur', 'Sweden', 53422);
-insert into region (region_id, region, city, country, postal_code) values (173, '554 Comanche Crossing', 'Caluya', 'Philippines', 11964);
-insert into region (region_id, region, city, country, postal_code) values (174, '8837 Grim Court', 'Lào Cai', 'Vietnam', 81500);
-insert into region (region_id, region, city, country, postal_code) values (175, '0 Hintze Trail', 'Khairpur', 'Pakistan', 72014);
-insert into region (region_id, region, city, country, postal_code) values (176, '51330 Ridgeway Avenue', 'Bang Bo', 'Thailand', 29565);
-insert into region (region_id, region, city, country, postal_code) values (177, '43928 Alpine Plaza', 'Fuchūchō', 'Japan', 90282);
-insert into region (region_id, region, city, country, postal_code) values (178, '7 Crowley Way', 'Reiko', 'South Korea', 51565);
-insert into region (region_id, region, city, country, postal_code) values (179, '088 Porter Circle', 'Крушопек', 'Macedonia', 21465);
-insert into region (region_id, region, city, country, postal_code) values (180, '660 Brickson Park Circle', 'Labansari', 'Indonesia', 49021);
-insert into region (region_id, region, city, country, postal_code) values (181, '126 Green Ridge Court', 'General Manuel J. Campos', 'Argentina', 73224);
-insert into region (region_id, region, city, country, postal_code) values (182, '7 Westend Alley', 'Jandaia do Sul', 'Brazil', 85537);
-insert into region (region_id, region, city, country, postal_code) values (183, '21054 Ohio Hill', 'Krajan', 'Indonesia', 72092);
-insert into region (region_id, region, city, country, postal_code) values (184, '184 Kinsman Avenue', 'Tampa', 'United States', 12604);
-insert into region (region_id, region, city, country, postal_code) values (185, '76 Grim Plaza', 'Pilar', 'Paraguay', 53763);
-insert into region (region_id, region, city, country, postal_code) values (186, '677 Carberry Road', 'Doropayung', 'Indonesia', 86996);
-insert into region (region_id, region, city, country, postal_code) values (187, '921 Bay Lane', 'Qinglin', 'China', 31965);
-insert into region (region_id, region, city, country, postal_code) values (188, '6 Messerschmidt Center', 'Shenavan', 'Armenia', 40851);
-insert into region (region_id, region, city, country, postal_code) values (189, '49 Crest Line Place', 'Qal‘ah-ye Kūf', 'Afghanistan', 46561);
-insert into region (region_id, region, city, country, postal_code) values (190, '1483 3rd Way', 'Maltahöhe', 'Namibia', 66742);
-insert into region (region_id, region, city, country, postal_code) values (191, '2854 Mosinee Terrace', 'Bafia', 'Cameroon', 32693);
-insert into region (region_id, region, city, country, postal_code) values (192, '00 Petterle Avenue', 'Portela', 'Portugal', 91071);
-insert into region (region_id, region, city, country, postal_code) values (193, '66842 Little Fleur Terrace', 'Ystad', 'Sweden', 51354);
-insert into region (region_id, region, city, country, postal_code) values (194, '78463 John Wall Pass', 'Pakel', 'Indonesia', 71078);
-insert into region (region_id, region, city, country, postal_code) values (195, '4 Elmside Alley', 'Vyaz’ma', 'Russia', 80013);
-insert into region (region_id, region, city, country, postal_code) values (196, '02283 Mendota Hill', 'Wang Sombun', 'Thailand', 54280);
-insert into region (region_id, region, city, country, postal_code) values (197, '24408 Macpherson Avenue', 'Kuripan', 'Indonesia', 56573);
-insert into region (region_id, region, city, country, postal_code) values (198, '18 Lighthouse Bay Parkway', 'Hwado', 'South Korea', 51850);
-insert into region (region_id, region, city, country, postal_code) values (199, '3 Shelley Crossing', 'Tembladera', 'Peru', 12361);
-insert into region (region_id, region, city, country, postal_code) values (200, '4497 Randy Terrace', 'Uppsala', 'Sweden', 98686);
-insert into region (region_id, region, city, country, postal_code) values (201, '46466 Blackbird Lane', 'Kruševo', 'Croatia', 32890);
-insert into region (region_id, region, city, country, postal_code) values (202, '052 Farmco Street', 'Rafaḩ', 'Egypt', 52928);
-insert into region (region_id, region, city, country, postal_code) values (203, '73 Spaight Crossing', 'Wawa', 'Philippines', 54090);
-insert into region (region_id, region, city, country, postal_code) values (204, '5 Briar Crest Plaza', 'Wulan Haye', 'China', 39797);
-insert into region (region_id, region, city, country, postal_code) values (205, '81 Rowland Plaza', 'Dos Hermanas', 'Spain', 30324);
-insert into region (region_id, region, city, country, postal_code) values (206, '381 Buell Crossing', 'Yangce', 'China', 55538);
-insert into region (region_id, region, city, country, postal_code) values (207, '2396 Forest Run Center', 'Polos', 'Indonesia', 75389);
-insert into region (region_id, region, city, country, postal_code) values (208, '4300 Old Shore Lane', 'Tororo', 'Uganda', 15870);
-insert into region (region_id, region, city, country, postal_code) values (209, '41 Buena Vista Lane', 'San Fabian', 'Philippines', 87767);
-insert into region (region_id, region, city, country, postal_code) values (210, '257 Hintze Hill', 'Mananjary', 'Madagascar', 36229);
-insert into region (region_id, region, city, country, postal_code) values (211, '0 Carioca Junction', 'Delicias', 'Venezuela', 67762);
-insert into region (region_id, region, city, country, postal_code) values (212, '16938 Warner Road', 'Pilcuyo', 'Peru', 32311);
-insert into region (region_id, region, city, country, postal_code) values (213, '47 Hooker Lane', 'Niopanda', 'Indonesia', 26211);
-insert into region (region_id, region, city, country, postal_code) values (214, '14246 Lindbergh Drive', 'Arroyito', 'Argentina', 91912);
-insert into region (region_id, region, city, country, postal_code) values (215, '5656 Carioca Place', 'Golden', 'Canada', 62532);
-insert into region (region_id, region, city, country, postal_code) values (216, '715 Gerald Terrace', 'Karolinka', 'Czech Republic', 33109);
-insert into region (region_id, region, city, country, postal_code) values (217, '09620 Arkansas Park', 'Mchinji', 'Malawi', 27287);
-insert into region (region_id, region, city, country, postal_code) values (218, '7 International Court', 'Krivodanovka', 'Russia', 16483);
-insert into region (region_id, region, city, country, postal_code) values (219, '03 Esker Alley', 'Jinzao', 'China', 21646);
-insert into region (region_id, region, city, country, postal_code) values (220, '53 Fulton Center', 'Lanipao', 'Philippines', 80939);
-insert into region (region_id, region, city, country, postal_code) values (221, '5296 Bartillon Place', 'Seshcha', 'Russia', 31584);
-insert into region (region_id, region, city, country, postal_code) values (222, '377 Milwaukee Junction', 'Zlynka', 'Ukraine', 42643);
-insert into region (region_id, region, city, country, postal_code) values (223, '87 Troy Court', 'Kabala', 'Sierra Leone', 27467);
-insert into region (region_id, region, city, country, postal_code) values (224, '5 Sage Trail', 'Maonon', 'Philippines', 26416);
-insert into region (region_id, region, city, country, postal_code) values (225, '0504 Sugar Parkway', 'Changning', 'China', 83489);
-insert into region (region_id, region, city, country, postal_code) values (226, '5788 Truax Trail', 'Morales', 'Colombia', 40337);
-insert into region (region_id, region, city, country, postal_code) values (227, '62 Springview Crossing', 'Itzig', 'Luxembourg', 19467);
-insert into region (region_id, region, city, country, postal_code) values (228, '76693 Sullivan Center', 'Lok', 'Serbia', 16662);
-insert into region (region_id, region, city, country, postal_code) values (229, '0830 Nova Drive', 'Ujar', 'Azerbaijan', 67390);
-insert into region (region_id, region, city, country, postal_code) values (230, '3316 Miller Point', 'Ejidal', 'Mexico', 36504);
-insert into region (region_id, region, city, country, postal_code) values (231, '0402 Hagan Court', 'Turi', 'Indonesia', 29506);
-insert into region (region_id, region, city, country, postal_code) values (232, '6827 Melody Court', 'Wang Noi', 'Thailand', 34301);
-insert into region (region_id, region, city, country, postal_code) values (233, '1 Granby Court', 'Shāhdādkot', 'Pakistan', 23885);
-insert into region (region_id, region, city, country, postal_code) values (234, '0 Warrior Pass', 'Grijó', 'Portugal', 58471);
-insert into region (region_id, region, city, country, postal_code) values (235, '1133 Vahlen Park', 'Gendiwu', 'Indonesia', 62655);
-insert into region (region_id, region, city, country, postal_code) values (236, '1 Westport Hill', 'Argir', 'Faroe Islands', 41933);
-insert into region (region_id, region, city, country, postal_code) values (237, '5 Upham Crossing', 'Qorovulbozor Shahri', 'Uzbekistan', 30366);
-insert into region (region_id, region, city, country, postal_code) values (238, '05813 Tennyson Hill', 'Piraí do Sul', 'Brazil', 97283);
-insert into region (region_id, region, city, country, postal_code) values (239, '84534 Coolidge Circle', 'Kodinsk', 'Russia', 97069);
-insert into region (region_id, region, city, country, postal_code) values (240, '53573 Bultman Park', 'Enonkoski', 'Finland', 52412);
-insert into region (region_id, region, city, country, postal_code) values (241, '4 Jana Point', 'Al Ḩarajah', 'Yemen', 76460);
-insert into region (region_id, region, city, country, postal_code) values (242, '0310 Haas Center', 'Yanacancha', 'Peru', 30058);
-insert into region (region_id, region, city, country, postal_code) values (243, '3869 Rowland Court', 'Tawangrejo', 'Indonesia', 46984);
-insert into region (region_id, region, city, country, postal_code) values (244, '736 Esker Circle', 'Pakapasan Ilir', 'Indonesia', 26797);
-insert into region (region_id, region, city, country, postal_code) values (245, '85568 Mccormick Park', 'Sablé-sur-Sarthe', 'France', 66342);
-insert into region (region_id, region, city, country, postal_code) values (246, '538 Hazelcrest Lane', 'Dadap', 'Indonesia', 10869);
-insert into region (region_id, region, city, country, postal_code) values (247, '0467 Portage Street', 'Maurole', 'Indonesia', 14268);
-insert into region (region_id, region, city, country, postal_code) values (248, '29334 Maryland Plaza', 'Hurghada', 'Egypt', 81091);
-insert into region (region_id, region, city, country, postal_code) values (249, '72653 Clyde Gallagher Pass', 'Cikuning', 'Indonesia', 15635);
-insert into region (region_id, region, city, country, postal_code) values (250, '273 Garrison Plaza', 'Madrid', 'Spain', 26351);
-insert into region (region_id, region, city, country, postal_code) values (251, '64243 Ridgeway Crossing', 'Vřesina', 'Czech Republic', 81863);
-insert into region (region_id, region, city, country, postal_code) values (252, '9 Paget Road', 'Venilale', 'East Timor', 90284);
-insert into region (region_id, region, city, country, postal_code) values (253, '3587 Oakridge Pass', 'Papeete', 'French Polynesia', 45585);
-insert into region (region_id, region, city, country, postal_code) values (254, '82 Harbort Court', 'Gaogu', 'China', 43187);
-insert into region (region_id, region, city, country, postal_code) values (255, '3 Independence Circle', 'Biaoshan', 'China', 17213);
-insert into region (region_id, region, city, country, postal_code) values (256, '7224 Continental Point', 'Xingtai', 'China', 69020);
-insert into region (region_id, region, city, country, postal_code) values (257, '5 Debra Trail', 'Ingarö', 'Sweden', 61440);
-insert into region (region_id, region, city, country, postal_code) values (258, '290 Glendale Circle', 'Žamberk', 'Czech Republic', 56451);
-insert into region (region_id, region, city, country, postal_code) values (259, '05 Dexter Place', 'Nazaré da Mata', 'Brazil', 75404);
-insert into region (region_id, region, city, country, postal_code) values (260, '52 Browning Pass', 'Novopavlovsk', 'Russia', 41558);
-insert into region (region_id, region, city, country, postal_code) values (261, '66 Kingsford Plaza', 'Vannes', 'France', 26957);
-insert into region (region_id, region, city, country, postal_code) values (262, '2 Acker Drive', 'Changtan', 'China', 82646);
-insert into region (region_id, region, city, country, postal_code) values (263, '97 Longview Park', 'Longtang', 'China', 49788);
-insert into region (region_id, region, city, country, postal_code) values (264, '25391 Melby Court', 'Aix-les-Bains', 'France', 96415);
-insert into region (region_id, region, city, country, postal_code) values (265, '6013 Lillian Trail', 'Zhouwang', 'China', 32293);
-insert into region (region_id, region, city, country, postal_code) values (266, '09807 Mallard Junction', 'Zhendong', 'China', 97392);
-insert into region (region_id, region, city, country, postal_code) values (267, '14 Oriole Crossing', '‘Uzeir', 'Israel', 37888);
-insert into region (region_id, region, city, country, postal_code) values (268, '51896 Wayridge Parkway', 'Dayapan', 'Philippines', 87144);
-insert into region (region_id, region, city, country, postal_code) values (269, '6 Beilfuss Parkway', 'Oropós', 'Greece', 52264);
-insert into region (region_id, region, city, country, postal_code) values (270, '11 Division Drive', 'Cipicung', 'Indonesia', 57829);
-insert into region (region_id, region, city, country, postal_code) values (271, '8492 Waubesa Drive', 'South Bend', 'United States', 38015);
-insert into region (region_id, region, city, country, postal_code) values (272, '0 Corry Plaza', 'Magarao', 'Philippines', 64293);
-insert into region (region_id, region, city, country, postal_code) values (273, '2 Pleasure Alley', 'Osnabrück', 'Germany', 79412);
-insert into region (region_id, region, city, country, postal_code) values (274, '602 Mcguire Court', 'Nanguzhuang', 'China', 53632);
-insert into region (region_id, region, city, country, postal_code) values (275, '6329 Kim Terrace', 'Kedungbanteng Krajan', 'Indonesia', 78878);
-insert into region (region_id, region, city, country, postal_code) values (276, '70272 Corben Way', 'Kristianstad', 'Sweden', 41223);
-insert into region (region_id, region, city, country, postal_code) values (277, '699 Cody Pass', 'Limbuhan', 'Philippines', 72970);
-insert into region (region_id, region, city, country, postal_code) values (278, '5 Schiller Circle', 'Jakubów', 'Poland', 50120);
-insert into region (region_id, region, city, country, postal_code) values (279, '293 Columbus Court', 'Karangsari', 'Indonesia', 36688);
-insert into region (region_id, region, city, country, postal_code) values (280, '45418 Marcy Parkway', 'Varkaus', 'Finland', 90745);
-insert into region (region_id, region, city, country, postal_code) values (281, '35 Gina Avenue', 'Xinyu', 'China', 45071);
-insert into region (region_id, region, city, country, postal_code) values (282, '2711 Oxford Point', 'Jinping', 'China', 72137);
-insert into region (region_id, region, city, country, postal_code) values (283, '2 Sugar Street', 'Chokwé', 'Mozambique', 68467);
-insert into region (region_id, region, city, country, postal_code) values (284, '12094 Aberg Court', 'Fundão', 'Portugal', 78657);
-insert into region (region_id, region, city, country, postal_code) values (285, '229 Bluejay Point', 'Jiancheng', 'China', 68170);
-insert into region (region_id, region, city, country, postal_code) values (286, '34 Duke Center', 'Scottsdale', 'United States', 20601);
-insert into region (region_id, region, city, country, postal_code) values (287, '3243 Northview Hill', 'Dallas', 'United States', 87771);
-insert into region (region_id, region, city, country, postal_code) values (288, '071 Cascade Park', 'Ribeirão Pires', 'Brazil', 81860);
-insert into region (region_id, region, city, country, postal_code) values (289, '04 Dorton Hill', 'Phoenix', 'United States', 61266);
-insert into region (region_id, region, city, country, postal_code) values (290, '7853 North Road', 'Xiangshun', 'China', 91130);
-insert into region (region_id, region, city, country, postal_code) values (291, '3 Pearson Drive', 'Buurhakaba', 'Somalia', 12864);
-insert into region (region_id, region, city, country, postal_code) values (292, '415 New Castle Crossing', 'Arras', 'Albania', 55662);
-insert into region (region_id, region, city, country, postal_code) values (293, '6041 Sheridan Parkway', 'Nandong', 'China', 58148);
-insert into region (region_id, region, city, country, postal_code) values (294, '065 Stoughton Circle', 'Tombu', 'Sierra Leone', 30397);
-insert into region (region_id, region, city, country, postal_code) values (295, '502 Arkansas Crossing', 'Chaparral', 'Colombia', 50185);
-insert into region (region_id, region, city, country, postal_code) values (296, '82 Northland Drive', 'Pandian', 'Indonesia', 77435);
-insert into region (region_id, region, city, country, postal_code) values (297, '72167 Eastwood Alley', 'Suruhan', 'Indonesia', 43414);
-insert into region (region_id, region, city, country, postal_code) values (298, '6743 Veith Place', 'Kakegawa', 'Japan', 84008);
-insert into region (region_id, region, city, country, postal_code) values (299, '02 Mifflin Plaza', 'Xinhe', 'China', 64902);
-insert into region (region_id, region, city, country, postal_code) values (300, '64890 Ludington Alley', 'Yishan', 'China', 46573);
-insert into region (region_id, region, city, country, postal_code) values (301, '577 Northwestern Alley', 'Nagbukel', 'Philippines', 24526);
-insert into region (region_id, region, city, country, postal_code) values (302, '8 Delaware Point', 'Agbor', 'Nigeria', 93190);
-insert into region (region_id, region, city, country, postal_code) values (303, '1 Redwing Trail', 'Nunbaundelha', 'Indonesia', 68824);
-insert into region (region_id, region, city, country, postal_code) values (304, '28 Iowa Park', 'Vallauris', 'France', 21370);
-insert into region (region_id, region, city, country, postal_code) values (305, '8960 Maryland Street', 'Ferrol', 'Philippines', 57198);
-insert into region (region_id, region, city, country, postal_code) values (306, '572 Pepper Wood Crossing', 'Janów', 'Poland', 11089);
-insert into region (region_id, region, city, country, postal_code) values (307, '0076 Alpine Place', 'Drochia', 'Moldova', 95924);
-insert into region (region_id, region, city, country, postal_code) values (308, '60 Alpine Hill', 'Mahalapye', 'Botswana', 23194);
-insert into region (region_id, region, city, country, postal_code) values (309, '683 Charing Cross Hill', 'Urug', 'Indonesia', 11417);
-insert into region (region_id, region, city, country, postal_code) values (310, '798 Ohio Court', 'Hats’avan', 'Armenia', 85630);
-insert into region (region_id, region, city, country, postal_code) values (311, '99524 Sutteridge Pass', 'As Sawdā', 'Syria', 39899);
-insert into region (region_id, region, city, country, postal_code) values (312, '454 Hanover Crossing', '5 de Mayo', 'Mexico', 16504);
-insert into region (region_id, region, city, country, postal_code) values (313, '660 Twin Pines Hill', 'Zhongxin', 'China', 65574);
-insert into region (region_id, region, city, country, postal_code) values (314, '6805 Hazelcrest Point', 'Rushankou', 'China', 51325);
-insert into region (region_id, region, city, country, postal_code) values (315, '660 Schmedeman Park', 'Besançon', 'France', 47723);
-insert into region (region_id, region, city, country, postal_code) values (316, '64576 Michigan Terrace', 'Baoshan', 'China', 43362);
-insert into region (region_id, region, city, country, postal_code) values (317, '0 Crownhardt Park', 'An Châu', 'Vietnam', 51189);
-insert into region (region_id, region, city, country, postal_code) values (318, '5 Lakeland Hill', 'Fundong', 'Cameroon', 52897);
-insert into region (region_id, region, city, country, postal_code) values (319, '909 Prairieview Circle', 'Lopatinskiy', 'Russia', 55053);
-insert into region (region_id, region, city, country, postal_code) values (320, '58122 Schiller Avenue', 'Gaofeng', 'China', 31888);
-insert into region (region_id, region, city, country, postal_code) values (321, '961 Nova Junction', 'Gradizhsk', 'Ukraine', 54654);
-insert into region (region_id, region, city, country, postal_code) values (322, '189 Manitowish Junction', 'Douala', 'Cameroon', 37350);
-insert into region (region_id, region, city, country, postal_code) values (323, '19301 Petterle Street', 'San Javier', 'Uruguay', 69053);
-insert into region (region_id, region, city, country, postal_code) values (324, '958 Maple Hill', 'Panji', 'Indonesia', 84221);
-insert into region (region_id, region, city, country, postal_code) values (325, '075 Park Meadow Junction', 'Ardirejo', 'Indonesia', 49261);
-insert into region (region_id, region, city, country, postal_code) values (326, '685 Butternut Road', 'Dobrzeń Wielki', 'Poland', 36841);
-insert into region (region_id, region, city, country, postal_code) values (327, '092 Dunning Lane', 'Cipanggung', 'Indonesia', 84208);
-insert into region (region_id, region, city, country, postal_code) values (328, '44 Monument Park', 'Lagos', 'Nigeria', 52532);
-insert into region (region_id, region, city, country, postal_code) values (329, '1 Pearson Trail', 'Sioguí Arriba', 'Panama', 88405);
-insert into region (region_id, region, city, country, postal_code) values (330, '5186 Novick Pass', 'Katuli', 'Philippines', 89861);
-insert into region (region_id, region, city, country, postal_code) values (331, '42 Eastwood Drive', 'Sakākā', 'Saudi Arabia', 22614);
-insert into region (region_id, region, city, country, postal_code) values (332, '8388 Gina Plaza', 'Napu', 'Indonesia', 29780);
-insert into region (region_id, region, city, country, postal_code) values (333, '80 Drewry Drive', 'São João do Campo', 'Portugal', 51208);
-insert into region (region_id, region, city, country, postal_code) values (334, '934 Haas Alley', 'Jingxiyuan', 'China', 46370);
-insert into region (region_id, region, city, country, postal_code) values (335, '8376 Hauk Avenue', 'Rangmanten', 'Indonesia', 80698);
-insert into region (region_id, region, city, country, postal_code) values (336, '36516 Oneill Way', 'Xankandi', 'Azerbaijan', 29360);
-insert into region (region_id, region, city, country, postal_code) values (337, '23938 Springs Lane', 'San Miguel', 'Mexico', 48928);
-insert into region (region_id, region, city, country, postal_code) values (338, '260 Buhler Way', 'Panshan', 'China', 96368);
-insert into region (region_id, region, city, country, postal_code) values (339, '1 Susan Road', 'Hexi', 'China', 96844);
-insert into region (region_id, region, city, country, postal_code) values (340, '837 Forest Alley', 'Juvisy-sur-Orge', 'France', 14189);
-insert into region (region_id, region, city, country, postal_code) values (341, '6 Lakewood Court', 'Dahua', 'China', 11350);
-insert into region (region_id, region, city, country, postal_code) values (342, '10 Sachs Avenue', 'Saint Louis', 'United States', 93989);
-insert into region (region_id, region, city, country, postal_code) values (343, '78718 Mcbride Plaza', 'Changyuan', 'China', 23272);
-insert into region (region_id, region, city, country, postal_code) values (344, '56 Onsgard Parkway', 'Jilong', 'China', 61718);
-insert into region (region_id, region, city, country, postal_code) values (345, '79613 Mayer Park', 'Ílion', 'Greece', 48367);
-insert into region (region_id, region, city, country, postal_code) values (346, '659 Haas Terrace', 'Vila Franca', 'Portugal', 35065);
-insert into region (region_id, region, city, country, postal_code) values (347, '74 Ramsey Hill', 'Arroyo Salado', 'Dominican Republic', 33905);
-insert into region (region_id, region, city, country, postal_code) values (348, '654 Maple Wood Parkway', 'Vyborg', 'Russia', 79658);
-insert into region (region_id, region, city, country, postal_code) values (349, '5157 Brown Hill', 'Oromocto', 'Canada', 72483);
-insert into region (region_id, region, city, country, postal_code) values (350, '4 Northview Lane', 'Tumen', 'China', 26179);
-insert into region (region_id, region, city, country, postal_code) values (351, '2 Michigan Parkway', 'Vũng Tàu', 'Vietnam', 36799);
-insert into region (region_id, region, city, country, postal_code) values (352, '04293 Nancy Trail', 'Manjo', 'Cameroon', 51586);
-insert into region (region_id, region, city, country, postal_code) values (353, '47109 Esch Pass', 'Straszyn', 'Poland', 80063);
-insert into region (region_id, region, city, country, postal_code) values (354, '73610 Hazelcrest Point', 'Malczyce', 'Poland', 25021);
-insert into region (region_id, region, city, country, postal_code) values (355, '0 Hovde Point', 'Tinumpuk', 'Indonesia', 49343);
-insert into region (region_id, region, city, country, postal_code) values (356, '1783 Northport Drive', 'Juhut', 'Indonesia', 55234);
-insert into region (region_id, region, city, country, postal_code) values (357, '2709 Homewood Terrace', 'Cijoho', 'Indonesia', 64044);
-insert into region (region_id, region, city, country, postal_code) values (358, '64810 Hauk Drive', 'Calsib', 'Philippines', 85422);
-insert into region (region_id, region, city, country, postal_code) values (359, '049 Stuart Avenue', 'Rabig', 'Indonesia', 52677);
-insert into region (region_id, region, city, country, postal_code) values (360, '19 Dakota Point', 'Barţa‘ah ash Sharqīyah', 'Palestinian Territory', 92735);
-insert into region (region_id, region, city, country, postal_code) values (361, '8 Express Trail', 'Riba de Ave', 'Portugal', 30489);
-insert into region (region_id, region, city, country, postal_code) values (362, '49 Boyd Plaza', 'Chợ Gạo', 'Vietnam', 62667);
-insert into region (region_id, region, city, country, postal_code) values (363, '05 Dapin Junction', 'Yong’an', 'China', 87562);
-insert into region (region_id, region, city, country, postal_code) values (364, '49 Orin Lane', 'Mosoc Llacta', 'Peru', 36133);
-insert into region (region_id, region, city, country, postal_code) values (365, '793 Northport Hill', 'Neftekamsk', 'Russia', 61266);
-insert into region (region_id, region, city, country, postal_code) values (366, '78152 Nevada Street', 'Jiale', 'China', 89516);
-insert into region (region_id, region, city, country, postal_code) values (367, '99 6th Center', 'Kobayashi', 'Japan', 34199);
-insert into region (region_id, region, city, country, postal_code) values (368, '99 Pankratz Center', 'Lukovo', 'Macedonia', 78406);
-insert into region (region_id, region, city, country, postal_code) values (369, '1 Stoughton Pass', 'Minle', 'China', 10426);
-insert into region (region_id, region, city, country, postal_code) values (370, '02 Hazelcrest Parkway', 'Jiaoshi', 'China', 93661);
-insert into region (region_id, region, city, country, postal_code) values (371, '32836 Hovde Circle', 'Fujiayan', 'China', 70645);
-insert into region (region_id, region, city, country, postal_code) values (372, '553 Village Plaza', 'Chaiyaphum', 'Thailand', 42557);
-insert into region (region_id, region, city, country, postal_code) values (373, '26237 Autumn Leaf Drive', 'Isla Pucú', 'Paraguay', 49916);
-insert into region (region_id, region, city, country, postal_code) values (374, '7 Arrowood Street', 'Ust’-Katav', 'Russia', 45742);
-insert into region (region_id, region, city, country, postal_code) values (375, '1 Northview Parkway', 'Jielin', 'China', 67673);
-insert into region (region_id, region, city, country, postal_code) values (376, '4 Village Alley', 'Karabanovo', 'Russia', 30736);
-insert into region (region_id, region, city, country, postal_code) values (377, '9 Petterle Circle', 'Artémida', 'Greece', 61670);
-insert into region (region_id, region, city, country, postal_code) values (378, '171 Nobel Center', 'Banjar Geriana Kangin', 'Indonesia', 16675);
-insert into region (region_id, region, city, country, postal_code) values (379, '470 Weeping Birch Lane', 'Porto Alegre', 'Brazil', 44816);
-insert into region (region_id, region, city, country, postal_code) values (380, '57800 Florence Parkway', 'Svirsk', 'Russia', 61961);
-insert into region (region_id, region, city, country, postal_code) values (381, '35208 Myrtle Court', 'Bellavista', 'Peru', 62288);
-insert into region (region_id, region, city, country, postal_code) values (382, '2 Northfield Avenue', '‘Uzeir', 'Israel', 67981);
-insert into region (region_id, region, city, country, postal_code) values (383, '0323 Vera Park', 'Lage', 'Portugal', 27824);
-insert into region (region_id, region, city, country, postal_code) values (384, '88 Warrior Park', 'Sechenovo', 'Russia', 53502);
-insert into region (region_id, region, city, country, postal_code) values (385, '6 Quincy Way', 'Adare', 'Ireland', 95320);
-insert into region (region_id, region, city, country, postal_code) values (386, '0276 Marcy Lane', 'Shigu', 'China', 77478);
-insert into region (region_id, region, city, country, postal_code) values (387, '18832 Chinook Drive', 'Segovia', 'Colombia', 73699);
-insert into region (region_id, region, city, country, postal_code) values (388, '548 Springview Way', 'Battung', 'Philippines', 93067);
-insert into region (region_id, region, city, country, postal_code) values (389, '566 Buena Vista Parkway', 'Maoya', 'China', 83887);
-insert into region (region_id, region, city, country, postal_code) values (390, '3802 Scoville Drive', 'Xianzong', 'China', 26908);
-insert into region (region_id, region, city, country, postal_code) values (391, '7231 Muir Junction', 'Tanzhesi', 'China', 73432);
-insert into region (region_id, region, city, country, postal_code) values (392, '886 2nd Center', 'Qarāwat Banī Zayd', 'Palestinian Territory', 31176);
-insert into region (region_id, region, city, country, postal_code) values (393, '21851 Stephen Drive', 'Mouriscas', 'Portugal', 31622);
-insert into region (region_id, region, city, country, postal_code) values (394, '2 Brickson Park Plaza', 'Pekuncen', 'Indonesia', 29566);
-insert into region (region_id, region, city, country, postal_code) values (395, '6500 Trailsway Circle', 'Weiyuan', 'China', 65721);
-insert into region (region_id, region, city, country, postal_code) values (396, '4 Dunning Avenue', 'Lagunas', 'Peru', 41727);
-insert into region (region_id, region, city, country, postal_code) values (397, '957 Stuart Crossing', 'Dongtai', 'China', 69293);
-insert into region (region_id, region, city, country, postal_code) values (398, '379 Bunting Place', 'Sudzha', 'Russia', 47137);
-insert into region (region_id, region, city, country, postal_code) values (399, '63 Mallard Street', 'Nikitinskiy', 'Russia', 88274);
-insert into region (region_id, region, city, country, postal_code) values (400, '5758 Havey Place', 'Belas', 'Portugal', 33473);
-insert into region (region_id, region, city, country, postal_code) values (401, '5038 Green Parkway', 'Munggang', 'Indonesia', 97882);
-insert into region (region_id, region, city, country, postal_code) values (402, '3 Melby Avenue', 'Houston', 'United States', 27352);
-insert into region (region_id, region, city, country, postal_code) values (403, '59423 Pleasure Place', 'Pringsewu', 'Indonesia', 86964);
-insert into region (region_id, region, city, country, postal_code) values (404, '574 Transport Trail', 'Xianshuigu', 'China', 53972);
-insert into region (region_id, region, city, country, postal_code) values (405, '9251 Spenser Road', 'Valbo', 'Sweden', 49106);
-insert into region (region_id, region, city, country, postal_code) values (406, '256 American Ash Alley', 'Serere', 'Uganda', 82112);
-insert into region (region_id, region, city, country, postal_code) values (407, '020 Carpenter Court', 'Tabuk', 'Philippines', 72780);
-insert into region (region_id, region, city, country, postal_code) values (408, '761 American Ash Lane', 'Melrose', 'Mauritius', 31313);
-insert into region (region_id, region, city, country, postal_code) values (409, '193 Brentwood Trail', 'Abades', 'Portugal', 72620);
-insert into region (region_id, region, city, country, postal_code) values (410, '695 Dorton Court', 'Berdyans’k', 'Ukraine', 19453);
-insert into region (region_id, region, city, country, postal_code) values (411, '55497 Bultman Place', 'Mandal', 'Mongolia', 68382);
-insert into region (region_id, region, city, country, postal_code) values (412, '3 Talisman Road', 'Sarov', 'Russia', 47745);
-insert into region (region_id, region, city, country, postal_code) values (413, '1133 Lukken Place', 'Belén de Escobar', 'Argentina', 36182);
-insert into region (region_id, region, city, country, postal_code) values (414, '4 Brickson Park Road', 'Santo Niño', 'Philippines', 36681);
-insert into region (region_id, region, city, country, postal_code) values (415, '5950 Artisan Junction', 'Quevedo', 'Ecuador', 21371);
-insert into region (region_id, region, city, country, postal_code) values (416, '9 Messerschmidt Circle', 'Brněnec', 'Czech Republic', 55418);
-insert into region (region_id, region, city, country, postal_code) values (417, '8 Bellgrove Terrace', 'Jamaica', 'United States', 75374);
-insert into region (region_id, region, city, country, postal_code) values (418, '3 Glendale Alley', 'Orzech', 'Poland', 84386);
-insert into region (region_id, region, city, country, postal_code) values (419, '716 Golf View Road', 'Uppsala', 'Sweden', 19604);
-insert into region (region_id, region, city, country, postal_code) values (420, '14 Welch Plaza', 'Quatro Barras', 'Brazil', 69897);
-insert into region (region_id, region, city, country, postal_code) values (421, '56 Thackeray Trail', 'Shanggu', 'China', 82647);
-insert into region (region_id, region, city, country, postal_code) values (422, '59835 Golf View Circle', 'Duofudu', 'China', 20847);
-insert into region (region_id, region, city, country, postal_code) values (423, '05 Hoard Junction', 'Filimonovo', 'Russia', 84837);
-insert into region (region_id, region, city, country, postal_code) values (424, '86593 Cordelia Lane', 'Apoya', 'Philippines', 61323);
-insert into region (region_id, region, city, country, postal_code) values (425, '3 Russell Place', 'Caohe', 'China', 43726);
-insert into region (region_id, region, city, country, postal_code) values (426, '147 Reinke Center', 'Wilanagara', 'Indonesia', 39172);
-insert into region (region_id, region, city, country, postal_code) values (427, '2108 Springview Hill', 'Rada Tilly', 'Argentina', 48792);
-insert into region (region_id, region, city, country, postal_code) values (428, '6582 Kim Circle', 'Bingawan', 'Philippines', 45170);
-insert into region (region_id, region, city, country, postal_code) values (429, '279 Di Loreto Hill', 'Bolondrón', 'Cuba', 77082);
-insert into region (region_id, region, city, country, postal_code) values (430, '53 Westridge Trail', 'Tanabe', 'Japan', 29201);
-insert into region (region_id, region, city, country, postal_code) values (431, '94772 Jackson Terrace', 'Sada', 'Mayotte', 21058);
-insert into region (region_id, region, city, country, postal_code) values (432, '5237 Talisman Street', 'Hongguang', 'China', 32461);
-insert into region (region_id, region, city, country, postal_code) values (433, '01994 Garrison Circle', 'Panggungrejo', 'Indonesia', 70194);
-insert into region (region_id, region, city, country, postal_code) values (434, '9 Pepper Wood Terrace', 'Tambulatana', 'Indonesia', 63963);
-insert into region (region_id, region, city, country, postal_code) values (435, '862 Bobwhite Plaza', 'Paris 13', 'France', 42325);
-insert into region (region_id, region, city, country, postal_code) values (436, '621 Hayes Circle', 'Pavliš', 'Serbia', 99176);
-insert into region (region_id, region, city, country, postal_code) values (437, '384 John Wall Circle', 'Rauco', 'Chile', 53075);
-insert into region (region_id, region, city, country, postal_code) values (438, '915 Muir Circle', 'Dongmazar', 'China', 92793);
-insert into region (region_id, region, city, country, postal_code) values (439, '952 Bobwhite Pass', 'Aldeia de Além', 'Portugal', 99920);
-insert into region (region_id, region, city, country, postal_code) values (440, '94579 Melrose Center', 'Laikit, Laikit II (Dimembe)', 'Indonesia', 10622);
-insert into region (region_id, region, city, country, postal_code) values (441, '90235 Spaight Center', 'Kangping', 'China', 14236);
-insert into region (region_id, region, city, country, postal_code) values (442, '9 Logan Pass', 'Luocheng', 'China', 16803);
-insert into region (region_id, region, city, country, postal_code) values (443, '71828 Bellgrove Center', 'Khorostkiv', 'Ukraine', 95483);
-insert into region (region_id, region, city, country, postal_code) values (444, '77104 Brown Place', 'Titay', 'Philippines', 70440);
-insert into region (region_id, region, city, country, postal_code) values (445, '7 4th Road', 'Madīnat Sittah Uktūbar', 'Egypt', 96789);
-insert into region (region_id, region, city, country, postal_code) values (446, '91 Kropf Trail', 'Skellefteå', 'Sweden', 59070);
-insert into region (region_id, region, city, country, postal_code) values (447, '7163 Dixon Plaza', 'La Luz', 'Venezuela', 62449);
-insert into region (region_id, region, city, country, postal_code) values (448, '524 Express Junction', 'Longsheng', 'China', 34538);
-insert into region (region_id, region, city, country, postal_code) values (449, '04939 East Court', 'Wang Chan', 'Thailand', 52393);
-insert into region (region_id, region, city, country, postal_code) values (450, '7465 Rusk Lane', 'Suhong', 'China', 58858);
-insert into region (region_id, region, city, country, postal_code) values (451, '429 Northview Trail', 'Shuanglu', 'China', 48869);
-insert into region (region_id, region, city, country, postal_code) values (452, '24 Dennis Road', 'Mouhijärvi', 'Finland', 58678);
-insert into region (region_id, region, city, country, postal_code) values (453, '04880 Commercial Plaza', 'Beigucheng', 'China', 52249);
-insert into region (region_id, region, city, country, postal_code) values (454, '2 Linden Circle', 'Paris 16', 'France', 68419);
-insert into region (region_id, region, city, country, postal_code) values (455, '85 Golden Leaf Junction', 'Phichit', 'Thailand', 96185);
-insert into region (region_id, region, city, country, postal_code) values (456, '07627 Artisan Hill', 'Peoria', 'United States', 17343);
-insert into region (region_id, region, city, country, postal_code) values (457, '8077 Del Mar Plaza', 'Tarbes', 'France', 69963);
-insert into region (region_id, region, city, country, postal_code) values (458, '64 Beilfuss Junction', 'Jakobstad', 'Finland', 33808);
-insert into region (region_id, region, city, country, postal_code) values (459, '2 Waubesa Junction', 'Bełżec', 'Poland', 89892);
-insert into region (region_id, region, city, country, postal_code) values (460, '91 Esch Street', 'Poja Nae', 'Indonesia', 88548);
-insert into region (region_id, region, city, country, postal_code) values (461, '27 Dixon Hill', 'Boyu', 'China', 92044);
-insert into region (region_id, region, city, country, postal_code) values (462, '25 Grover Park', 'Dowr-e Rabāţ', 'Afghanistan', 55913);
-insert into region (region_id, region, city, country, postal_code) values (463, '42 Stang Court', 'Warburton', 'Pakistan', 95773);
-insert into region (region_id, region, city, country, postal_code) values (464, '59 Blackbird Drive', 'Dongshandi', 'China', 70134);
-insert into region (region_id, region, city, country, postal_code) values (465, '966 Kedzie Crossing', 'Guan’e', 'China', 14432);
-insert into region (region_id, region, city, country, postal_code) values (466, '6722 Alpine Junction', 'Miami', 'United States', 43487);
-insert into region (region_id, region, city, country, postal_code) values (467, '935 Logan Pass', 'Iwata', 'Japan', 91641);
-insert into region (region_id, region, city, country, postal_code) values (468, '5 Golden Leaf Point', 'Wasagu', 'Nigeria', 82941);
-insert into region (region_id, region, city, country, postal_code) values (469, '5893 1st Center', 'Lipovljani', 'Croatia', 21225);
-insert into region (region_id, region, city, country, postal_code) values (470, '64913 Rieder Lane', 'Baranoa', 'Colombia', 53315);
-insert into region (region_id, region, city, country, postal_code) values (471, '73 Nevada Drive', 'Dayr Sāmit', 'Palestinian Territory', 75582);
-insert into region (region_id, region, city, country, postal_code) values (472, '5 Onsgard Junction', 'Kuasha', 'China', 29114);
-insert into region (region_id, region, city, country, postal_code) values (473, '264 Kensington Drive', 'Ōta', 'Japan', 79207);
-insert into region (region_id, region, city, country, postal_code) values (474, '284 Warner Hill', 'Osório', 'Brazil', 12385);
-insert into region (region_id, region, city, country, postal_code) values (475, '7734 Blackbird Way', 'Tuusula', 'Finland', 92742);
-insert into region (region_id, region, city, country, postal_code) values (476, '5706 Bunker Hill Alley', 'Betulia', 'Colombia', 35812);
-insert into region (region_id, region, city, country, postal_code) values (477, '8686 Shoshone Plaza', 'Tongle', 'China', 67898);
-insert into region (region_id, region, city, country, postal_code) values (478, '6 Oxford Trail', 'Mungo', 'Philippines', 58340);
-insert into region (region_id, region, city, country, postal_code) values (479, '96 Tony Center', 'Usu', 'China', 65636);
-insert into region (region_id, region, city, country, postal_code) values (480, '6433 Caliangt Alley', 'Jianxin', 'China', 22689);
-insert into region (region_id, region, city, country, postal_code) values (481, '028 Anthes Circle', 'Karangtengah', 'Indonesia', 71834);
-insert into region (region_id, region, city, country, postal_code) values (482, '716 Oneill Terrace', 'Kawęczyn', 'Poland', 45145);
-insert into region (region_id, region, city, country, postal_code) values (483, '3720 Moulton Hill', 'Qili', 'China', 33448);
-insert into region (region_id, region, city, country, postal_code) values (484, '249 Johnson Court', 'Aizhai', 'China', 81362);
-insert into region (region_id, region, city, country, postal_code) values (485, '542 Kings Street', 'Kasulu', 'Tanzania', 35830);
-insert into region (region_id, region, city, country, postal_code) values (486, '3 Larry Parkway', 'Chervonohryhorivka', 'Ukraine', 58797);
-insert into region (region_id, region, city, country, postal_code) values (487, '5 Fulton Circle', 'Brades', 'Montserrat', 98973);
-insert into region (region_id, region, city, country, postal_code) values (488, '4 Drewry Avenue', 'Ad Dīs ash Sharqīyah', 'Yemen', 68288);
-insert into region (region_id, region, city, country, postal_code) values (489, '71 Mifflin Terrace', 'Postmasburg', 'South Africa', 59730);
-insert into region (region_id, region, city, country, postal_code) values (490, '28 Del Mar Road', 'Annecy', 'France', 97388);
-insert into region (region_id, region, city, country, postal_code) values (491, '1 Commercial Point', 'Al Ḩawātah', 'Sudan', 33796);
-insert into region (region_id, region, city, country, postal_code) values (492, '09264 Golf View Road', 'Hede', 'China', 41122);
-insert into region (region_id, region, city, country, postal_code) values (493, '66734 Arizona Point', 'Santos Evos', 'Portugal', 76630);
-insert into region (region_id, region, city, country, postal_code) values (494, '4 Moose Trail', 'Rybnaya Sloboda', 'Russia', 32804);
-insert into region (region_id, region, city, country, postal_code) values (495, '96575 Scoville Alley', 'Villanova', 'Italy', 29054);
-insert into region (region_id, region, city, country, postal_code) values (496, '5 Merchant Parkway', 'Zaleszany', 'Poland', 12406);
-insert into region (region_id, region, city, country, postal_code) values (497, '9517 Loomis Alley', 'Gamleby', 'Sweden', 67941);
-insert into region (region_id, region, city, country, postal_code) values (498, '82602 Lighthouse Bay Place', 'Buurhakaba', 'Somalia', 11217);
-insert into region (region_id, region, city, country, postal_code) values (499, '981 Towne Court', 'Kaset Wisai', 'Thailand', 79466);
-insert into region (region_id, region, city, country, postal_code) values (500, '6575 Kennedy Avenue', 'Charlottetown', 'Canada', 70554);
-insert into region (region_id, region, city, country, postal_code) values (501, '3799 Brown Junction', 'Plataran', 'Indonesia', 60004);
-insert into region (region_id, region, city, country, postal_code) values (502, '7713 Randy Circle', 'Larvik', 'Norway', 69716);
-insert into region (region_id, region, city, country, postal_code) values (503, '08 Meadow Valley Drive', 'La Rochelle', 'France', 58248);
-insert into region (region_id, region, city, country, postal_code) values (504, '5093 Hanson Road', 'Bojongsari', 'Indonesia', 34379);
-insert into region (region_id, region, city, country, postal_code) values (505, '929 Monica Park', 'Santa Lucía', 'Argentina', 88060);
-insert into region (region_id, region, city, country, postal_code) values (506, '02455 Pepper Wood Alley', 'Al Khushnīyah', 'Syria', 76285);
-insert into region (region_id, region, city, country, postal_code) values (507, '1111 Pearson Park', 'Poitiers', 'France', 33094);
-insert into region (region_id, region, city, country, postal_code) values (508, '70 Dayton Drive', 'Muikamachi', 'Japan', 93367);
-insert into region (region_id, region, city, country, postal_code) values (509, '3505 Ridge Oak Plaza', 'Iturama', 'Brazil', 94375);
-insert into region (region_id, region, city, country, postal_code) values (510, '914 Chinook Crossing', 'Celje', 'Slovenia', 72978);
-insert into region (region_id, region, city, country, postal_code) values (511, '9373 Summer Ridge Pass', 'Várzea da Palma', 'Brazil', 51937);
-insert into region (region_id, region, city, country, postal_code) values (512, '17 Derek Crossing', 'Íquira', 'Colombia', 65307);
-insert into region (region_id, region, city, country, postal_code) values (513, '79394 Ridge Oak Trail', 'Panunggangan', 'Indonesia', 21926);
-insert into region (region_id, region, city, country, postal_code) values (514, '970 Blue Bill Park Junction', 'Maogou', 'China', 96890);
-insert into region (region_id, region, city, country, postal_code) values (515, '18 Anthes Lane', 'São José do Rio Pardo', 'Brazil', 55729);
-insert into region (region_id, region, city, country, postal_code) values (516, '43 Melody Circle', 'Nishio', 'Japan', 60315);
-insert into region (region_id, region, city, country, postal_code) values (517, '5 Holmberg Alley', 'Kamensk-Shakhtinskiy', 'Russia', 63645);
-insert into region (region_id, region, city, country, postal_code) values (518, '423 Brown Road', 'Horní Suchá', 'Czech Republic', 97170);
-insert into region (region_id, region, city, country, postal_code) values (519, '880 Dixon Road', 'Beckerich', 'Luxembourg', 81432);
-insert into region (region_id, region, city, country, postal_code) values (520, '76569 Pleasure Street', 'Kilkenny', 'Ireland', 68248);
-insert into region (region_id, region, city, country, postal_code) values (521, '9620 Dexter Junction', 'Lívingston', 'Guatemala', 94864);
-insert into region (region_id, region, city, country, postal_code) values (522, '6 Sutherland Lane', 'Hutou', 'China', 79169);
-insert into region (region_id, region, city, country, postal_code) values (523, '088 Service Hill', 'Nao', 'Indonesia', 83830);
-insert into region (region_id, region, city, country, postal_code) values (524, '7645 Starling Junction', 'Libuganon', 'Philippines', 20023);
-insert into region (region_id, region, city, country, postal_code) values (525, '0 Sommers Crossing', 'Paranavaí', 'Brazil', 62539);
-insert into region (region_id, region, city, country, postal_code) values (526, '27 Marcy Place', 'Barrancas', 'Colombia', 15256);
-insert into region (region_id, region, city, country, postal_code) values (527, '89917 Kropf Place', 'Puerto Montt', 'Chile', 82602);
-insert into region (region_id, region, city, country, postal_code) values (528, '77738 Farwell Circle', 'Nizhniy Kurkuzhin', 'Russia', 86574);
-insert into region (region_id, region, city, country, postal_code) values (529, '7351 Merry Place', 'Jutiapa', 'Guatemala', 23908);
-insert into region (region_id, region, city, country, postal_code) values (530, '804 Cardinal Alley', 'Stockholm', 'Sweden', 97072);
-insert into region (region_id, region, city, country, postal_code) values (531, '2261 Haas Trail', 'Tignoan', 'Philippines', 30281);
-insert into region (region_id, region, city, country, postal_code) values (532, '10 Bartelt Park', 'Peristerá', 'Greece', 11393);
-insert into region (region_id, region, city, country, postal_code) values (533, '11957 Karstens Point', 'Bungu', 'Tanzania', 69836);
-insert into region (region_id, region, city, country, postal_code) values (534, '79158 Judy Park', 'Zhongcun', 'China', 87077);
-insert into region (region_id, region, city, country, postal_code) values (535, '31139 Eastlawn Park', 'Louisville', 'United States', 50116);
-insert into region (region_id, region, city, country, postal_code) values (536, '2 Butternut Street', 'Quebracho', 'Uruguay', 35736);
-insert into region (region_id, region, city, country, postal_code) values (537, '11333 Village Green Court', 'Nakasongola', 'Uganda', 41913);
-insert into region (region_id, region, city, country, postal_code) values (538, '2578 Luster Avenue', 'Kampene', 'Democratic Republic of the Congo', 55644);
-insert into region (region_id, region, city, country, postal_code) values (539, '89857 Arizona Lane', 'Oeleu', 'Indonesia', 79974);
-insert into region (region_id, region, city, country, postal_code) values (540, '8897 Southridge Court', 'Thị Trấn Phước Bửu', 'Vietnam', 74214);
-insert into region (region_id, region, city, country, postal_code) values (541, '83524 Comanche Hill', 'Yangjia', 'China', 92242);
-insert into region (region_id, region, city, country, postal_code) values (542, '6 Northfield Drive', 'Pierreville', 'Canada', 20311);
-insert into region (region_id, region, city, country, postal_code) values (543, '50 Sundown Circle', 'Hoi', 'Indonesia', 90767);
-insert into region (region_id, region, city, country, postal_code) values (544, '1268 Hoard Point', 'Tillabéri', 'Niger', 13490);
-insert into region (region_id, region, city, country, postal_code) values (545, '4793 Bobwhite Parkway', 'Topolná', 'Czech Republic', 27520);
-insert into region (region_id, region, city, country, postal_code) values (546, '51 Di Loreto Alley', 'Oliveira', 'Brazil', 31052);
-insert into region (region_id, region, city, country, postal_code) values (547, '9 Morning Pass', 'Tireman Timur', 'Indonesia', 64298);
-insert into region (region_id, region, city, country, postal_code) values (548, '4 South Alley', 'Tawun', 'Indonesia', 94067);
-insert into region (region_id, region, city, country, postal_code) values (549, '923 Delladonna Alley', 'Grimstad', 'Norway', 12799);
-insert into region (region_id, region, city, country, postal_code) values (550, '3543 Hoffman Avenue', 'Romanovo', 'Russia', 29661);
-insert into region (region_id, region, city, country, postal_code) values (551, '9329 7th Alley', 'Ngou', 'Cameroon', 52438);
-insert into region (region_id, region, city, country, postal_code) values (552, '925 Menomonie Parkway', 'Lleida', 'Spain', 52662);
-insert into region (region_id, region, city, country, postal_code) values (553, '829 Arapahoe Plaza', 'Nagrog Wetan', 'Indonesia', 37080);
-insert into region (region_id, region, city, country, postal_code) values (554, '879 Larry Point', 'Kohtla-Järve', 'Estonia', 90165);
-insert into region (region_id, region, city, country, postal_code) values (555, '82 Meadow Valley Drive', 'Lapinjärvi', 'Finland', 20925);
-insert into region (region_id, region, city, country, postal_code) values (556, '1026 Fremont Lane', 'Lincoln', 'United States', 71350);
-insert into region (region_id, region, city, country, postal_code) values (557, '01 Crest Line Road', 'Mabamba', 'Tanzania', 60946);
-insert into region (region_id, region, city, country, postal_code) values (558, '0343 Northport Parkway', 'Al Bāriqīyah', 'Syria', 27948);
-insert into region (region_id, region, city, country, postal_code) values (559, '3 Blue Bill Park Pass', 'Kurikka', 'Finland', 17510);
-insert into region (region_id, region, city, country, postal_code) values (560, '66 Esker Hill', 'Engenheiro Beltrão', 'Brazil', 35264);
-insert into region (region_id, region, city, country, postal_code) values (561, '7808 Mcguire Place', 'Videira', 'Brazil', 65151);
-insert into region (region_id, region, city, country, postal_code) values (562, '2 Valley Edge Avenue', 'Lac-Mégantic', 'Canada', 24519);
-insert into region (region_id, region, city, country, postal_code) values (563, '163 Eastlawn Parkway', 'Malunda', 'Indonesia', 53373);
-insert into region (region_id, region, city, country, postal_code) values (564, '634 Hooker Street', 'Tulsīpur', 'Nepal', 27470);
-insert into region (region_id, region, city, country, postal_code) values (565, '03 Ridge Oak Point', 'Baardheere', 'Somalia', 94816);
-insert into region (region_id, region, city, country, postal_code) values (566, '5726 Shasta Parkway', 'Ganzi', 'China', 40488);
-insert into region (region_id, region, city, country, postal_code) values (567, '31736 Burning Wood Terrace', 'Yanzhao', 'China', 69603);
-insert into region (region_id, region, city, country, postal_code) values (568, '128 Upham Way', 'Chorkówka', 'Poland', 11068);
-insert into region (region_id, region, city, country, postal_code) values (569, '6466 Fairfield Parkway', 'Zhongshan', 'China', 62524);
-insert into region (region_id, region, city, country, postal_code) values (570, '52 Express Circle', 'Halle', 'Germany', 83968);
-insert into region (region_id, region, city, country, postal_code) values (571, '59985 Harper Street', 'Fangtian', 'China', 13062);
-insert into region (region_id, region, city, country, postal_code) values (572, '291 Maple Wood Lane', 'Novovasylivka', 'Ukraine', 56874);
-insert into region (region_id, region, city, country, postal_code) values (573, '87 Judy Point', 'Rauco', 'Chile', 24354);
-insert into region (region_id, region, city, country, postal_code) values (574, '05 Lakewood Avenue', 'Dhali', 'Cyprus', 63502);
-insert into region (region_id, region, city, country, postal_code) values (575, '0438 Kenwood Crossing', 'Ārt Khwājah', 'Afghanistan', 15963);
-insert into region (region_id, region, city, country, postal_code) values (576, '39143 Kings Road', 'Xinba', 'China', 55141);
-insert into region (region_id, region, city, country, postal_code) values (577, '87 Fieldstone Alley', 'Ciklapa', 'Indonesia', 38913);
-insert into region (region_id, region, city, country, postal_code) values (578, '09887 Huxley Circle', 'Oro Verde', 'Argentina', 30650);
-insert into region (region_id, region, city, country, postal_code) values (579, '83518 Algoma Avenue', 'Xiadu', 'China', 74308);
-insert into region (region_id, region, city, country, postal_code) values (580, '8 Jenifer Terrace', 'Vishnyakovskiye Dachi', 'Russia', 38733);
-insert into region (region_id, region, city, country, postal_code) values (581, '0 Straubel Street', 'Níkaia', 'Greece', 88522);
-insert into region (region_id, region, city, country, postal_code) values (582, '27375 Shelley Place', 'Porto Calvo', 'Brazil', 95866);
-insert into region (region_id, region, city, country, postal_code) values (583, '07631 Bartelt Crossing', 'Ashford', 'Ireland', 94266);
-insert into region (region_id, region, city, country, postal_code) values (584, '094 Sherman Crossing', 'Igbaras', 'Philippines', 44191);
-insert into region (region_id, region, city, country, postal_code) values (585, '8 Toban Place', 'Palotina', 'Brazil', 46928);
-insert into region (region_id, region, city, country, postal_code) values (586, '3 Longview Trail', 'Camangcamang', 'Philippines', 52367);
-insert into region (region_id, region, city, country, postal_code) values (587, '3 Mayer Avenue', 'Yueyahe', 'China', 68457);
-insert into region (region_id, region, city, country, postal_code) values (588, '1893 American Circle', '‘Aqrah', 'Iraq', 80434);
-insert into region (region_id, region, city, country, postal_code) values (589, '770 Blue Bill Park Hill', 'Krajan Caluk', 'Indonesia', 44163);
-insert into region (region_id, region, city, country, postal_code) values (590, '69029 Esker Court', 'Cijengkol', 'Indonesia', 16320);
-insert into region (region_id, region, city, country, postal_code) values (591, '326 Moose Hill', 'Novaya Derevnya', 'Russia', 65386);
-insert into region (region_id, region, city, country, postal_code) values (592, '86908 Burning Wood Hill', 'Montigny-lès-Metz', 'France', 18514);
-insert into region (region_id, region, city, country, postal_code) values (593, '9756 Sundown Park', 'Pantubig', 'Philippines', 86138);
-insert into region (region_id, region, city, country, postal_code) values (594, '043 Toban Point', 'Klembivka', 'Ukraine', 92822);
-insert into region (region_id, region, city, country, postal_code) values (595, '625 Huxley Lane', 'Negararatu', 'Indonesia', 41737);
-insert into region (region_id, region, city, country, postal_code) values (596, '812 Warbler Street', 'Sagopshi', 'Russia', 24173);
-insert into region (region_id, region, city, country, postal_code) values (597, '404 Burrows Trail', 'Donja Dubica', 'Bosnia and Herzegovina', 91383);
-insert into region (region_id, region, city, country, postal_code) values (598, '7052 Bonner Terrace', 'Fuzhai', 'China', 81379);
-insert into region (region_id, region, city, country, postal_code) values (599, '18 Comanche Junction', 'Brodnica', 'Poland', 70171);
-insert into region (region_id, region, city, country, postal_code) values (600, '74142 Hanover Lane', 'Boroon', 'Philippines', 50764);
-insert into region (region_id, region, city, country, postal_code) values (601, '81392 Hovde Drive', 'Taksimo', 'Russia', 62802);
-insert into region (region_id, region, city, country, postal_code) values (602, '424 Mariners Cove Street', 'Sirib', 'Philippines', 70541);
-insert into region (region_id, region, city, country, postal_code) values (603, '5 Northview Crossing', 'Xinzha', 'China', 11943);
-insert into region (region_id, region, city, country, postal_code) values (604, '434 Dahle Trail', 'Leping', 'China', 61227);
-insert into region (region_id, region, city, country, postal_code) values (605, '12 Garrison Alley', 'Oliveira do Conde', 'Portugal', 91740);
-insert into region (region_id, region, city, country, postal_code) values (606, '167 5th Road', 'Conception Bay South', 'Canada', 66209);
-insert into region (region_id, region, city, country, postal_code) values (607, '8 Doe Crossing Circle', 'Plagiári', 'Greece', 86193);
-insert into region (region_id, region, city, country, postal_code) values (608, '2 Badeau Pass', 'Volta Redonda', 'Brazil', 21044);
-insert into region (region_id, region, city, country, postal_code) values (609, '15555 Shoshone Crossing', 'Ilesa', 'Nigeria', 82296);
-insert into region (region_id, region, city, country, postal_code) values (610, '70069 Swallow Junction', 'Blobo', 'Indonesia', 89556);
-insert into region (region_id, region, city, country, postal_code) values (611, '114 Moland Alley', 'Dřiteň', 'Czech Republic', 26741);
-insert into region (region_id, region, city, country, postal_code) values (612, '5 Morrow Trail', 'Chiconi', 'Mayotte', 57673);
-insert into region (region_id, region, city, country, postal_code) values (613, '547 Melrose Center', 'Privolzhsk', 'Russia', 17285);
-insert into region (region_id, region, city, country, postal_code) values (614, '89458 Calypso Lane', 'Zhili', 'China', 31814);
-insert into region (region_id, region, city, country, postal_code) values (615, '35871 Village Road', 'Volzhsk', 'Russia', 54777);
-insert into region (region_id, region, city, country, postal_code) values (616, '1 Michigan Crossing', 'Jiudian', 'China', 69510);
-insert into region (region_id, region, city, country, postal_code) values (617, '50 Northview Pass', 'Dongchuan', 'China', 13494);
-insert into region (region_id, region, city, country, postal_code) values (618, '28 Forster Place', 'Skanör', 'Sweden', 97104);
-insert into region (region_id, region, city, country, postal_code) values (619, '449 American Terrace', 'Thanh Ba', 'Vietnam', 18093);
-insert into region (region_id, region, city, country, postal_code) values (620, '6411 2nd Parkway', 'Kalasin', 'Thailand', 69658);
-insert into region (region_id, region, city, country, postal_code) values (621, '7 Darwin Road', 'Shimen', 'China', 66497);
-insert into region (region_id, region, city, country, postal_code) values (622, '072 Coolidge Junction', 'Masjid', 'Indonesia', 63676);
-insert into region (region_id, region, city, country, postal_code) values (623, '30 Twin Pines Terrace', 'Xiaoduchuan', 'China', 84517);
-insert into region (region_id, region, city, country, postal_code) values (624, '7204 Towne Alley', 'Haozigang', 'China', 29557);
-insert into region (region_id, region, city, country, postal_code) values (625, '113 Division Road', 'Halamendu', 'China', 95871);
-insert into region (region_id, region, city, country, postal_code) values (626, '52 Hintze Point', 'Muromtsevo', 'Russia', 81004);
-insert into region (region_id, region, city, country, postal_code) values (627, '57518 Burrows Park', 'Sobral', 'Portugal', 32987);
-insert into region (region_id, region, city, country, postal_code) values (628, '2347 Golf View Center', 'San Antonio de los Baños', 'Cuba', 38962);
-insert into region (region_id, region, city, country, postal_code) values (629, '53737 Nelson Pass', 'Lingdong', 'China', 12000);
-insert into region (region_id, region, city, country, postal_code) values (630, '24832 Esker Point', 'Margacina', 'Indonesia', 89889);
-insert into region (region_id, region, city, country, postal_code) values (631, '3191 Dixon Hill', 'Gävle', 'Sweden', 69501);
-insert into region (region_id, region, city, country, postal_code) values (632, '0729 Huxley Avenue', 'Dolo', 'Philippines', 99876);
-insert into region (region_id, region, city, country, postal_code) values (633, '296 Hauk Park', 'Iperó', 'Brazil', 81064);
-insert into region (region_id, region, city, country, postal_code) values (634, '3 Corben Circle', 'Lidečko', 'Czech Republic', 70042);
-insert into region (region_id, region, city, country, postal_code) values (635, '9787 Springview Court', 'Zalaegerszeg', 'Hungary', 85626);
-insert into region (region_id, region, city, country, postal_code) values (636, '495 Pennsylvania Lane', 'Cochadas', 'Portugal', 47282);
-insert into region (region_id, region, city, country, postal_code) values (637, '67 Carberry Junction', 'Chilecito', 'Argentina', 82581);
-insert into region (region_id, region, city, country, postal_code) values (638, '2 Superior Park', 'Baghdad', 'Iraq', 75733);
-insert into region (region_id, region, city, country, postal_code) values (639, '8 Eastwood Junction', 'Kvissleby', 'Sweden', 63826);
-insert into region (region_id, region, city, country, postal_code) values (640, '99217 Petterle Way', 'Ké-Macina', 'Mali', 46017);
-insert into region (region_id, region, city, country, postal_code) values (641, '0 Chinook Center', 'Dongdu', 'China', 65720);
-insert into region (region_id, region, city, country, postal_code) values (642, '701 Waxwing Circle', 'Nanlü', 'China', 64940);
-insert into region (region_id, region, city, country, postal_code) values (643, '27997 Rowland Point', 'Naga', 'Philippines', 78759);
-insert into region (region_id, region, city, country, postal_code) values (644, '767 Prentice Avenue', 'Karaidel’', 'Russia', 42918);
-insert into region (region_id, region, city, country, postal_code) values (645, '7 Packers Trail', 'Sumberbening', 'Indonesia', 11757);
-insert into region (region_id, region, city, country, postal_code) values (646, '7 Lindbergh Avenue', 'Āwash', 'Ethiopia', 28585);
-insert into region (region_id, region, city, country, postal_code) values (647, '37732 Dennis Crossing', 'Linëvo', 'Russia', 72831);
-insert into region (region_id, region, city, country, postal_code) values (648, '85316 Farmco Road', 'Irahuan', 'Philippines', 99940);
-insert into region (region_id, region, city, country, postal_code) values (649, '11192 Melvin Street', 'Gaoshibei', 'China', 52776);
-insert into region (region_id, region, city, country, postal_code) values (650, '58 Golden Leaf Drive', 'Azurduy', 'Bolivia', 90962);
-insert into region (region_id, region, city, country, postal_code) values (651, '5 Grasskamp Court', 'Huifeng', 'China', 22723);
-insert into region (region_id, region, city, country, postal_code) values (652, '182 Loftsgordon Trail', 'Sioguí Abajo', 'Panama', 11470);
-insert into region (region_id, region, city, country, postal_code) values (653, '88 Thompson Lane', 'Bayt Ta‘mar', 'Palestinian Territory', 17968);
-insert into region (region_id, region, city, country, postal_code) values (654, '9 Anderson Pass', 'Pericik', 'Indonesia', 31155);
-insert into region (region_id, region, city, country, postal_code) values (655, '5 Forest Park', 'Maple Plain', 'United States', 19712);
-insert into region (region_id, region, city, country, postal_code) values (656, '510 Almo Trail', 'Taixi', 'China', 37510);
-insert into region (region_id, region, city, country, postal_code) values (657, '28775 Cascade Parkway', 'Ningdun', 'China', 50766);
-insert into region (region_id, region, city, country, postal_code) values (658, '2472 Stang Crossing', 'Krojo', 'Indonesia', 78569);
-insert into region (region_id, region, city, country, postal_code) values (659, '87 Debra Center', 'Basiong', 'Indonesia', 97521);
-insert into region (region_id, region, city, country, postal_code) values (660, '42788 Sherman Parkway', 'Aoqian', 'China', 64426);
-insert into region (region_id, region, city, country, postal_code) values (661, '4 Basil Terrace', 'Velký Újezd', 'Czech Republic', 46131);
-insert into region (region_id, region, city, country, postal_code) values (662, '2098 Susan Circle', 'Pergan', 'Indonesia', 65143);
-insert into region (region_id, region, city, country, postal_code) values (663, '9 Norway Maple Avenue', 'Bremen', 'Germany', 83798);
-insert into region (region_id, region, city, country, postal_code) values (664, '88671 Myrtle Drive', 'Bjelovar', 'Croatia', 61773);
-insert into region (region_id, region, city, country, postal_code) values (665, '87 Tony Point', 'Cuamba', 'Mozambique', 82141);
-insert into region (region_id, region, city, country, postal_code) values (666, '7 Bartelt Terrace', 'Auxerre', 'France', 69786);
-insert into region (region_id, region, city, country, postal_code) values (667, '40 Annamark Drive', 'Maintang', 'China', 98178);
-insert into region (region_id, region, city, country, postal_code) values (668, '9 Cambridge Court', 'Zhongdong', 'China', 54103);
-insert into region (region_id, region, city, country, postal_code) values (669, '283 Kedzie Center', 'Honolulu', 'United States', 66809);
-insert into region (region_id, region, city, country, postal_code) values (670, '29 Farwell Junction', 'Soko', 'Indonesia', 88550);
-insert into region (region_id, region, city, country, postal_code) values (671, '290 Sunfield Street', 'San Ramón de la Nueva Orán', 'Argentina', 24003);
-insert into region (region_id, region, city, country, postal_code) values (672, '3182 Burning Wood Terrace', 'Gizałki', 'Poland', 39465);
-insert into region (region_id, region, city, country, postal_code) values (673, '4358 Sugar Way', 'Qiaotou', 'China', 32759);
-insert into region (region_id, region, city, country, postal_code) values (674, '9004 Mendota Avenue', 'Yanahuaya', 'Peru', 44313);
-insert into region (region_id, region, city, country, postal_code) values (675, '99 Manufacturers Place', 'Progreso', 'Mexico', 85396);
-insert into region (region_id, region, city, country, postal_code) values (676, '3561 Goodland Alley', 'Huashi', 'China', 18167);
-insert into region (region_id, region, city, country, postal_code) values (677, '2 Express Lane', 'Austin', 'United States', 47650);
-insert into region (region_id, region, city, country, postal_code) values (678, '208 Colorado Parkway', 'Puan', 'Argentina', 32647);
-insert into region (region_id, region, city, country, postal_code) values (679, '7765 Springs Court', 'Jawand', 'Afghanistan', 15427);
-insert into region (region_id, region, city, country, postal_code) values (680, '4 Thierer Place', 'Miaoqian', 'China', 22870);
-insert into region (region_id, region, city, country, postal_code) values (681, '9 Monica Plaza', 'Kourou', 'French Guiana', 65367);
-insert into region (region_id, region, city, country, postal_code) values (682, '0332 Mitchell Alley', 'Malaga', 'Spain', 64736);
-insert into region (region_id, region, city, country, postal_code) values (683, '8982 Harbort Junction', 'Tagbacan Ibaba', 'Philippines', 10391);
-insert into region (region_id, region, city, country, postal_code) values (684, '19 Butterfield Avenue', 'Borås', 'Sweden', 12929);
-insert into region (region_id, region, city, country, postal_code) values (685, '39 Logan Junction', 'Tengah', 'Indonesia', 59673);
-insert into region (region_id, region, city, country, postal_code) values (686, '0 Carey Pass', 'Jiangzao', 'China', 64888);
-insert into region (region_id, region, city, country, postal_code) values (687, '794 Golf Hill', 'Bayanbulag', 'Mongolia', 22943);
-insert into region (region_id, region, city, country, postal_code) values (688, '633 Farragut Park', 'Meylan', 'France', 15829);
-insert into region (region_id, region, city, country, postal_code) values (689, '6561 Butternut Junction', 'Bacabal', 'Brazil', 42439);
-insert into region (region_id, region, city, country, postal_code) values (690, '8 Warrior Parkway', 'Jianshe', 'China', 16458);
-insert into region (region_id, region, city, country, postal_code) values (691, '1326 Gulseth Center', 'San Sebastian', 'Mexico', 63880);
-insert into region (region_id, region, city, country, postal_code) values (692, '66668 Summerview Parkway', 'Ozerki', 'Russia', 81675);
-insert into region (region_id, region, city, country, postal_code) values (693, '85635 Clemons Alley', 'Kināna', 'Sudan', 96650);
-insert into region (region_id, region, city, country, postal_code) values (694, '4798 Northland Road', 'Catujal', 'Portugal', 48241);
-insert into region (region_id, region, city, country, postal_code) values (695, '7916 Dixon Park', 'Bellavista', 'Mexico', 32692);
-insert into region (region_id, region, city, country, postal_code) values (696, '7 Di Loreto Pass', 'Södertälje', 'Sweden', 41158);
-insert into region (region_id, region, city, country, postal_code) values (697, '66190 Kim Lane', 'Tambakromo', 'Indonesia', 96298);
-insert into region (region_id, region, city, country, postal_code) values (698, '3076 Melvin Terrace', 'Penhascoso', 'Portugal', 12754);
-insert into region (region_id, region, city, country, postal_code) values (699, '09 Caliangt Avenue', 'Kingsport', 'United States', 42209);
-insert into region (region_id, region, city, country, postal_code) values (700, '93695 Division Circle', 'Isahaya', 'Japan', 49851);
-insert into region (region_id, region, city, country, postal_code) values (701, '42 Kipling Crossing', 'Quintãs', 'Portugal', 74494);
-insert into region (region_id, region, city, country, postal_code) values (702, '43048 Brown Drive', 'Mladá Boleslav', 'Czech Republic', 47293);
-insert into region (region_id, region, city, country, postal_code) values (703, '25552 Blaine Parkway', 'Bayt ‘Awwā', 'Palestinian Territory', 82491);
-insert into region (region_id, region, city, country, postal_code) values (704, '7 Debra Street', 'Hrazdan', 'Armenia', 84016);
-insert into region (region_id, region, city, country, postal_code) values (705, '2645 Vera Plaza', 'Van Nuys', 'United States', 41363);
-insert into region (region_id, region, city, country, postal_code) values (706, '884 Butternut Court', 'Tinta', 'Peru', 26852);
-insert into region (region_id, region, city, country, postal_code) values (707, '6214 Hudson Circle', 'Harrison Brook', 'Canada', 51480);
-insert into region (region_id, region, city, country, postal_code) values (708, '1 Jana Parkway', 'San Diego', 'Philippines', 88207);
-insert into region (region_id, region, city, country, postal_code) values (709, '84 Hazelcrest Trail', 'Carlton', 'United Kingdom', 87025);
-insert into region (region_id, region, city, country, postal_code) values (710, '3353 Sycamore Hill', 'Novyy Karachay', 'Russia', 66073);
-insert into region (region_id, region, city, country, postal_code) values (711, '3567 Kingsford Pass', 'Berëzovskiy', 'Russia', 48303);
-insert into region (region_id, region, city, country, postal_code) values (712, '3 Goodland Road', 'Xinwu', 'China', 70077);
-insert into region (region_id, region, city, country, postal_code) values (713, '3346 Fair Oaks Alley', 'Ruoqiang', 'China', 79789);
-insert into region (region_id, region, city, country, postal_code) values (714, '0 Armistice Plaza', 'Huangqi', 'China', 78207);
-insert into region (region_id, region, city, country, postal_code) values (715, '36945 Del Sol Center', 'Gununglajang', 'Indonesia', 39501);
-insert into region (region_id, region, city, country, postal_code) values (716, '858 Arkansas Road', 'Vozuća', 'Bosnia and Herzegovina', 33461);
-insert into region (region_id, region, city, country, postal_code) values (717, '0164 Kenwood Trail', 'San Antonio de los Baños', 'Cuba', 30220);
-insert into region (region_id, region, city, country, postal_code) values (718, '40389 Sommers Court', 'Padangbatung', 'Indonesia', 18472);
-insert into region (region_id, region, city, country, postal_code) values (719, '40597 Cherokee Terrace', 'Independencia', 'Mexico', 82657);
-insert into region (region_id, region, city, country, postal_code) values (720, '081 Iowa Park', 'Umeå', 'Sweden', 54751);
-insert into region (region_id, region, city, country, postal_code) values (721, '53 Pankratz Plaza', 'Louisville', 'United States', 58841);
-insert into region (region_id, region, city, country, postal_code) values (722, '3 Carberry Crossing', 'Ankazobe', 'Madagascar', 88431);
-insert into region (region_id, region, city, country, postal_code) values (723, '656 Mallard Park', 'Girihieum', 'Indonesia', 11712);
-insert into region (region_id, region, city, country, postal_code) values (724, '52 Toban Point', 'Kaliasin', 'Indonesia', 48047);
-insert into region (region_id, region, city, country, postal_code) values (725, '370 Rieder Place', 'Easington', 'Jamaica', 65011);
-insert into region (region_id, region, city, country, postal_code) values (726, '98000 Village Plaza', 'Firenze', 'Italy', 53468);
-insert into region (region_id, region, city, country, postal_code) values (727, '2401 Pierstorff Avenue', 'Voskopojë', 'Albania', 34117);
-insert into region (region_id, region, city, country, postal_code) values (728, '2 Homewood Crossing', 'Gordeyevka', 'Russia', 45599);
-insert into region (region_id, region, city, country, postal_code) values (729, '7 Pearson Lane', 'Mojokerto', 'Indonesia', 42800);
-insert into region (region_id, region, city, country, postal_code) values (730, '63691 Caliangt Park', 'Gebang', 'Indonesia', 44099);
-insert into region (region_id, region, city, country, postal_code) values (731, '21966 Glacier Hill Street', 'Olho Marinho', 'Portugal', 35987);
-insert into region (region_id, region, city, country, postal_code) values (732, '1 Prentice Crossing', 'Hošťka', 'Czech Republic', 42038);
-insert into region (region_id, region, city, country, postal_code) values (733, '6785 Everett Terrace', 'Ta Khmau', 'Cambodia', 19578);
-insert into region (region_id, region, city, country, postal_code) values (734, '986 Hallows Center', 'Tōbetsu', 'Japan', 88117);
-insert into region (region_id, region, city, country, postal_code) values (735, '873 Westerfield Center', 'Kericho', 'Kenya', 58390);
-insert into region (region_id, region, city, country, postal_code) values (736, '7 Paget Way', 'Dusun Tengah Cihaurbeuti', 'Indonesia', 74749);
-insert into region (region_id, region, city, country, postal_code) values (737, '4 Caliangt Pass', 'Ajdabiya', 'Libya', 51339);
-insert into region (region_id, region, city, country, postal_code) values (738, '1 Miller Place', 'Novokubansk', 'Russia', 74277);
-insert into region (region_id, region, city, country, postal_code) values (739, '334 Charing Cross Plaza', 'Stung Treng', 'Cambodia', 34359);
-insert into region (region_id, region, city, country, postal_code) values (740, '666 Straubel Pass', 'Changbu', 'China', 77091);
-insert into region (region_id, region, city, country, postal_code) values (741, '8 Shopko Court', 'Suileng', 'China', 13133);
-insert into region (region_id, region, city, country, postal_code) values (742, '72 Elka Circle', 'Karamat', 'Indonesia', 75900);
-insert into region (region_id, region, city, country, postal_code) values (743, '08307 Lindbergh Crossing', 'Junqueiro', 'Portugal', 53658);
-insert into region (region_id, region, city, country, postal_code) values (744, '5336 Pearson Circle', 'Nagasari', 'Indonesia', 97108);
-insert into region (region_id, region, city, country, postal_code) values (745, '6616 Myrtle Way', 'Carpenter', 'Philippines', 68511);
-insert into region (region_id, region, city, country, postal_code) values (746, '47 David Street', 'Yunga', 'Peru', 49649);
-insert into region (region_id, region, city, country, postal_code) values (747, '71012 Dorton Crossing', 'Izyaslav', 'Ukraine', 73986);
-insert into region (region_id, region, city, country, postal_code) values (748, '2626 Northwestern Street', 'Baní', 'Dominican Republic', 35642);
-insert into region (region_id, region, city, country, postal_code) values (749, '4498 Westend Place', 'Siasi', 'Philippines', 62970);
-insert into region (region_id, region, city, country, postal_code) values (750, '8 Superior Avenue', 'Dolulolong', 'Indonesia', 99690);
-insert into region (region_id, region, city, country, postal_code) values (751, '38 Bluejay Place', 'Ingå', 'Finland', 80182);
-insert into region (region_id, region, city, country, postal_code) values (752, '8812 Summit Point', 'Mardīān', 'Afghanistan', 97126);
-insert into region (region_id, region, city, country, postal_code) values (753, '025 Lawn Park', 'Jiujiang', 'China', 37945);
-insert into region (region_id, region, city, country, postal_code) values (754, '2789 Packers Park', 'Hongqi', 'China', 27959);
-insert into region (region_id, region, city, country, postal_code) values (755, '25678 Bluejay Trail', 'Pueblo Viejo', 'Panama', 12622);
-insert into region (region_id, region, city, country, postal_code) values (756, '7 Mosinee Parkway', 'Angoulême', 'France', 97291);
-insert into region (region_id, region, city, country, postal_code) values (757, '23613 Schurz Alley', 'Mina Clavero', 'Argentina', 26812);
-insert into region (region_id, region, city, country, postal_code) values (758, '6 Almo Alley', 'Clearwater', 'United States', 64668);
-insert into region (region_id, region, city, country, postal_code) values (759, '7027 Algoma Lane', 'Putou', 'China', 34532);
-insert into region (region_id, region, city, country, postal_code) values (760, '516 Pleasure Park', 'Tyrawa Wołoska', 'Poland', 40299);
-insert into region (region_id, region, city, country, postal_code) values (761, '7 Sycamore Alley', 'San Antonio', 'Peru', 72357);
-insert into region (region_id, region, city, country, postal_code) values (762, '4 Oak Park', 'Kíti', 'Cyprus', 14441);
-insert into region (region_id, region, city, country, postal_code) values (763, '763 Esch Parkway', 'Kowang Utara', 'Indonesia', 69170);
-insert into region (region_id, region, city, country, postal_code) values (764, '23627 Redwing Plaza', 'Teluksantong', 'Indonesia', 11747);
-insert into region (region_id, region, city, country, postal_code) values (765, '3 Dovetail Center', 'Qŭshkŭpir', 'Uzbekistan', 21519);
-insert into region (region_id, region, city, country, postal_code) values (766, '1 Calypso Way', 'Funabashi', 'Japan', 85091);
-insert into region (region_id, region, city, country, postal_code) values (767, '1413 Riverside Park', 'Tilburg', 'Netherlands', 77883);
-insert into region (region_id, region, city, country, postal_code) values (768, '84 Prairie Rose Place', 'Nyaungdon', 'Myanmar', 42216);
-insert into region (region_id, region, city, country, postal_code) values (769, '11 Kim Place', 'Vakhsh', 'Tajikistan', 98781);
-insert into region (region_id, region, city, country, postal_code) values (770, '33887 Tomscot Lane', 'Kivertsi', 'Ukraine', 67576);
-insert into region (region_id, region, city, country, postal_code) values (771, '7 Sugar Way', 'Vila Boa do Bispo', 'Portugal', 23094);
-insert into region (region_id, region, city, country, postal_code) values (772, '294 Emmet Junction', 'San Lorenzo', 'Mexico', 63389);
-insert into region (region_id, region, city, country, postal_code) values (773, '7 Helena Junction', 'San Diego', 'Philippines', 38701);
-insert into region (region_id, region, city, country, postal_code) values (774, '5 Dovetail Drive', 'Pasirlaja', 'Indonesia', 30450);
-insert into region (region_id, region, city, country, postal_code) values (775, '1 Moose Avenue', 'Skwierzyna', 'Poland', 74540);
-insert into region (region_id, region, city, country, postal_code) values (776, '246 Dahle Terrace', 'Niš', 'Serbia', 31844);
-insert into region (region_id, region, city, country, postal_code) values (777, '3 South Park', 'Ortigueira', 'Brazil', 75693);
-insert into region (region_id, region, city, country, postal_code) values (778, '2 Shasta Alley', 'Goundi', 'Chad', 67500);
-insert into region (region_id, region, city, country, postal_code) values (779, '12888 Talisman Plaza', 'Machado', 'Brazil', 99441);
-insert into region (region_id, region, city, country, postal_code) values (780, '02434 Surrey Hill', 'Los Charrúas', 'Argentina', 69236);
-insert into region (region_id, region, city, country, postal_code) values (781, '5 Valley Edge Lane', 'Calheta', 'Cape Verde', 84086);
-insert into region (region_id, region, city, country, postal_code) values (782, '91 Esch Alley', 'Skórcz', 'Poland', 65495);
-insert into region (region_id, region, city, country, postal_code) values (783, '2 Anderson Lane', 'Évora', 'Portugal', 55067);
-insert into region (region_id, region, city, country, postal_code) values (784, '3920 Vermont Parkway', 'Liandu', 'China', 24468);
-insert into region (region_id, region, city, country, postal_code) values (785, '45 Lindbergh Junction', 'Bloomington', 'United States', 68539);
-insert into region (region_id, region, city, country, postal_code) values (786, '09 Red Cloud Center', 'Springfield', 'United States', 33838);
-insert into region (region_id, region, city, country, postal_code) values (787, '3235 Sugar Street', 'Khanino', 'Russia', 22313);
-insert into region (region_id, region, city, country, postal_code) values (788, '62 Green Alley', 'Fanhu', 'China', 89105);
-insert into region (region_id, region, city, country, postal_code) values (789, '8539 Westend Pass', 'Ożarowice', 'Poland', 93858);
-insert into region (region_id, region, city, country, postal_code) values (790, '887 Morrow Center', 'Deje', 'Sweden', 72936);
-insert into region (region_id, region, city, country, postal_code) values (791, '76107 Meadow Ridge Terrace', 'Jiangkou', 'China', 63863);
-insert into region (region_id, region, city, country, postal_code) values (792, '12 Dakota Center', 'Vredefort', 'South Africa', 93247);
-insert into region (region_id, region, city, country, postal_code) values (793, '95049 Cody Junction', 'Castelo', 'Portugal', 66684);
-insert into region (region_id, region, city, country, postal_code) values (794, '54 David Center', 'Unión', 'Paraguay', 49351);
-insert into region (region_id, region, city, country, postal_code) values (795, '0 Hallows Park', 'Sheffield', 'United Kingdom', 24785);
-insert into region (region_id, region, city, country, postal_code) values (796, '77 Clemons Point', 'Otaslavice', 'Czech Republic', 67981);
-insert into region (region_id, region, city, country, postal_code) values (797, '35506 Sunnyside Junction', 'Korniyivka', 'Ukraine', 77749);
-insert into region (region_id, region, city, country, postal_code) values (798, '4 Evergreen Street', 'Dadapan', 'Indonesia', 99712);
-insert into region (region_id, region, city, country, postal_code) values (799, '3 Fairfield Pass', 'Cikaso', 'Indonesia', 66357);
-insert into region (region_id, region, city, country, postal_code) values (800, '7895 Trailsway Pass', 'Žabčice', 'Czech Republic', 18245);
-insert into region (region_id, region, city, country, postal_code) values (801, '11272 Blaine Plaza', 'Colares', 'Portugal', 87704);
-insert into region (region_id, region, city, country, postal_code) values (802, '7 Cardinal Junction', 'Kedungdoro', 'Indonesia', 70598);
-insert into region (region_id, region, city, country, postal_code) values (803, '07508 Old Shore Alley', 'Dandu', 'China', 33144);
-insert into region (region_id, region, city, country, postal_code) values (804, '50031 Canary Crossing', 'Tomilino', 'Russia', 56188);
-insert into region (region_id, region, city, country, postal_code) values (805, '17 Main Street', 'Inglewood', 'United States', 32325);
-insert into region (region_id, region, city, country, postal_code) values (806, '69 Rutledge Point', 'Muslyumovo', 'Russia', 68170);
-insert into region (region_id, region, city, country, postal_code) values (807, '953 Mosinee Parkway', 'Mascote', 'Brazil', 72803);
-insert into region (region_id, region, city, country, postal_code) values (808, '3 Starling Trail', 'Arujá', 'Brazil', 72606);
-insert into region (region_id, region, city, country, postal_code) values (809, '79 Luster Pass', 'Albufeira', 'Portugal', 55079);
-insert into region (region_id, region, city, country, postal_code) values (810, '3 Doe Crossing Lane', 'Sindangrasa', 'Indonesia', 90545);
-insert into region (region_id, region, city, country, postal_code) values (811, '898 Spaight Park', 'Lakatoro', 'Vanuatu', 41760);
-insert into region (region_id, region, city, country, postal_code) values (812, '3387 Old Gate Road', 'Hekou', 'China', 86164);
-insert into region (region_id, region, city, country, postal_code) values (813, '82 Weeping Birch Terrace', 'San Sebastian', 'Mexico', 83867);
-insert into region (region_id, region, city, country, postal_code) values (814, '3 Village Green Center', 'Walnut Grove', 'Canada', 30011);
-insert into region (region_id, region, city, country, postal_code) values (815, '63768 Continental Junction', 'Smętowo Graniczne', 'Poland', 73348);
-insert into region (region_id, region, city, country, postal_code) values (816, '4 Mccormick Drive', 'Kilim', 'Philippines', 93483);
-insert into region (region_id, region, city, country, postal_code) values (817, '515 Mariners Cove Plaza', 'Piaocao', 'China', 40332);
-insert into region (region_id, region, city, country, postal_code) values (818, '02930 Columbus Trail', 'Lincuo', 'China', 89093);
-insert into region (region_id, region, city, country, postal_code) values (819, '32702 Brown Hill', 'Krajan Kerjo', 'Indonesia', 31243);
-insert into region (region_id, region, city, country, postal_code) values (820, '85142 Magdeline Center', 'Fusheng', 'China', 90759);
-insert into region (region_id, region, city, country, postal_code) values (821, '7148 Continental Drive', 'Göteborg', 'Sweden', 97292);
-insert into region (region_id, region, city, country, postal_code) values (822, '8 Village Green Street', 'Fufang', 'China', 46866);
-insert into region (region_id, region, city, country, postal_code) values (823, '89208 Carey Avenue', 'Shanghuang', 'China', 89032);
-insert into region (region_id, region, city, country, postal_code) values (824, '0026 Division Terrace', 'Novoorsk', 'Russia', 55083);
-insert into region (region_id, region, city, country, postal_code) values (825, '684 Corben Alley', 'General Ramírez', 'Argentina', 81451);
-insert into region (region_id, region, city, country, postal_code) values (826, '675 Troy Terrace', 'Bombarral', 'Portugal', 73313);
-insert into region (region_id, region, city, country, postal_code) values (827, '641 Sherman Center', 'Visby', 'Sweden', 79657);
-insert into region (region_id, region, city, country, postal_code) values (828, '26755 Talisman Point', 'Sukacai Tengah', 'Indonesia', 68542);
-insert into region (region_id, region, city, country, postal_code) values (829, '88076 Hoepker Terrace', 'Napoli', 'Italy', 13507);
-insert into region (region_id, region, city, country, postal_code) values (830, '4430 Schurz Pass', 'Kukur', 'Albania', 83560);
-insert into region (region_id, region, city, country, postal_code) values (831, '36532 Waxwing Center', 'Srinagarindra', 'Thailand', 24737);
-insert into region (region_id, region, city, country, postal_code) values (832, '8 Washington Circle', 'Konsoy', 'Tajikistan', 87041);
-insert into region (region_id, region, city, country, postal_code) values (833, '7 Pankratz Center', 'Thị Trấn Triệu Sơn', 'Vietnam', 86455);
-insert into region (region_id, region, city, country, postal_code) values (834, '8247 Bowman Street', 'Coayllo', 'Peru', 24759);
-insert into region (region_id, region, city, country, postal_code) values (835, '775 Harbort Plaza', 'Novo-Nikol’skoye', 'Russia', 44065);
-insert into region (region_id, region, city, country, postal_code) values (836, '98893 Everett Trail', 'Huangbu', 'China', 65704);
-insert into region (region_id, region, city, country, postal_code) values (837, '9993 Lillian Parkway', 'Komarno', 'Ukraine', 61571);
-insert into region (region_id, region, city, country, postal_code) values (838, '9240 Helena Alley', 'Gobernador Costa', 'Argentina', 28427);
-insert into region (region_id, region, city, country, postal_code) values (839, '7 Daystar Trail', 'Careva Ćuprija', 'Bosnia and Herzegovina', 62693);
-insert into region (region_id, region, city, country, postal_code) values (840, '60673 Northfield Circle', 'Oesao', 'Indonesia', 93956);
-insert into region (region_id, region, city, country, postal_code) values (841, '338 Sycamore Point', 'Ishim', 'Russia', 34357);
-insert into region (region_id, region, city, country, postal_code) values (842, '52 Eagan Drive', 'Monte Novo', 'Portugal', 51312);
-insert into region (region_id, region, city, country, postal_code) values (843, '6 Fisk Place', 'Banatsko Veliko Selo', 'Serbia', 88774);
-insert into region (region_id, region, city, country, postal_code) values (844, '3 Kinsman Court', 'Bourges', 'France', 70462);
-insert into region (region_id, region, city, country, postal_code) values (845, '984 Hoepker Lane', 'Hushan', 'China', 86932);
-insert into region (region_id, region, city, country, postal_code) values (846, '04 Laurel Point', 'Zalesnoye', 'Ukraine', 79586);
-insert into region (region_id, region, city, country, postal_code) values (847, '170 Starling Junction', 'Vawkavysk', 'Belarus', 68773);
-insert into region (region_id, region, city, country, postal_code) values (848, '130 Linden Hill', 'Rîbniţa', 'Moldova', 53444);
-insert into region (region_id, region, city, country, postal_code) values (849, '7 Northridge Road', 'Tanggulangin', 'Indonesia', 44332);
-insert into region (region_id, region, city, country, postal_code) values (850, '0 Menomonie Crossing', 'Golynki', 'Russia', 39101);
-insert into region (region_id, region, city, country, postal_code) values (851, '2 Ramsey Park', 'Thanh Xuân', 'Vietnam', 54132);
-insert into region (region_id, region, city, country, postal_code) values (852, '41658 Moose Park', 'Parrsboro', 'Canada', 35321);
-insert into region (region_id, region, city, country, postal_code) values (853, '6 Logan Hill', 'Isiolo', 'Kenya', 73720);
-insert into region (region_id, region, city, country, postal_code) values (854, '18709 Lyons Place', 'Borovo', 'Bulgaria', 77399);
-insert into region (region_id, region, city, country, postal_code) values (855, '6 Ohio Trail', 'Rossosh’', 'Russia', 89054);
-insert into region (region_id, region, city, country, postal_code) values (856, '201 Bluestem Trail', 'Valencia', 'Philippines', 60597);
-insert into region (region_id, region, city, country, postal_code) values (857, '8472 Pine View Alley', 'Corgo', 'Portugal', 46389);
-insert into region (region_id, region, city, country, postal_code) values (858, '25 Hermina Trail', 'Askersund', 'Sweden', 69153);
-insert into region (region_id, region, city, country, postal_code) values (859, '1 Spaight Trail', 'Waigete', 'Indonesia', 12000);
-insert into region (region_id, region, city, country, postal_code) values (860, '8 Scoville Plaza', 'Talugtug', 'Philippines', 17797);
-insert into region (region_id, region, city, country, postal_code) values (861, '07342 Bunting Lane', 'Rio Negrinho', 'Brazil', 31318);
-insert into region (region_id, region, city, country, postal_code) values (862, '11 Homewood Road', 'Gamay', 'Philippines', 67424);
-insert into region (region_id, region, city, country, postal_code) values (863, '69478 Merry Street', 'Brunflo', 'Sweden', 84492);
-insert into region (region_id, region, city, country, postal_code) values (864, '629 Hallows Circle', 'Pagersari', 'Indonesia', 74503);
-insert into region (region_id, region, city, country, postal_code) values (865, '27 Novick Avenue', 'Zorgo', 'Burkina Faso', 47157);
-insert into region (region_id, region, city, country, postal_code) values (866, '125 Judy Junction', 'Elverum', 'Norway', 30993);
-insert into region (region_id, region, city, country, postal_code) values (867, '96933 Sugar Place', 'San Miguel', 'Mexico', 49922);
-insert into region (region_id, region, city, country, postal_code) values (868, '2 Stuart Circle', 'Huangcai', 'China', 20403);
-insert into region (region_id, region, city, country, postal_code) values (869, '4 Atwood Point', 'Skulsk', 'Poland', 67122);
-insert into region (region_id, region, city, country, postal_code) values (870, '8734 Dennis Road', 'Zhongpai', 'China', 58799);
-insert into region (region_id, region, city, country, postal_code) values (871, '8821 Cottonwood Parkway', 'Kašina', 'Croatia', 49533);
-insert into region (region_id, region, city, country, postal_code) values (872, '38996 2nd Court', 'Grigiškės', 'Lithuania', 74307);
-insert into region (region_id, region, city, country, postal_code) values (873, '6143 Arkansas Parkway', 'Miguel Hidalgo', 'Mexico', 95772);
-insert into region (region_id, region, city, country, postal_code) values (874, '68 Fieldstone Alley', 'As Suwaydā’', 'Syria', 24719);
-insert into region (region_id, region, city, country, postal_code) values (875, '03 Sherman Parkway', 'Monching', 'Philippines', 88281);
-insert into region (region_id, region, city, country, postal_code) values (876, '3601 Crescent Oaks Drive', 'Kawambwa', 'Zambia', 78571);
-insert into region (region_id, region, city, country, postal_code) values (877, '2094 Cottonwood Center', 'Coulommiers', 'France', 39779);
-insert into region (region_id, region, city, country, postal_code) values (878, '3647 Stang Park', 'Veyno', 'Belarus', 27524);
-insert into region (region_id, region, city, country, postal_code) values (879, '3 Sage Way', 'Szombathely', 'Hungary', 93978);
-insert into region (region_id, region, city, country, postal_code) values (880, '0366 North Circle', 'Salaspils', 'Latvia', 43639);
-insert into region (region_id, region, city, country, postal_code) values (881, '9 Village Junction', 'Varva', 'Ukraine', 19365);
-insert into region (region_id, region, city, country, postal_code) values (882, '8733 Colorado Drive', 'Youwarou', 'Mali', 14815);
-insert into region (region_id, region, city, country, postal_code) values (883, '9 Bayside Pass', 'Sonorejo', 'Indonesia', 78190);
-insert into region (region_id, region, city, country, postal_code) values (884, '7 Spenser Lane', 'Nesterov', 'Russia', 54359);
-insert into region (region_id, region, city, country, postal_code) values (885, '1 La Follette Park', 'Liushikou', 'China', 64233);
-insert into region (region_id, region, city, country, postal_code) values (886, '009 Pawling Parkway', 'Huangyang', 'China', 65006);
-insert into region (region_id, region, city, country, postal_code) values (887, '7641 Hermina Terrace', 'Tanxi', 'China', 12226);
-insert into region (region_id, region, city, country, postal_code) values (888, '1692 Arkansas Road', 'Moulay Bouchta', 'Morocco', 60105);
-insert into region (region_id, region, city, country, postal_code) values (889, '9778 Oriole Crossing', 'Velika', 'Croatia', 45351);
-insert into region (region_id, region, city, country, postal_code) values (890, '50706 Kipling Road', 'Amangarh', 'Pakistan', 15931);
-insert into region (region_id, region, city, country, postal_code) values (891, '5361 Novick Way', 'Kakhovka', 'Ukraine', 96259);
-insert into region (region_id, region, city, country, postal_code) values (892, '156 Sunfield Pass', 'Lafayette', 'United States', 80670);
-insert into region (region_id, region, city, country, postal_code) values (893, '93659 School Park', 'Fuenlabrada', 'Spain', 97669);
-insert into region (region_id, region, city, country, postal_code) values (894, '8277 Butternut Center', 'Verona', 'Italy', 64239);
-insert into region (region_id, region, city, country, postal_code) values (895, '849 Ryan Trail', 'Los Pinos', 'Mexico', 49029);
-insert into region (region_id, region, city, country, postal_code) values (896, '3048 Duke Junction', 'San Fernando', 'Honduras', 35987);
-insert into region (region_id, region, city, country, postal_code) values (897, '71888 Cherokee Place', 'Hartford', 'United States', 42836);
-insert into region (region_id, region, city, country, postal_code) values (898, '7 Schmedeman Trail', 'Beltinci', 'Slovenia', 77286);
-insert into region (region_id, region, city, country, postal_code) values (899, '5 Cherokee Center', 'San Vicente de Moravia', 'Costa Rica', 48349);
-insert into region (region_id, region, city, country, postal_code) values (900, '8 Dakota Circle', 'Topi', 'Pakistan', 78725);
-insert into region (region_id, region, city, country, postal_code) values (901, '0424 Redwing Junction', 'Riangbao', 'Indonesia', 69041);
-insert into region (region_id, region, city, country, postal_code) values (902, '848 Ruskin Alley', 'Xiyang', 'China', 47109);
-insert into region (region_id, region, city, country, postal_code) values (903, '33 Bartillon Point', 'Vorzel’', 'Ukraine', 55688);
-insert into region (region_id, region, city, country, postal_code) values (904, '475 Springview Court', 'Miastko', 'Poland', 27969);
-insert into region (region_id, region, city, country, postal_code) values (905, '91 Delladonna Avenue', 'Pangkalan', 'Indonesia', 78429);
-insert into region (region_id, region, city, country, postal_code) values (906, '757 Rieder Park', 'Santiago', 'Philippines', 58580);
-insert into region (region_id, region, city, country, postal_code) values (907, '46 Blue Bill Park Circle', 'Lovrenc na Pohorju', 'Slovenia', 17254);
-insert into region (region_id, region, city, country, postal_code) values (908, '40248 Packers Crossing', 'Kendalrejo', 'Indonesia', 36512);
-insert into region (region_id, region, city, country, postal_code) values (909, '8655 Manitowish Crossing', 'Weizhou', 'China', 16216);
-insert into region (region_id, region, city, country, postal_code) values (910, '545 Union Junction', 'Chunhua', 'China', 45762);
-insert into region (region_id, region, city, country, postal_code) values (911, '60 Caliangt Point', 'Kuala Terengganu', 'Malaysia', 15139);
-insert into region (region_id, region, city, country, postal_code) values (912, '85 East Plaza', 'Kasama', 'Zambia', 50709);
-insert into region (region_id, region, city, country, postal_code) values (913, '819 Mcbride Alley', 'Agboville', 'Ivory Coast', 38519);
-insert into region (region_id, region, city, country, postal_code) values (914, '03 Warner Street', 'Dijon', 'France', 22792);
-insert into region (region_id, region, city, country, postal_code) values (915, '59 Montana Alley', 'Pedro Carbo', 'Ecuador', 23141);
-insert into region (region_id, region, city, country, postal_code) values (916, '7 Valley Edge Street', 'Almeria', 'Philippines', 66217);
-insert into region (region_id, region, city, country, postal_code) values (917, '26615 Longview Lane', 'Domašinec', 'Croatia', 60359);
-insert into region (region_id, region, city, country, postal_code) values (918, '447 Michigan Hill', 'La Caya', 'Dominican Republic', 62564);
-insert into region (region_id, region, city, country, postal_code) values (919, '5067 Haas Way', 'Orahovica', 'Croatia', 92572);
-insert into region (region_id, region, city, country, postal_code) values (920, '1685 Express Alley', 'Callahuanca', 'Peru', 62024);
-insert into region (region_id, region, city, country, postal_code) values (921, '69248 Paget Circle', 'Hengli', 'China', 81371);
-insert into region (region_id, region, city, country, postal_code) values (922, '905 Blackbird Lane', 'Shiban', 'China', 43562);
-insert into region (region_id, region, city, country, postal_code) values (923, '780 Homewood Court', 'Daojiang', 'China', 14806);
-insert into region (region_id, region, city, country, postal_code) values (924, '4108 Banding Street', 'Tawau', 'Malaysia', 38938);
-insert into region (region_id, region, city, country, postal_code) values (925, '22143 Annamark Junction', 'Yuktae-dong', 'North Korea', 89244);
-insert into region (region_id, region, city, country, postal_code) values (926, '2103 Spohn Way', 'Nizhnyaya Omka', 'Russia', 16540);
-insert into region (region_id, region, city, country, postal_code) values (927, '7 Becker Parkway', 'Kuzhorskaya', 'Russia', 56982);
-insert into region (region_id, region, city, country, postal_code) values (928, '4643 Dawn Alley', 'Lakatnik', 'Bulgaria', 25190);
-insert into region (region_id, region, city, country, postal_code) values (929, '2833 Buena Vista Point', 'Zhutuo', 'China', 36269);
-insert into region (region_id, region, city, country, postal_code) values (930, '14 Carioca Circle', 'Medeiros Neto', 'Brazil', 61170);
-insert into region (region_id, region, city, country, postal_code) values (931, '991 Brickson Park Center', 'Rio Negrinho', 'Brazil', 54826);
-insert into region (region_id, region, city, country, postal_code) values (932, '94847 Memorial Place', 'Eskilstuna', 'Sweden', 69864);
-insert into region (region_id, region, city, country, postal_code) values (933, '4231 Cody Trail', 'San Carlos', 'Bolivia', 53421);
-insert into region (region_id, region, city, country, postal_code) values (934, '10525 Johnson Road', 'Media Luna', 'Cuba', 80126);
-insert into region (region_id, region, city, country, postal_code) values (935, '847 Cherokee Avenue', 'Flandes', 'Colombia', 54435);
-insert into region (region_id, region, city, country, postal_code) values (936, '78331 Montana Street', 'Gīvī', 'Iran', 62946);
-insert into region (region_id, region, city, country, postal_code) values (937, '0 Mifflin Terrace', 'Binangun', 'Indonesia', 39316);
-insert into region (region_id, region, city, country, postal_code) values (938, '15422 Morning Avenue', 'Jajawai', 'Indonesia', 21672);
-insert into region (region_id, region, city, country, postal_code) values (939, '03852 Rockefeller Circle', 'Sophia Antipolis', 'France', 97175);
-insert into region (region_id, region, city, country, postal_code) values (940, '9 Eliot Center', 'Kastsyukovichy', 'Belarus', 48561);
-insert into region (region_id, region, city, country, postal_code) values (941, '05174 Hintze Center', 'Rufino', 'Argentina', 32096);
-insert into region (region_id, region, city, country, postal_code) values (942, '26 Buena Vista Place', 'La Unión', 'Venezuela', 81743);
-insert into region (region_id, region, city, country, postal_code) values (943, '3 Thierer Plaza', 'Kyaikkami', 'Myanmar', 41085);
-insert into region (region_id, region, city, country, postal_code) values (944, '094 Loeprich Place', 'Staroshcherbinovskaya', 'Russia', 78390);
-insert into region (region_id, region, city, country, postal_code) values (945, '583 Fairfield Hill', 'Malausma Kidul', 'Indonesia', 29244);
-insert into region (region_id, region, city, country, postal_code) values (946, '1 Lerdahl Court', 'Huitong', 'China', 98152);
-insert into region (region_id, region, city, country, postal_code) values (947, '8069 Farragut Parkway', 'Boston', 'United States', 85168);
-insert into region (region_id, region, city, country, postal_code) values (948, '195 Old Gate Road', 'Léo', 'Burkina Faso', 21727);
-insert into region (region_id, region, city, country, postal_code) values (949, '41823 Hintze Trail', 'Cicayur', 'Indonesia', 22690);
-insert into region (region_id, region, city, country, postal_code) values (950, '8 Reindahl Lane', 'Alexandria', 'Egypt', 36972);
-insert into region (region_id, region, city, country, postal_code) values (951, '0 Hoard Plaza', 'Nay Pyi Taw', 'Myanmar', 11984);
-insert into region (region_id, region, city, country, postal_code) values (952, '2 North Lane', 'Pryvol’ny', 'Belarus', 76465);
-insert into region (region_id, region, city, country, postal_code) values (953, '983 Northwestern Drive', 'Guri i Zi', 'Albania', 42824);
-insert into region (region_id, region, city, country, postal_code) values (954, '9 Chive Center', 'Staroutkinsk', 'Russia', 62008);
-insert into region (region_id, region, city, country, postal_code) values (955, '1 Starling Plaza', 'Paraguaçu', 'Brazil', 94017);
-insert into region (region_id, region, city, country, postal_code) values (956, '035 Longview Lane', 'Hammam-Lif', 'Tunisia', 81125);
-insert into region (region_id, region, city, country, postal_code) values (957, '8396 Talisman Crossing', 'Taha Man Zu', 'China', 87908);
-insert into region (region_id, region, city, country, postal_code) values (958, '2 Badeau Point', 'Villeneuve-la-Garenne', 'France', 34541);
-insert into region (region_id, region, city, country, postal_code) values (959, '8632 Waubesa Lane', 'Xinhua', 'China', 74076);
-insert into region (region_id, region, city, country, postal_code) values (960, '18486 Westport Plaza', 'Amiens', 'France', 51068);
-insert into region (region_id, region, city, country, postal_code) values (961, '4768 Kipling Way', 'Strizhi', 'Russia', 81810);
-insert into region (region_id, region, city, country, postal_code) values (962, '41 Lillian Junction', 'Balatero', 'Philippines', 47678);
-insert into region (region_id, region, city, country, postal_code) values (963, '6416 Park Meadow Avenue', 'El Copey', 'Colombia', 61536);
-insert into region (region_id, region, city, country, postal_code) values (964, '690 Superior Terrace', 'Tokār', 'Sudan', 67723);
-insert into region (region_id, region, city, country, postal_code) values (965, '0 Brickson Park Way', 'Khān Shaykhūn', 'Syria', 67237);
-insert into region (region_id, region, city, country, postal_code) values (966, '116 Carberry Circle', 'Kinmparana', 'Mali', 94847);
-insert into region (region_id, region, city, country, postal_code) values (967, '007 Daystar Road', 'Sarbīsheh', 'Iran', 74524);
-insert into region (region_id, region, city, country, postal_code) values (968, '71 Golf Course Drive', 'Atalhada', 'Portugal', 67104);
-insert into region (region_id, region, city, country, postal_code) values (969, '4595 Karstens Drive', 'Yixin', 'China', 87590);
-insert into region (region_id, region, city, country, postal_code) values (970, '15083 Northfield Parkway', 'Soraya', 'Peru', 55409);
-insert into region (region_id, region, city, country, postal_code) values (971, '9 American Ash Point', 'Huangshanguan', 'China', 99262);
-insert into region (region_id, region, city, country, postal_code) values (972, '736 Mcbride Crossing', 'Chemerivtsi', 'Ukraine', 47940);
-insert into region (region_id, region, city, country, postal_code) values (973, '8961 Lakewood Trail', 'Santo Amaro da Imperatriz', 'Brazil', 75420);
-insert into region (region_id, region, city, country, postal_code) values (974, '7 Clyde Gallagher Street', 'Barcelona', 'Spain', 89607);
-insert into region (region_id, region, city, country, postal_code) values (975, '8 Scott Lane', 'Konice', 'Czech Republic', 28099);
-insert into region (region_id, region, city, country, postal_code) values (976, '537 Esker Center', 'Karpacz', 'Poland', 78560);
-insert into region (region_id, region, city, country, postal_code) values (977, '1941 Saint Paul Terrace', 'Guyangan', 'Indonesia', 23640);
-insert into region (region_id, region, city, country, postal_code) values (978, '519 Vera Trail', 'Mauraro', 'Philippines', 59713);
-insert into region (region_id, region, city, country, postal_code) values (979, '32597 International Park', 'Xinxikou', 'China', 88599);
-insert into region (region_id, region, city, country, postal_code) values (980, '01 Dahle Street', 'Klenica', 'Poland', 18500);
-insert into region (region_id, region, city, country, postal_code) values (981, '0713 Crescent Oaks Pass', 'Long’an Chengxiangzhen', 'China', 95572);
-insert into region (region_id, region, city, country, postal_code) values (982, '98892 Tony Crossing', 'Yanglin', 'China', 51365);
-insert into region (region_id, region, city, country, postal_code) values (983, '5049 Westerfield Court', 'Lovran', 'Croatia', 53980);
-insert into region (region_id, region, city, country, postal_code) values (984, '317 International Street', 'Lukashin', 'Armenia', 25002);
-insert into region (region_id, region, city, country, postal_code) values (985, '5530 Artisan Avenue', 'Owo', 'Nigeria', 80748);
-insert into region (region_id, region, city, country, postal_code) values (986, '14223 Dennis Terrace', 'Trunovskoye', 'Russia', 81177);
-insert into region (region_id, region, city, country, postal_code) values (987, '41579 Loomis Alley', 'Changlin', 'China', 83910);
-insert into region (region_id, region, city, country, postal_code) values (988, '893 Stuart Circle', 'Ivry-sur-Seine', 'France', 11718);
-insert into region (region_id, region, city, country, postal_code) values (989, '60901 Roth Point', 'Emiliano Zapata', 'Mexico', 74679);
-insert into region (region_id, region, city, country, postal_code) values (990, '539 Armistice Parkway', 'Hermanus', 'South Africa', 74609);
-insert into region (region_id, region, city, country, postal_code) values (991, '9 Boyd Way', 'Glubokiy', 'Russia', 98003);
-insert into region (region_id, region, city, country, postal_code) values (992, '2517 Vermont Way', 'Uji', 'Japan', 48113);
-insert into region (region_id, region, city, country, postal_code) values (993, '921 Corry Place', 'Krajan Satu', 'Indonesia', 65745);
-insert into region (region_id, region, city, country, postal_code) values (994, '94 Sutherland Terrace', 'Cristóbal', 'Dominican Republic', 83691);
-insert into region (region_id, region, city, country, postal_code) values (995, '1 Iowa Street', 'Jalpatagua', 'Guatemala', 74743);
-insert into region (region_id, region, city, country, postal_code) values (996, '747 Bonner Court', 'Puerto Berrío', 'Colombia', 71383);
-insert into region (region_id, region, city, country, postal_code) values (997, '40 Marcy Drive', 'Sieroszewice', 'Poland', 78839);
-insert into region (region_id, region, city, country, postal_code) values (998, '412 Corscot Court', 'Lampang', 'Thailand', 67253);
-insert into region (region_id, region, city, country, postal_code) values (999, '92905 Transport Park', 'Solsona', 'Philippines', 73848);
-insert into region (region_id, region, city, country, postal_code) values (1000, '46614 Golf Trail', 'Símantra', 'Greece', 51818);
+delimiter //
+CREATE TRIGGER insert_order AFTER INSERT ON orderlist
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO transactions(
+          transaction_time, account_id, amount  
+        ) values(
+            NEW.order_date, NEW.account_id, NEW.amount
+        );
+        UPDATE account SET amount = amount - NEW.amount;
+    END;//
+delimiter ;
+
+delimiter //
+CREATE TRIGGER insert_guest AFTER INSERT ON guest
+    FOR EACH ROW
+    BEGIN
+        UPDATE user SET roles = 'Guest'
+        WHERE user_id = NEW.guest_id;
+    END;//
+delimiter ;
+
+delimiter //
+CREATE TRIGGER delete_guest AFTER DELETE ON guest
+    FOR EACH ROW
+    BEGIN
+        UPDATE user SET roles = NULL
+        WHERE user_id = OLD.guest_id;
+    END;//
+delimiter ;
+
+delimiter //
+CREATE TRIGGER delete_member AFTER DELETE ON member
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO guest (guest_id, region_id) VALUES (OLD.member_id, OLD.region_id);
+    END;//
+delimiter ;
+
+delimiter //
+CREATE TRIGGER insert_member AFTER INSERT ON member
+    FOR EACH ROW
+    BEGIN
+        DELETE FROM guest WHERE guest_id = NEW.member_id;
+        UPDATE user SET roles = 'Member'
+        WHERE user_id = NEW.member_id;
+    END;//
+delimiter ;
 
 
-insert into bank (bank_id, branch_name, region_id) values (1, 'Fusion Telecommunications International, Inc.', 495);
-insert into bank (bank_id, branch_name, region_id) values (2, 'EPAM Systems, Inc.', 102);
-insert into bank (bank_id, branch_name, region_id) values (3, 'Northrop Grumman Corporation', 542);
-insert into bank (bank_id, branch_name, region_id) values (4, 'BlackRock, Inc.', 841);
-insert into bank (bank_id, branch_name, region_id) values (5, 'Nuveen Texas Quality Municipal Income Fund', 110);
-insert into bank (bank_id, branch_name, region_id) values (6, 'Rand Logistics, Inc.', 723);
-insert into bank (bank_id, branch_name, region_id) values (7, 'Atlantica Yield plc', 67);
-insert into bank (bank_id, branch_name, region_id) values (8, 'Union Pacific Corporation', 867);
-insert into bank (bank_id, branch_name, region_id) values (9, 'Republic Services, Inc.', 740);
-insert into bank (bank_id, branch_name, region_id) values (10, 'Acorn International, Inc.', 391);
-insert into bank (bank_id, branch_name, region_id) values (11, 'pSivida Corp.', 765);
-insert into bank (bank_id, branch_name, region_id) values (12, 'North Atlantic Drilling Ltd.', 382);
-insert into bank (bank_id, branch_name, region_id) values (13, 'Western Asset High Income Opportunity Fund, Inc.', 678);
-insert into bank (bank_id, branch_name, region_id) values (14, 'Fidelity Nasdaq Composite Index Tracking Stock', 208);
-insert into bank (bank_id, branch_name, region_id) values (15, 'Carrols Restaurant Group, Inc.', 914);
-insert into bank (bank_id, branch_name, region_id) values (16, 'Prudential Global Short Duration High Yield Fund, Inc.', 138);
-insert into bank (bank_id, branch_name, region_id) values (17, 'First Trust Emerging Markets AlphaDEX Fund', 450);
-insert into bank (bank_id, branch_name, region_id) values (18, 'Nuveen Municipal Credit Income Fund', 892);
-insert into bank (bank_id, branch_name, region_id) values (19, 'First Trust Strategic Income ETF', 958);
-insert into bank (bank_id, branch_name, region_id) values (20, 'Nuveen High Income December 2019 Target Term Fund', 626);
-insert into bank (bank_id, branch_name, region_id) values (21, 'PNC Financial Services Group, Inc. (The)', 678);
-insert into bank (bank_id, branch_name, region_id) values (22, 'Canadian National Railway Company', 775);
-insert into bank (bank_id, branch_name, region_id) values (23, 'STRATS Trust', 352);
-insert into bank (bank_id, branch_name, region_id) values (24, 'Alabama Power Company', 224);
-insert into bank (bank_id, branch_name, region_id) values (25, 'Urstadt Biddle Properties Inc.', 579);
-insert into bank (bank_id, branch_name, region_id) values (26, 'Axar Acquisition Corp.', 925);
-insert into bank (bank_id, branch_name, region_id) values (27, 'Blueprint Medicines Corporation', 314);
-insert into bank (bank_id, branch_name, region_id) values (28, 'KemPharm, Inc.', 142);
-insert into bank (bank_id, branch_name, region_id) values (29, 'Prothena Corporation plc', 510);
-insert into bank (bank_id, branch_name, region_id) values (30, 'GP Investments Acquisition Corp.', 473);
-insert into bank (bank_id, branch_name, region_id) values (31, 'Teladoc, Inc.', 310);
-insert into bank (bank_id, branch_name, region_id) values (32, 'CombiMatrix Corporation', 799);
-insert into bank (bank_id, branch_name, region_id) values (33, 'AT&T Inc.', 463);
-insert into bank (bank_id, branch_name, region_id) values (34, 'Fortinet, Inc.', 168);
-insert into bank (bank_id, branch_name, region_id) values (35, 'CarMax Inc', 979);
-insert into bank (bank_id, branch_name, region_id) values (36, 'Kirby Corporation', 647);
-insert into bank (bank_id, branch_name, region_id) values (37, 'ICF International, Inc.', 331);
-insert into bank (bank_id, branch_name, region_id) values (38, 'Zynerba Pharmaceuticals, Inc.', 451);
-insert into bank (bank_id, branch_name, region_id) values (39, 'GDS Holdings Limited', 158);
-insert into bank (bank_id, branch_name, region_id) values (40, 'Global Brass and Copper Holdings, Inc.', 314);
-insert into bank (bank_id, branch_name, region_id) values (41, 'Gladstone Capital Corporation', 1000);
-insert into bank (bank_id, branch_name, region_id) values (42, 'PowerShares Multi-Strategy Alternative Portfolio', 383);
-insert into bank (bank_id, branch_name, region_id) values (43, 'Rapid7, Inc.', 449);
-insert into bank (bank_id, branch_name, region_id) values (44, 'Inseego Corp.', 319);
-insert into bank (bank_id, branch_name, region_id) values (45, 'Morgan Stanley Emerging Markets Domestic Debt Fund, Inc.', 724);
-insert into bank (bank_id, branch_name, region_id) values (46, 'Castlight Health, inc.', 822);
-insert into bank (bank_id, branch_name, region_id) values (47, 'Invuity, Inc.', 948);
-insert into bank (bank_id, branch_name, region_id) values (48, 'Bank of America Corporation', 914);
-insert into bank (bank_id, branch_name, region_id) values (49, 'Capital One Financial Corporation', 526);
-insert into bank (bank_id, branch_name, region_id) values (50, 'Renewable Energy Group, Inc.', 961);
-insert into bank (bank_id, branch_name, region_id) values (51, 'Royal Bank Of Canada', 752);
-insert into bank (bank_id, branch_name, region_id) values (52, 'Aspen Aerogels, Inc.', 795);
-insert into bank (bank_id, branch_name, region_id) values (53, 'Armstrong World Industries Inc', 383);
-insert into bank (bank_id, branch_name, region_id) values (54, 'Micron Technology, Inc.', 102);
-insert into bank (bank_id, branch_name, region_id) values (55, 'Stepan Company', 940);
-insert into bank (bank_id, branch_name, region_id) values (56, 'Washington Real Estate Investment Trust', 189);
-insert into bank (bank_id, branch_name, region_id) values (57, 'Dr Pepper Snapple Group, Inc', 595);
-insert into bank (bank_id, branch_name, region_id) values (58, 'Tonix Pharmaceuticals Holding Corp.', 2);
-insert into bank (bank_id, branch_name, region_id) values (59, 'Ironwood Pharmaceuticals, Inc.', 543);
-insert into bank (bank_id, branch_name, region_id) values (60, 'Citrix Systems, Inc.', 801);
-insert into bank (bank_id, branch_name, region_id) values (61, 'Entravision Communications Corporation', 801);
-insert into bank (bank_id, branch_name, region_id) values (62, 'LightInTheBox Holding Co., Ltd.', 71);
-insert into bank (bank_id, branch_name, region_id) values (63, 'Pinnacle West Capital Corporation', 255);
-insert into bank (bank_id, branch_name, region_id) values (64, 'Kearny Financial', 350);
-insert into bank (bank_id, branch_name, region_id) values (65, 'Global Net Lease, Inc.', 351);
-insert into bank (bank_id, branch_name, region_id) values (66, 'Digiliti Money Group, Inc.', 884);
-insert into bank (bank_id, branch_name, region_id) values (67, 'Applied Industrial Technologies, Inc.', 887);
-insert into bank (bank_id, branch_name, region_id) values (68, 'Rio Tinto Plc', 578);
-insert into bank (bank_id, branch_name, region_id) values (69, 'Pier 1 Imports, Inc.', 556);
-insert into bank (bank_id, branch_name, region_id) values (70, 'NXT-ID Inc.', 260);
-insert into bank (bank_id, branch_name, region_id) values (71, 'EMCOR Group, Inc.', 316);
-insert into bank (bank_id, branch_name, region_id) values (72, 'Honeywell International Inc.', 434);
-insert into bank (bank_id, branch_name, region_id) values (73, 'Versartis, Inc.', 471);
-insert into bank (bank_id, branch_name, region_id) values (74, 'China Advanced Construction Materials Group, Inc.', 564);
-insert into bank (bank_id, branch_name, region_id) values (75, 'Barrick Gold Corporation', 772);
-insert into bank (bank_id, branch_name, region_id) values (76, 'Brown & Brown, Inc.', 195);
-insert into bank (bank_id, branch_name, region_id) values (77, 'Severn Bancorp Inc', 902);
-insert into bank (bank_id, branch_name, region_id) values (78, 'KKR & Co. L.P.', 593);
-insert into bank (bank_id, branch_name, region_id) values (79, 'Stock Yards Bancorp, Inc.', 261);
-insert into bank (bank_id, branch_name, region_id) values (80, 'Horizon Technology Finance Corporation', 246);
-insert into bank (bank_id, branch_name, region_id) values (81, 'VelocityShares 3x Inverse Silver ETN', 212);
-insert into bank (bank_id, branch_name, region_id) values (82, 'Proteon Therapeutics, Inc.', 227);
-insert into bank (bank_id, branch_name, region_id) values (83, 'National General Holdings Corp', 42);
-insert into bank (bank_id, branch_name, region_id) values (84, 'Simon Property Group, Inc.', 403);
-insert into bank (bank_id, branch_name, region_id) values (85, 'ObsEva SA', 175);
-insert into bank (bank_id, branch_name, region_id) values (86, 'Wheaton Precious Metals Corp.', 406);
-insert into bank (bank_id, branch_name, region_id) values (87, 'CECO Environmental Corp.', 775);
-insert into bank (bank_id, branch_name, region_id) values (88, 'TD Ameritrade Holding Corporation', 120);
-insert into bank (bank_id, branch_name, region_id) values (89, 'Check-Cap Ltd.', 312);
-insert into bank (bank_id, branch_name, region_id) values (90, 'Twin Disc, Incorporated', 696);
-insert into bank (bank_id, branch_name, region_id) values (91, 'Illumina, Inc.', 797);
-insert into bank (bank_id, branch_name, region_id) values (92, 'Cavco Industries, Inc.', 997);
-insert into bank (bank_id, branch_name, region_id) values (93, 'Bruker Corporation', 430);
-insert into bank (bank_id, branch_name, region_id) values (94, 'Royal Bank Of Canada', 498);
-insert into bank (bank_id, branch_name, region_id) values (95, 'Elkhorn Commodity Rotation Strategy ETF', 129);
-insert into bank (bank_id, branch_name, region_id) values (96, 'Kimball International, Inc.', 158);
-insert into bank (bank_id, branch_name, region_id) values (97, 'Alliance National Municipal Income Fund Inc', 780);
-insert into bank (bank_id, branch_name, region_id) values (98, 'Kindred Healthcare, Inc.', 574);
-insert into bank (bank_id, branch_name, region_id) values (99, 'First Community Financial Partners, Inc.', 797);
-insert into bank (bank_id, branch_name, region_id) values (100, 'Alliance One International, Inc.', 10);
+
+INSERT INTO region(region_id, region, city, country, postal_code) VALUES
+(1, '3153 Church Lane', 'English', 'Nepal', '16153'),
+(2, '3417 East Lake Ct', 'Zuni', 'Kenya', '08545'),
+(3, '616 SE Riverside Ln', 'Coalgate', 'Kuwait', '07564'),
+(4, '841 Fox Hill Ln', 'Harrold', 'Paraguay', '17759'),
+(5, '592 New Market St', 'Sea Cliff', 'Sierra Leone', '38357'),
+(6, '872 White Rushwood Ct', 'Lake Villa', 'Iceland', '54611'),
+(7, '1953 Fox Hill Lane', 'Mio', 'Guatemala', '43408'),
+(8, '2256 SW Prospect Hill Ln', 'Palo', 'Mauritius', '89927'),
+(9, '3894 E Rock Hill Lane', 'Russell', 'Pakistan', '34510'),
+(10, '67 Highland Drive', 'Palo Alto', 'Moldova', '27379'),
+(11, '95 Cedar Tree Rd', 'Russell Springs', 'Sri Lanka', '05932'),
+(12, '1108 NW Monument Blvd', 'Lake Village', 'Panama', '08756'),
+(13, '645 North Rose Hill St', 'Bingen', 'Romania', '53246'),
+(14, '69 Ski Hill Parkway', 'Mira Loma', 'Ghana', '47420'),
+(15, '1381 South Rose Hill Hwy', 'Englishtown', 'Israel', '14585'),
+(16, '957 North Buttonwood Loop', 'Trabuco Canyon', 'Yemen', '91266'),
+(17, '825 Hunting Hill Circle', 'Sea Girt', 'Spain', '03732'),
+(18, '2728 East Hunting Hill Hwy', 'Tracy', 'Ghana', '39158'),
+(19, '3640 S Sharp Hill Pkwy', 'Harsens Island', 'Mauritius', '79960'),
+(20, '160 White Front Pkwy', 'Palo Cedro', 'Italy', '73960'),
+(21, '579 E Monument Parkway', 'Enid', 'Ireland', '77891'),
+(22, '143 Waterview Avenue', 'Lake Wales', 'United Kingdom', '12971'),
+(23, '3384 Highland Street', 'Miramonte', 'Mauritania', '81470'),
+(24, '153 Rose Hill Pkwy', 'Lake Worth', 'Iraq', '84567'),
+(25, '776 W Prospect Hill Hwy', 'Russellton', 'Turkey', '28421'),
+(26, '368 West Beachwood Ct', 'Hart', 'Georgia', '43101'),
+(27, '3083 S Front Circle', 'Miranda', 'Colombia', '67522'),
+(28, '1562 Deepwood Ln', 'Lake Zurich', 'South Africa', '68850'),
+(29, '255 Chapel Hill Hwy', 'Sea Isle City', 'Estonia', '01366'),
+(30, '1870 North Sharp Hill Court', 'Palo Pinto', 'Mexico', '43314'),
+(31, '3781 South Hunting Hill Parkway', 'Enigma', 'India', '06621'),
+(32, '2466 Rock Hill Circle', 'Misenheimer', 'Pakistan', '06849'),
+(33, '3309 Hidden Parkwood Ct', 'Tracyton', 'Uganda', '63370'),
+(34, '2470 1st Hwy', 'Lakefield', 'Namibia', '02933'),
+(35, '93 East Deepwood Road', 'Coalinga', 'Austria', '69192'),
+(36, '1667 NE Social Avenue', 'Binger', 'Peru', '42679'),
+(37, '851 Deepwood Road', 'Russellville', 'Ghana', '07851'),
+(38, '1743 Red Cedar Tree Hwy', 'Coalmont', 'Sweden', '01685'),
+(39, '1334 Prospect Hill Road', 'Hartford', 'South Africa', '59890'),
+(40, '1124 Old Hunting Hill Pkwy', 'Mishawaka', 'Austria', '71572'),
+(41, '787 Hidden Edgewood Ln', 'Lakehurst', 'Chile', '55848'),
+(42, '46 Glenwood Ct', 'Enka', 'Philippines', '30158'),
+(43, '3143 Red Prospect Hill Avenue', 'Palo Verde', 'Lithuania', '73551'),
+(44, '64 S Meadowview Ln', 'Bingham', 'United Kingdom', '18648'),
+(45, '1327 W Mount Drive', 'Mishicot', 'Nepal', '39804'),
+(46, '583 Market Ln', 'Russia', 'Brazil', '30248'),
+(47, '473 New Social Lane', 'Coalton', 'Gambia', '30134'),
+(48, '3353 Ironwood Ct', 'Lakeland', 'Argentina', '94055'),
+(49, '2798 West Parkwood Loop', 'Seabrook', 'Indonesia', '72440'),
+(50, '28 Riverview Way', 'Mission', 'Ghana', '58278');
+
+--
+-- Inserting data into table bank
+--
+INSERT INTO bank(bank_id, branch_name, region_id) VALUES
+(1, 'Smart Solar Power Corporation', 35),
+(2, 'Home Space Research Corp.', 50),
+(3, 'Home Entertainment Inc.', 46),
+(4, 'Special Space Explore Inc.', 22),
+(5, 'United Media Corporation', 5),
+(6, 'West Wind Power Co.', 11),
+(7, 'Union Engineering Corporation', 24),
+(8, 'International High-Technologies Group', 49),
+(9, 'Beyond Space Explore Co.', 17),
+(10, 'Special High-Technologies Group', 12),
+(11, 'Federal L-Mobile Group', 18),
+(12, 'Australian W-Mobile Group', 30),
+(13, 'Australian Space Research Group', 6),
+(14, 'Creative Technologies Corp.', 41),
+(15, 'WorldWide Travel Group', 1),
+(16, 'General Green Resources Corp.', 47),
+(17, 'Creative Research Group', 25),
+(18, 'General Software Group', 36),
+(19, 'Canadian Nuclear Power Inc.', 7),
+(20, 'General W-Mobile Corp.', 42),
+(21, 'South Transport Inc.', 45),
+(22, 'West Coast Q-Mobile Corporation', 37),
+(23, 'Global Insurance Corporation', 31),
+(24, 'Federal High-Technologies Co.', 2),
+(25, 'Smart D-Mobile Corp.', 43),
+(26, 'WorldWide Renewable Energy Corporation', 8),
+(27, 'North 6D Electronic Inc.', 48),
+(28, 'South High-Technologies Group', 3),
+(29, 'International High-Technologies Group', 26),
+(30, 'Creative Nuclear Power Co.', 13),
+(31, 'Canadian Solar Energy Inc.', 19),
+(32, 'Special Optics Inc.', 14),
+(33, 'Australian Space Explore Inc.', 20),
+(34, 'Smart High-Technologies Group', 38),
+(35, 'American U-Mobile Corp.', 9),
+(36, 'Flexible Natural Gas Energy Group', 4),
+(37, 'Domestic 5G Wireless Group', 32),
+(38, 'City Trust Inc.', 27),
+(39, 'North Q-Mobile Inc.', 33),
+(40, 'Advanced Devices Inc.', 10),
+(41, 'Smart Automotive Corporation', 28),
+(42, 'Professional 5G Wireless Corporation', 15),
+(43, 'Global Mobile Corp.', 44),
+(44, 'American High-Technologies Corporation', 21),
+(45, 'Home Space Research Corporation', 23),
+(46, 'Home 3G Wireless Group', 29),
+(47, 'Professional Wave Energy Co.', 16),
+(48, 'Flexible Optics Inc.', 39),
+(49, 'International Business Corp.', 34),
+(50, 'International Industry Co.', 40);
 
 
-<<<<<<< HEAD
 -- dummy account
 insert into user values (1, 'pilahlimbahid', '08552d6b6d5545af73e9b14af205e832340ae4aca0d334f3ea52c3aae8c6ae58', 'pilahlimbah@sampah.id', 'Pilah Limbah', '2020-03-15', 'Male', NULL);
 insert into user values (2, 'Admin', '08552d6b6d5545af73e9b14af205e832340ae4aca0d334f3ea52c3aae8c6ae58', 'pilahlimbah@sampah.id', 'Pilah Limbah', '2020-03-15', 'Male', 'Admin');
 insert into admin values (2);
 insert into account values (1, 1, '1234567890123456', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5', 1, 100000000.0);
 insert into guest values (1, 1);
-=======
-insert into account (account_id, account_number, bank_id) values (1, '374622733026396', 60);
-insert into account (account_id, account_number, bank_id) values (2, '374283623457892', 87);
-insert into account (account_id, account_number, bank_id) values (3, '337941851943489', 40);
-insert into account (account_id, account_number, bank_id) values (4, '374283905444311', 72);
-insert into account (account_id, account_number, bank_id) values (5, '374622162730732', 44);
-insert into account (account_id, account_number, bank_id) values (6, '374288200233764', 18);
-insert into account (account_id, account_number, bank_id) values (7, '374288075217223', 54);
-insert into account (account_id, account_number, bank_id) values (8, '340908531116377', 98);
-insert into account (account_id, account_number, bank_id) values (9, '376396101910931', 85);
-insert into account (account_id, account_number, bank_id) values (10, '371618297920688', 86);
-insert into account (account_id, account_number, bank_id) values (11, '374288557476297', 73);
-insert into account (account_id, account_number, bank_id) values (12, '374283139524599', 93);
-insert into account (account_id, account_number, bank_id) values (13, '374283505314435', 55);
-insert into account (account_id, account_number, bank_id) values (14, '341575980018054', 49);
-insert into account (account_id, account_number, bank_id) values (15, '374288124050641', 88);
-insert into account (account_id, account_number, bank_id) values (16, '374283879985554', 87);
-insert into account (account_id, account_number, bank_id) values (17, '374622849063135', 52);
-insert into account (account_id, account_number, bank_id) values (18, '374622707198684', 30);
-insert into account (account_id, account_number, bank_id) values (19, '374288755782603', 88);
-insert into account (account_id, account_number, bank_id) values (20, '374288218108388', 1);
-insert into account (account_id, account_number, bank_id) values (21, '342661072392968', 8);
-insert into account (account_id, account_number, bank_id) values (22, '372301531898791', 50);
-insert into account (account_id, account_number, bank_id) values (23, '340754907505516', 24);
-insert into account (account_id, account_number, bank_id) values (24, '372301403144720', 59);
-insert into account (account_id, account_number, bank_id) values (25, '374622118392207', 64);
-insert into account (account_id, account_number, bank_id) values (26, '374288471469444', 77);
-insert into account (account_id, account_number, bank_id) values (27, '349458582396057', 23);
-insert into account (account_id, account_number, bank_id) values (28, '371984263272789', 5);
-insert into account (account_id, account_number, bank_id) values (29, '372301239596929', 42);
-insert into account (account_id, account_number, bank_id) values (30, '374622120143796', 75);
-insert into account (account_id, account_number, bank_id) values (31, '374283676550759', 2);
-insert into account (account_id, account_number, bank_id) values (32, '337941710960674', 57);
-insert into account (account_id, account_number, bank_id) values (33, '374283389806993', 41);
-insert into account (account_id, account_number, bank_id) values (34, '377844562115788', 35);
-insert into account (account_id, account_number, bank_id) values (35, '337941045417432', 59);
-insert into account (account_id, account_number, bank_id) values (36, '374622784184243', 54);
-insert into account (account_id, account_number, bank_id) values (37, '346072683675591', 90);
-insert into account (account_id, account_number, bank_id) values (38, '348499966415809', 21);
-insert into account (account_id, account_number, bank_id) values (39, '337941684137911', 3);
-insert into account (account_id, account_number, bank_id) values (40, '374622163934473', 9);
-insert into account (account_id, account_number, bank_id) values (41, '348983570950905', 72);
-insert into account (account_id, account_number, bank_id) values (42, '372301687039877', 81);
-insert into account (account_id, account_number, bank_id) values (43, '374622938118410', 81);
-insert into account (account_id, account_number, bank_id) values (44, '346381862400816', 41);
-insert into account (account_id, account_number, bank_id) values (45, '346300595990844', 39);
-insert into account (account_id, account_number, bank_id) values (46, '345338332648813', 50);
-insert into account (account_id, account_number, bank_id) values (47, '374288672327003', 27);
-insert into account (account_id, account_number, bank_id) values (48, '374288406241637', 21);
-insert into account (account_id, account_number, bank_id) values (49, '337941022175250', 10);
-insert into account (account_id, account_number, bank_id) values (50, '374283909061392', 17);
-insert into account (account_id, account_number, bank_id) values (51, '371398435921845', 2);
-insert into account (account_id, account_number, bank_id) values (52, '340698973009806', 17);
-insert into account (account_id, account_number, bank_id) values (53, '337941227845772', 97);
-insert into account (account_id, account_number, bank_id) values (54, '344348675867566', 8);
-insert into account (account_id, account_number, bank_id) values (55, '374288730859823', 44);
-insert into account (account_id, account_number, bank_id) values (56, '374622454621797', 17);
-insert into account (account_id, account_number, bank_id) values (57, '374622714693701', 87);
-insert into account (account_id, account_number, bank_id) values (58, '337941356132000', 84);
-insert into account (account_id, account_number, bank_id) values (59, '341954068301288', 42);
-insert into account (account_id, account_number, bank_id) values (60, '374288550934920', 85);
-insert into account (account_id, account_number, bank_id) values (61, '374622114890519', 66);
-insert into account (account_id, account_number, bank_id) values (62, '374283552243701', 100);
-insert into account (account_id, account_number, bank_id) values (63, '374283033048687', 65);
-insert into account (account_id, account_number, bank_id) values (64, '337941881270325', 47);
-insert into account (account_id, account_number, bank_id) values (65, '374283318550696', 81);
-insert into account (account_id, account_number, bank_id) values (66, '376099347576751', 36);
-insert into account (account_id, account_number, bank_id) values (67, '374622183826527', 17);
-insert into account (account_id, account_number, bank_id) values (68, '340076981334419', 27);
-insert into account (account_id, account_number, bank_id) values (69, '374622100977577', 99);
-insert into account (account_id, account_number, bank_id) values (70, '345128030004009', 3);
-insert into account (account_id, account_number, bank_id) values (71, '346521131629675', 8);
-insert into account (account_id, account_number, bank_id) values (72, '374622718048407', 47);
-insert into account (account_id, account_number, bank_id) values (73, '374622249337311', 66);
-insert into account (account_id, account_number, bank_id) values (74, '377384583551075', 90);
-insert into account (account_id, account_number, bank_id) values (75, '372301201254903', 78);
-insert into account (account_id, account_number, bank_id) values (76, '348776889760134', 74);
-insert into account (account_id, account_number, bank_id) values (77, '346413171505389', 38);
-insert into account (account_id, account_number, bank_id) values (78, '372301193237577', 10);
-insert into account (account_id, account_number, bank_id) values (79, '374283125590364', 50);
-insert into account (account_id, account_number, bank_id) values (80, '377487998175867', 65);
-insert into account (account_id, account_number, bank_id) values (81, '374288499373115', 85);
-insert into account (account_id, account_number, bank_id) values (82, '337941293643184', 5);
-insert into account (account_id, account_number, bank_id) values (83, '337941229434799', 61);
-insert into account (account_id, account_number, bank_id) values (84, '374288669540998', 69);
-insert into account (account_id, account_number, bank_id) values (85, '374288594444076', 67);
-insert into account (account_id, account_number, bank_id) values (86, '374288820136694', 52);
-insert into account (account_id, account_number, bank_id) values (87, '371764354002562', 85);
-insert into account (account_id, account_number, bank_id) values (88, '374283836660316', 30);
-insert into account (account_id, account_number, bank_id) values (89, '374288405605808', 22);
-insert into account (account_id, account_number, bank_id) values (90, '372301361816509', 8);
-insert into account (account_id, account_number, bank_id) values (91, '374482628485086', 5);
-insert into account (account_id, account_number, bank_id) values (92, '377284709496678', 54);
-insert into account (account_id, account_number, bank_id) values (93, '376385380387713', 8);
-insert into account (account_id, account_number, bank_id) values (94, '374283070389283', 74);
-insert into account (account_id, account_number, bank_id) values (95, '374288607961686', 28);
-insert into account (account_id, account_number, bank_id) values (96, '347251492599957', 71);
-insert into account (account_id, account_number, bank_id) values (97, '337941573006474', 86);
-insert into account (account_id, account_number, bank_id) values (98, '344172261241444', 40);
-insert into account (account_id, account_number, bank_id) values (99, '373543786301737', 24);
-insert into account (account_id, account_number, bank_id) values (100, '337941674345789', 40);
->>>>>>> 35026bb20024344e7d64e36136918c5c62e25209
 
 
 insert into task (task_date, task_id, task_name, description) values ('2021-04-17', 1, 'Pilah Sampah', 'Bypass Left Femoral Artery to Left Femoral Artery with Nonautologous Tissue Substitute, Open Approach');
@@ -2355,3 +1299,4 @@ insert into task (task_date, task_id, task_name, description) values ('2024-01-0
 insert into task (task_date, task_id, task_name, description) values ('2024-01-08', 3, 'Pilah Sampah', 'Supplement Left Cephalic Vein with Synthetic Substitute, Open Approach');
 insert into task (task_date, task_id, task_name, description) values ('2024-01-11', 1, 'Buang Sampah', 'Revision of Autologous Tissue Substitute in Left Humeral Head, External Approach');
 
+insert into content (content_title, content_text) values ("Tentang SDG", "Sustainable Development Goal adalah program aksi\nyang dilakukan PBB untuk mengakhiri kemisikinan,\nmenjaga bumi, dan menjamin semua orang hidup\ndalam kedamaian dan kesejahteraan di tahun 2030.")
