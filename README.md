@@ -37,7 +37,7 @@ python ./src/main.py
 4. 13520152 Muhammad Fahmi Irfan - Dashboard Management
 
 ## Daftar Tabel Basis Data
-![Semantic description of image](/img/database/diagram.png)*Diagram Database*
+![](./img/database/diagram.jpeg)*Diagram Database*
 
 ## Author
 1. 13520047 Hana Fathiyah
