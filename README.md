@@ -37,10 +37,15 @@ python ./src/main.py
 |13520053|Yohana Golkaria Nainggolan|Account Management|
 |13520095|Firizky Ardiansyah|Transaction Management|
 |13520152|Muhammad Fahmi Irfan|Dashboard Management|
+
 ### _Screenshot_ Tampilan Layar
+
+#### Register Page
+
 
 
 ## Daftar Tabel Basis Data
+
 ### Diagram Basis Data
 ![](./img/database/diagram.jpeg)
 
