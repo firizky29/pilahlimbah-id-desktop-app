@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.messagebox as msg
 from pathlib import Path
 from tkinter import *
+from datetime import timezone
 from . import user
 
 OUTPUT_PATH = Path(__file__).parent
@@ -441,7 +442,7 @@ class profilePage(tk.Frame):
 
         roles = self.origin.user.role
         if(roles == 'Member'):
-            roles = roles + " (until " + self.origin.user.deadline +")"
+            roles = roles + " (until " + str(self.origin.user.deadline.replace(tzinfo=timezone.utc).astimezone(tz=None)) +")"
         self.canvas.create_text(
             619.0,
             335.0,

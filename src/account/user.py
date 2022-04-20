@@ -241,6 +241,7 @@ class user():
                 region_info.execute(f"select region_id from region where region = '{transaction.address}' and city = '{transaction.city}' and country = '{transaction.country}' and postal_code = '{transaction.postalCode}'")
 
             self.origin.mydb.cursor().execute(f"insert into member values ({self.userId},{region_info.fetchone()[0]})")
+            self.deadline = transaction.deadline
             self.origin.mydb.commit()
         else:
             self.origin.mydb.cursor().execute(f"delete from member where member_id = {self.userId}")
