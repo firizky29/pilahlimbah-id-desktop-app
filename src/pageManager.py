@@ -12,6 +12,7 @@ import account.login as login
 import account.register as register
 import account.profile as profile
 import mysql.connector
+import account.user as account
 from datetime import datetime
 from tkinter import Tk
 
@@ -25,8 +26,8 @@ class pageManager():
             database = "pilahlimbahid"
         )
 
-        # self.user = account.user(['pilahlimbahid', 'pilahlimbahid'], self)
-        self.user = None
+        self.user = account.user(['pilahlimbahid', 'pilahlimbahid'], self)
+        # self.user = None
         self.window = Tk()
         self.window.geometry("1080x700")
         self.window.configure(bg = "#FFFFFF")

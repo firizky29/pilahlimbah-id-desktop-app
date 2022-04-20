@@ -147,6 +147,7 @@ class calendarPage(tk.Frame):
                 self.canvas.itemconfig(self.task3_desc, text = list_task_desc[2][:35]+'...')
 
     def calendarPage(self):
+
         self.canvas = Canvas(
             self.master,
             bg = "#FFFFFF",
@@ -157,13 +158,17 @@ class calendarPage(tk.Frame):
             relief = "ridge"
         )
 
-        self.calendar = Calendar(self.master, setmode="day", date_pattern = 'yyyy-mm-dd')
-        self.calendar.pack(pady=145)
+        self.canvas.place(x = 0, y = 0)
+
+        self.calendar = Calendar(self.canvas, setmode="day", date_pattern = 'yyyy-mm-dd')
+        self.calendar.place(
+            x = 415,
+            y = 152
+        )
 
         self.open_calendar = Button(self.calendar, text="open to do list",command=self.open_to_do) 
         self.open_calendar.pack(padx=15,pady=15)
 
-        self.canvas.place(x = 0, y = 0)
         self.image_image_1 = PhotoImage(
             file=relative_to_assets("image_1.png"))
         self.image_1 = self.canvas.create_image(
