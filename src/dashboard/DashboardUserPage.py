@@ -273,7 +273,7 @@ class DashboardUserPage(tk.Frame):
             font=("Helvetica", 32 * -1, "bold")
         )
 
-        self.canvas.create_text(
+        self.page = self.canvas.create_text(
             662.0,
             597.0,
             anchor="nw",
@@ -298,12 +298,15 @@ class DashboardUserPage(tk.Frame):
         self.content_index = (self.content_index+1)%n
         self.canvas.itemconfig(self.title, text = self.title_list[self.content_index])
         self.canvas.itemconfig(self.content_text, text = self.content_list[self.content_index])
+        self.canvas.itemconfig(self.page, text = f"{self.content_index+1}/{len(self.content_list)}")
         
     def prevContent(self):
         n = len(self.content_list)
         self.content_index = (self.content_index-1+n)%n
         self.canvas.itemconfig(self.title, text = self.title_list[self.content_index])
         self.canvas.itemconfig(self.content_text, text = self.content_list[self.content_index])
+        self.canvas.itemconfig(self.page, text = f"{self.content_index+1}/{len(self.content_list)}")
+
 
     def _on_click_pricing(self):
         self.origin.productPage()

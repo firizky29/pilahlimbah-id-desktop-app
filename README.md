@@ -40,7 +40,8 @@ python ./src/main.py
 
 ### _Screenshot_ Tampilan Layar
 
-#### Register Page
+#### a. Register Page
+
 
 
 
