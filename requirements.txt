@@ -1,2 +1,5 @@
 pylint==2.13.5
 pytest==6.2.5
+tkcalendar==1.6.1
+mysql-connector-python==8.0.28
+pytz==2021.3
