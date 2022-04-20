@@ -46,6 +46,36 @@ python ./src/main.py
 #### b. Login Page
 ![](./img/screenshot/login.jpeg)
 
+#### c. Dashboard Admin
+![](./img/screenshot/dashboard_admin.jpeg)
+
+#### d. Dashboard Member
+![](./img/screenshot/dashboard_member.jpeg)
+
+#### e. Profil Admin
+![](./img/screenshot/profil_admin.jpeg)
+
+#### f. Profil Guest
+![](./img/screenshot/profil_guest.jpeg)
+
+#### g. Profil Member
+![](./img/screenshot/member_profil.jpeg)
+
+#### h. Halaman Tips and Trick
+![](./img/screenshot/tips_trick.jpeg)
+
+#### i. Halaman Pricing
+![](./img/screenshot/pricing.jpeg.jpeg)
+
+#### j. Payment Detail
+![](./img/screenshot/payment_detail.jpeg)
+
+#### k. My Transaction
+![](./img/screenshot/mytransaction.jpeg)
+
+#### l. Calendar Page
+![](./img/screenshot/calendar.jpeg)
+
 ## Daftar Tabel Basis Data
 
 ### Diagram Basis Data
