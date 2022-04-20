@@ -31,13 +31,18 @@ python ./src/main.py
 ```
 
 ## Implementasi Modul
-1. 13520047 Hana Fathiyah - Calendar Management
-2. 13520053 Yohana Golkaria Nainggolan - Account Management
-3. 13520095 Firizky Ardiansyah - Transaction Management
-4. 13520152 Muhammad Fahmi Irfan - Dashboard Management
+|NIM|Nama|Modul|
+|---|---|---|
+|13520047|Hana Fathiyah|Calendar Management|
+|13520053|Yohana Golkaria Nainggolan|Account Management|
+|13520095|Firizky Ardiansyah|Transaction Management|
+|13520152|Muhammad Fahmi Irfan|Dashboard Management|
+### _Screenshot_ Tampilan Layar
+
 
 ## Daftar Tabel Basis Data
-![Semantic description of image](/img/database/diagram.png)*Diagram Database*
+### Diagram Basis Data
+![](/img/database/diagram.png)
 
 ## Author
 1. 13520047 Hana Fathiyah
