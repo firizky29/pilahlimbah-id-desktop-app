@@ -178,6 +178,7 @@ class user():
         user_id.execute(f"select user_id from user where username = '{self.username}'")
 
         self.userId = user_id.fetchone()[0]
+        return self.userId
         
     def commitRegister(self):
         # ini proses masukin role
