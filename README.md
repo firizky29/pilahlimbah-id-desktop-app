@@ -36,6 +36,9 @@ python ./src/main.py
 3. 13520095 Firizky Ardiansyah - Transaction Management
 4. 13520152 Muhammad Fahmi Irfan - Dashboard Management
 
+## Daftar Tabel Basis Data
+![Semantic description of image](/img/database/diagram.png)*Diagram Database*
+
 ## Author
 1. 13520047 Hana Fathiyah
 2. 13520053 Yohana Golkaria Nainggolan
