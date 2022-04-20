@@ -1,12 +1,16 @@
 """
-    file testing (setiap modul/file ada komentar kaya gini)
+    hanya berisi main
 """
+
+import pageManager as pm
+
 def main():
     """
-        test prosedur (setiap fungsi/prosedur harus ada keterangan kaya gini)
+        prosedur main
     """
-    print("Test")
+
+    windows = pm.pageManager()
+    windows.run()
 
 if __name__ == "__main__":
     main()
-# harus diakhiri enter
