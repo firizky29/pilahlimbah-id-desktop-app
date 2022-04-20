@@ -5,7 +5,10 @@ IF2250 - Rekayasa Perangkat Lunak
 Implementasi Perancangan Perangkat Lunak
 
 ## Deskripsi
-Sebuah aplikasi yang menangani permasalahan sampah perkotaan. Di dalamnya terdapat beberapa fitur, yaitu profil, pembayaran, kalender, dan sebagainya.
+Nama perangkat lunak yang akan dibuat adalah PilahLimbah.id. Perangkat lunak ini merupakan sebuah perangkat lunak yang menangani pengelolaan sampah di daerah perkotaan. Pada perangkat lunak ini, terdapat jadwal pengambilan sampah dan jenis sampah yang akan diambil pada hari tersebut. Selain itu, perangkat lunak ini juga memiliki fitur terkait cara membuang sampah sesuai jenisnya yang dapat diakses oleh semua pengguna. 
+
+Perangkat lunak ini dibangun menjadi beberapa subsistem di antaranya, sistem login dan register bertujuan untuk mengakomodasi pengguna ketika melakukan proses login dan register, sistem akses bertujuan untuk menyaring hak akses sekaligus mengatur kontrol akses pengguna ketika memasuki sesi user, sistem manajer konten bertujuan untuk mengakomodasi konten umum dan konten dialog bagi pengguna, sistem log aktivitas merupakan sistem khusus dari konten yang tujuannya untuk memberikan konten kalender bagi pengguna, sistem transaksi meliputi keamanan bertransaksi, verifikasi, dan dialog dengan pengguna ketika melakukan transaksi, serta sistem profil bertujuan untuk mengatur profil sekaligus menampilkannya pada layar.
+
 
 ## Requirements
 Python 3
@@ -73,7 +76,10 @@ python ./src/main.py
 #### k. My Transaction
 ![](./img/screenshot/mytransaction.jpeg)
 
-#### l. Calendar Page
+### l. Success Page
+![](./img/screenshot/success.jpeg)
+
+#### m. Calendar Page
 ![](./img/screenshot/calendar.jpeg)
 
 ## Daftar Tabel Basis Data
@@ -82,6 +88,7 @@ python ./src/main.py
 ![](./img/database/diagram.jpeg)
 
 ## Author
+Kelompok 10 Kelas 02
 1. 13520047 Hana Fathiyah
 2. 13520053 Yohana Golkaria Nainggolan
 3. 13520095 Firizky Ardiansyah
