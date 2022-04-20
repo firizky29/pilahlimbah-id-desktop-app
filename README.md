@@ -65,10 +65,10 @@ python ./src/main.py
 ![](./img/screenshot/tips_trick.jpeg)
 
 #### i. Halaman Pricing
-![](./img/screenshot/pricing.jpeg.jpeg)
+![](./img/screenshot/pricing.jpeg)
 
 #### j. Payment Detail
-![](./img/screenshot/payment_detail.jpeg)
+![](./img/screenshot/payment_details.jpeg)
 
 #### k. My Transaction
 ![](./img/screenshot/mytransaction.jpeg)
