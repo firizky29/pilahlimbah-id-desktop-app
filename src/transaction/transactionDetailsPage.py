@@ -77,7 +77,7 @@ class transactionDetailsPage(tk.Frame):
                 borderwidth=0,
                 highlightthickness=0,
                 bg = "white",
-                command=lambda: print("calendarButton clicked"),
+                command=lambda: self._on_click_calendar(),
                 relief="flat"
             ) 
             self.calendarButton.place(
@@ -181,6 +181,8 @@ class transactionDetailsPage(tk.Frame):
                 width=47.0,
                 height=22.0
             )
+            self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
+            self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
 
         self.profileImage = PhotoImage(
             file=relative_to_assets("profileButton.png")) 
@@ -410,3 +412,6 @@ class transactionDetailsPage(tk.Frame):
 
     def _on_click_pricing(self):
         self.origin.productPage()
+
+    def _on_click_calendar(self):
+        self.origin.calendarPage()

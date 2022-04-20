@@ -79,7 +79,7 @@ class myTransactionPage(tk.Frame):
                 borderwidth=0,
                 highlightthickness=0,
                 bg = "white",
-                command=lambda: print("calendarButton clicked"),
+                command=lambda: self._on_click_calendar(),
                 relief="flat"
             ) 
             self.calendarButton.place(
@@ -404,6 +404,9 @@ class myTransactionPage(tk.Frame):
 
     def _on_click_pricing(self):
         self.origin.productPage()
+    
+    def _on_click_calendar(self):
+        self.origin.calendarPage()
 
 
     

@@ -93,7 +93,7 @@ class successPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             bg = "white",
-            command=lambda: print("calendarButton clicked"),
+            command=lambda: self._on_click_calendar(),
             relief="flat"
         ) 
         self.calendarButton.place(
@@ -198,3 +198,6 @@ class successPage(tk.Frame):
 
     def _on_click_seeDetails(self):
         self.origin.transactionDetails(self.transaction)
+
+    def _on_click_calendar(self):
+        self.origin.calendarPage()
