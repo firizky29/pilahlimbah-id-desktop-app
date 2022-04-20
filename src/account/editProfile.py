@@ -5,17 +5,12 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("../../img/edit profile page")
 
-import sys
-sys.path.insert(1, "..")
-import pageManager as pm
+
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-#window = Tk()
 
-#window.geometry("1080x700")
-#window.configure(bg = "#FFFFFF")
 
 class editProfilePage(tk.Frame):
     def __init__(self, master, pageManager):

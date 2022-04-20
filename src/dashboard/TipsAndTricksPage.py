@@ -54,7 +54,7 @@ class TipsAndTricksPage(tk.Frame):
             image= self.button_image_1,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_1 clicked"),
+            command=lambda: self._on_click_tat(),
             relief="flat",
             bg= "white"
         )
@@ -65,56 +65,70 @@ class TipsAndTricksPage(tk.Frame):
             height=22.0
         )
 
-        self.button_image_2 = PhotoImage(
-            file=relative_to_assets("button_2.png"))
-        self.button_2 = Button(
-            image= self.button_image_2,
+        
+        self.hoveredProfile = PhotoImage(
+            file=relative_to_assets("hoveredProfile.png"))
+        self.profileImage = PhotoImage(
+            file=relative_to_assets("profileButton.png"))
+        self.profileButton = Button(
+            image=self.profileImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
-            relief="flat",
-            bg="white"
+            command=lambda: self._on_click_profile(),
+            relief="flat"
         )
-        self.button_2.place(
+        self.profileButton.place(
             x=990.0,
             y=18.0,
             width=42.0,
             height=41.0
         )
+        self.profileButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredProfile))
+        self.profileButton.bind("<Leave>", lambda e: e.widget.config(image = self.profileImage))
 
-        self.button_image_3 = PhotoImage(
-            file=relative_to_assets("button_3.png"))
-        self.button_3 = Button(
-            image= self.button_image_3,
+        self.hoveredCalendar = PhotoImage(
+            file=relative_to_assets("hoveredCalendar.png")) 
+        self.calendarImage = PhotoImage(
+            file=relative_to_assets("calendarButton.png")) 
+        self.calendarButton = Button(
+            image =self.calendarImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_3 clicked"),
-            relief="flat",
-            bg="white"
-        )
-        self.button_3.place(
+            bg = "white",
+            command=lambda: self._on_click_calendar(),
+            relief="flat"
+        ) 
+        self.calendarButton.place(
             x=858.0,
             y=24.0,
             width=68.0,
             height=22.0
         )
+        self.calendarButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredCalendar))
+        self.calendarButton.bind("<Leave>", lambda e: e.widget.config(image = self.calendarImage))
 
-        self.button_image_4 = PhotoImage(
-            file=relative_to_assets("button_4.png"))
-        self.button_4 = Button(
-            image= self.button_image_4,
+        self.hoveredHome = PhotoImage(
+            file=relative_to_assets("hoveredHome.png"))
+        self.homeImage = PhotoImage(
+            file=relative_to_assets("homeButton.png")) 
+        self.homeButton = Button(
+            image =self.homeImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_4 clicked"),
-            relief="flat",
-            bg="white"
-        )
-        self.button_4.place(
+            bg = "white",
+            command=lambda: self._on_click_home(),
+            relief="flat"
+        ) 
+        
+        self.homeButton.place(
             x=559.0,
             y=24.0,
             width=47.0,
             height=22.0
         )
+        
+        self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
+        self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
 
         self.image_image_1 = PhotoImage(
             file=relative_to_assets("image_1.png"))
@@ -178,3 +192,15 @@ class TipsAndTricksPage(tk.Frame):
 
     def startPage(self):
         self.mainloop()
+
+    def _on_click_calendar(self):
+        self.origin.calendarPage()
+
+    def _on_click_home(self):
+        self.origin.homePage()
+    
+    def _on_click_tat(self):
+        self.origin.tipsAndTricksPage()
+    
+    def _on_click_profile(self):
+        self.origin.profilePage()

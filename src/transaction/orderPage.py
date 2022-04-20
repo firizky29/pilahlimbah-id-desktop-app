@@ -69,7 +69,7 @@ class orderPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             bg="white",
-            command=self._on_click_pricing,
+            command=lambda: self._on_click_pricing(),
             relief="flat"
         )
         self.pricingButton.place(
@@ -87,7 +87,7 @@ class orderPage(tk.Frame):
             image=self.profileImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("profileButton clicked"),
+            command=lambda: self._on_click_profile(),
             relief="flat"
         )
         self.profileButton.place(
@@ -108,7 +108,7 @@ class orderPage(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             bg="white",
-            command=lambda: print("homeButton clicked"),
+            command=lambda: self._on_click_home(),
             relief="flat"
         )
         self.homeButton.place(
@@ -511,6 +511,12 @@ class orderPage(tk.Frame):
     def _on_click_pricing(self):
         self.origin.productPage()
 
+    def _on_click_home(self):
+        self.origin.homePage()
+    
+    def _on_click_profile(self):
+        self.origin.profilePage()
+
     def _on_submit_pay(self):
         self.warning["fg"] = "white"
         raw_transaction = {
@@ -557,6 +563,7 @@ class orderPage(tk.Frame):
     def _postalCode_trace(self, *args):
         value = self.postalCode.get()
         if len(value) > 5: self.postalCode.set(value[:5])
+
 
         
 

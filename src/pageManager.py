@@ -9,6 +9,11 @@ import transaction.transactionDetailsPage as transactionDetails
 import account.user as account
 import dashboard.DashboardUserPage as dashboarduser
 import dashboard.DashboardAdminPage as dashboardadmin
+import dashboard.TipsAndTricksPage as tipsAndTricks
+import account.editProfile as editProfile
+import account.login as login
+import account.register as register
+import account.profile as profile
 import mysql.connector
 from datetime import datetime
 from tkinter import Tk
@@ -23,7 +28,8 @@ class pageManager():
             database = "pilahlimbahid"
         )
 
-        self.user = account.user(['pilahlimbahid', 'pilahlimbahid'], self)
+        # self.user = account.user(['pilahlimbahid', 'pilahlimbahid'], self)
+        self.user = None
         self.window = Tk()
         self.window.geometry("1080x700")
         self.window.configure(bg = "#FFFFFF")
@@ -38,11 +44,17 @@ class pageManager():
         # self.page = mycal.calendarPage(master = self.window, pageManager = self)
         # self.page = product.productPage(master = self.window, pageManager = self)
         # self.page = order.orderPage(master = self.window, pageManager=self)
-        self.page = dashboarduser.DashboardUserPage(master = self.window, pageManager = self)
+        # self.page = dashboarduser.DashboardUserPage(master = self.window, pageManager = self)
+        self.page = login.loginPage(master = self.window, pageManager = self)
+        # self.page = register.registerPage(self.window, self)
+        # self.page = profile.profilePage(self.window, self)
         # self.page = dashboardadmin.DashboardAdminPage(master = self.window, pageManager = self)
+        # self.page = mytransaction.myTransactionPage(master = self.window, pageManager = self)
+        # self.page = tipsAndTricks.TipsAndTricksPage(self.window, self)
     def checkMembership(self):
-        if(self.user.deadline < datetime.now(pytz.utc)):
-            self.user.changeRole('Guest')   
+        if(self.user.role == 'Member'):
+            if(self.user.deadline < datetime.now(pytz.utc)):
+                self.user.changeRole('Guest')   
 
     def run(self):
         self.page.startPage()
@@ -61,26 +73,27 @@ class pageManager():
         self.page.startPage()
     
     def calendarPage(self):
-        self.page = mycal.calendarPage(master = self.window, pageManager = self)
+        if(self.user.role == 'Guest'):
+            self.page = dashboarduser.DashboardUserPage(master = self.window, pageManager = self)
+        else:
+            self.page = mycal.calendarPage(master = self.window, pageManager = self)
         self.page.startPage()
 
-#    def loginPage(self):
-#        self.page = login.loginPage(master = self.window, pageManager = self)
-#        self.page.startPage()
-#    
-#    def registerPage(self):
-#        self.page = register.registerPage(master = self.window, pageManager = self)
-#        self.page.startPage()
-#
-#    def editProfilePage(self):
-#        self.page = edit.editProfilePage(master = self.window, pageManager = self)
-#        self.page.startPage()
-#
-#    def profilePage(self):
-#        self.page = profile.profilePage(master = self.window, pageManager = self)
-#        self.page.startPage()
-
+    def loginPage(self):
+        self.page = login.loginPage(master = self.window, pageManager = self)
+        self.page.startPage()
     
+    def registerPage(self):
+        self.page = register.registerPage(master = self.window, pageManager = self)
+        self.page.startPage()
+
+    def editProfilePage(self):
+        self.page = editProfile.editProfilePage(master = self.window, pageManager = self)
+        self.page.startPage()
+
+    def profilePage(self):
+        self.page = profile.profilePage(master = self.window, pageManager = self)
+        self.page.startPage()
 
     def successPage(self, transaction):
         self.checkMembership()
@@ -95,6 +108,20 @@ class pageManager():
     def myTransaction(self):
         self.checkMembership()
         self.page = mytransaction.myTransactionPage(master = self.window, pageManager = self)
+        self.page.startPage()
+
+    def homePage(self):
+        if(self.user.role == 'Admin'):
+            self.page = dashboardadmin.DashboardAdminPage(master = self.window, pageManager = self)
+        else:
+            self.page = dashboarduser.DashboardUserPage(master = self.window, pageManager = self)
+        self.page.startPage()
+
+    def tipsAndTricksPage(self):
+        if(self.user.role == 'Guest'):
+            self.page = dashboarduser.DashboardUserPage(master = self.window, pageManager = self)
+        else:
+            self.page = tipsAndTricks.TipsAndTricksPage(master = self.window, pageManager = self)
         self.page.startPage()
 
     def __onHover__(self, event):

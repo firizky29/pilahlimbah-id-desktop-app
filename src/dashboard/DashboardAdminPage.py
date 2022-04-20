@@ -49,39 +49,42 @@ class DashboardAdminPage(tk.Frame):
             font=("Helvetica", 20 * -1, "bold")
         )
 
-        self.button_image_1 = PhotoImage(
-            file=relative_to_assets("button_2.png"))
-        self.button_1 = Button(
-            image= self.button_image_1,
+        self.homeImage = PhotoImage(
+            file=relative_to_assets("hoveredHome.png"))
+        self.homeButton = Button(
+            image=self.homeImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_1 clicked"),
-            relief="flat",
-            bg="white"
+            bg="white",
+            command=lambda: print("homeButton clicked"),
+            relief="flat"
         )
-        self.button_1.place(
-            x=990.0,
-            y=18.0,
-            width=42.0,
-            height=41.0
-        )
-
-        self.button_image_2 = PhotoImage(
-            file=relative_to_assets("button_5.png"))
-        self.button_2 = Button(
-            image= self.button_image_2,
-            borderwidth=0,
-            highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
-            relief="flat",
-            bg="white"
-        )
-        self.button_2.place(
+        self.homeButton.place(
             x=879.0,
             y=28.0,
             width=47.0,
             height=22.0
         )
+
+        self.hoveredProfile = PhotoImage(
+            file=relative_to_assets("hoveredProfile.png"))
+        self.profileImage = PhotoImage(
+            file=relative_to_assets("profileButton.png"))
+        self.profileButton = Button(
+            image=self.profileImage,
+            borderwidth=0,
+            highlightthickness=0,
+            command=lambda: self._on_click_profile(),
+            relief="flat"
+        )
+        self.profileButton.place(
+            x=990.0,
+            y=18.0,
+            width=42.0,
+            height=41.0
+        )
+        self.profileButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredProfile))
+        self.profileButton.bind("<Leave>", lambda e: e.widget.config(image = self.profileImage))
 
         self.image_image_1 = PhotoImage(
             file=relative_to_assets("image_1.png"))
@@ -230,3 +233,10 @@ class DashboardAdminPage(tk.Frame):
 
     def startPage(self):
         self.mainloop()
+
+    def _on_click_home(self):
+        self.origin.homePage()
+    
+
+    def _on_click_profile(self):
+        self.origin.profilePage()

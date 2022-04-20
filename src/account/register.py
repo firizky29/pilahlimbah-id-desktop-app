@@ -1,22 +1,17 @@
 import tkinter as tk
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-
+from tkinter import *
+from . import user
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("../../img/register page")
 
-import sys
-sys.path.insert(1, "..")
-import pageManager as pm
+
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-#window = Tk()
 
-#window.geometry("1080x700")
-#window.configure(bg = "#FFFFFF")
 
 class registerPage(tk.Frame):
     def __init__(self, master, pageManager):
@@ -24,6 +19,26 @@ class registerPage(tk.Frame):
         self.master = master
         self.origin = pageManager
         self.pack()
+
+
+        self.username = tk.StringVar()
+        self.password = tk.StringVar()
+        self.confirmPassword = tk.StringVar()
+        self.fullname = tk.StringVar()
+        self.email = tk.StringVar()
+        self.gender = tk.StringVar()
+        self.role = tk.StringVar()
+        self.birthdate = tk.StringVar()
+        self.cardNumber = tk.StringVar()
+        self.securityCode = tk.StringVar()
+        self.address = tk.StringVar()
+        self.city = tk.StringVar()
+        self.country = tk.StringVar()
+        self.postalCode = tk.StringVar()
+
+
+        self.postalCode.trace("w", self._postalCode_trace)
+
         self.registerPage()
 
     def registerPage(self):
@@ -44,7 +59,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="PilahLimbah.id",
             fill="#000000",
-            font=("Helvetica", 20 * -1)
+            font=("Helvetica", 20 * -1, "bold")
         )
 
         self.image_image_1 = PhotoImage(
@@ -55,14 +70,21 @@ class registerPage(tk.Frame):
             image=self.image_image_1
         )
 
-        self.canvas.create_text(
-            345.0,
-            629.0,
-            anchor="nw",
+
+        self.warning = Label(
+            self.canvas,
             text="Warning",
-            fill="#FF0101",
+            bg = "white",
+            fg="white",
             font=("Helvetica", 16 * -1)
         )
+
+        self.warning.place(
+            x = 345.0,
+            y = 629.0,
+            anchor="nw",
+        )
+
 
         self.canvas.create_text(
             345.0,
@@ -75,9 +97,9 @@ class registerPage(tk.Frame):
 
         self.canvas.create_text(
             345.0,
-            389.0,
+            383.0,
             anchor="nw",
-            text="Birthdate",
+            text="Birthdate\n(dd-mm-yyyy)",
             fill="#000000",
             font=("Helvetica", 20 * -1)
         )
@@ -101,7 +123,7 @@ class registerPage(tk.Frame):
         )
 
         self.canvas.create_text(
-            341.0,
+            345.0,
             533.0,
             anchor="nw",
             text="City",
@@ -110,7 +132,7 @@ class registerPage(tk.Frame):
         )
 
         self.canvas.create_text(
-            341.0,
+            345.0,
             581.0,
             anchor="nw",
             text="Country",
@@ -151,7 +173,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="New Account",
             fill="#000000",
-            font=("Helvetica", 24 * -1)
+            font=("Helvetica", 24 * -1, "bold")
         )
 
         self.canvas.create_text(
@@ -160,7 +182,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="More Details",
             fill="#000000",
-            font=("Helvetica", 24 * -1)
+            font=("Helvetica", 24 * -1, "bold")
         )
 
         self.canvas.create_text(
@@ -181,6 +203,28 @@ class registerPage(tk.Frame):
             font=("Helvetica", 20 * -1)
         )
 
+
+        self.entry_image_10 = PhotoImage(
+            file=relative_to_assets("entry_10.png"))
+        self.entry_bg_10 = self.canvas.create_image(
+            771.0,
+            127.0,
+            image=self.entry_image_10
+        )
+        self.entry_10 = Entry(
+            bd=0,
+            bg="#F2EFF9",
+            highlightthickness=0,
+            font=("Helvetica", 20 * -1),
+            textvariable=self.username
+        )
+        self.entry_10.place(
+            x=554.0,
+            y=105.0,
+            width=434.0,
+            height=42.0
+        )
+
         self.entry_image_1 = PhotoImage(
             file=relative_to_assets("entry_1.png"))
         self.entry_bg_1 = self.canvas.create_image(
@@ -192,8 +236,9 @@ class registerPage(tk.Frame):
             bd=0,
             bg="#F2EFF9",
             highlightthickness=0,
-            font=("Calibri", 20 * -1),
-            textvariable=self.username
+            font=("Helvetica", 20 * -1),
+            textvariable=self.password,
+            show='*'
         )
         self.entry_1.place(
             x=554.0,
@@ -202,110 +247,58 @@ class registerPage(tk.Frame):
             height=42.0
         )
 
-        self.entry_image_2 = PhotoImage(
-            file=relative_to_assets("entry_2.png"))
-        self.entry_bg_2 = self.canvas.create_image(
-            646.0,
-            595.0,
-            image=self.entry_image_2
-        )
-        self.entry_2 = Entry(
-            bd=0,
-            bg="#F2EFF9",
-            highlightthickness=0,
-            font=("Calibri", 20 * -1),
-            textvariable=self.password
-        )
-        self.entry_2.place(
-            x=554.0,
-            y=573.0,
-            width=184.0,
-            height=42.0
-        )
-
-        self.entry_image_3 = PhotoImage(
-            file=relative_to_assets("entry_3.png"))
-        self.entry_bg_3 = self.canvas.create_image(
-            938.0,
-            595.0,
-            image=self.entry_image_3
-        )
-        self.entry_3 = Entry(
-            bd=0,
-            bg="#F2EFF9",
-            highlightthickness=0,
-            font=("Calibri", 20 * -1),
-            textvariable=self.password
-        )
-        self.entry_3.place(
-            x=888.0,
-            y=573.0,
-            width=100.0,
-            height=42.0
-        )
-
-        self.entry_image_4 = PhotoImage(
-            file=relative_to_assets("entry_4.png"))
-        self.entry_bg_4 = self.canvas.create_image(
+        self.entry_image_11 = PhotoImage(
+            file=relative_to_assets("entry_11.png"))
+        self.entry_bg_11 = self.canvas.create_image(
             771.0,
-            547.0,
-            image=self.entry_image_4
+            223.0,
+            image=self.entry_image_11
         )
-        self.entry_4 = Entry(
+        self.entry_11 = Entry(
             bd=0,
             bg="#F2EFF9",
             highlightthickness=0,
-            font=("Calibri", 20 * -1),
+            font=("Helvetica", 20 * -1),
+            textvariable=self.confirmPassword,
+            show = '*'
+        )
+        self.entry_11.place(
+            x=554.0,
+            y=201.0,
+            width=434.0,
+            height=42.0
+        )
+
+        self.entry_image_9 = PhotoImage(
+            file=relative_to_assets("entry_9.png"))
+        self.entry_bg_9 = self.canvas.create_image(
+            771.0,
+            312.0,
+            image=self.entry_image_9
+        )
+        self.entry_9 = Entry(
+            bd=0,
+            bg="#F2EFF9",
+            highlightthickness=0,
+            font=("Helvetica", 20 * -1),
             textvariable=self.fullname
         )
-        self.entry_4.place(
+        self.entry_9.place(
             x=554.0,
-            y=525.0,
+            y=290.0,
             width=434.0,
             height=42.0
         )
 
-        self.entry_image_5 = PhotoImage(
-            file=relative_to_assets("entry_5.png"))
-        self.entry_bg_5 = self.canvas.create_image(
-            771.0,
-            500.0,
-            image=self.entry_image_5
-        )
-        self.entry_5 = Entry(
-            bd=0,
-            bg="#F2EFF9",
-            highlightthickness=0,
-            font=("Calibri", 20 * -1),
-            textvariable=self.email
-        )
-        self.entry_5.place(
-            x=554.0,
-            y=478.0,
-            width=434.0,
-            height=42.0
-        )
+        
 
-        self.entry_image_6 = PhotoImage(
-            file=relative_to_assets("entry_6.png"))
-        self.entry_bg_6 = self.canvas.create_image(
-            771.0,
-            453.0,
-            image=self.entry_image_6
-        )
-        self.entry_6 = Entry(
-            bd=0,
-            bg="#F2EFF9",
-            highlightthickness=0,
-            font=("Calibri", 20 * -1),
-            textvariable=self.birthdate
-        )
-        self.entry_6.place(
-            x=554.0,
-            y=431.0,
-            width=434.0,
-            height=42.0
-        )
+        
+
+        
+
+
+        
+
 
         self.entry_image_7 = PhotoImage(
             file=relative_to_assets("entry_7.png"))
@@ -318,8 +311,8 @@ class registerPage(tk.Frame):
             bd=0,
             bg="#F2EFF9",
             highlightthickness=0,
-            font=("Calibri", 20 * -1),
-            textvariable=self.gender
+            font=("Helvetica", 20 * -1),
+            textvariable=self.email
         )
         self.entry_7.place(
             x=554.0,
@@ -339,8 +332,8 @@ class registerPage(tk.Frame):
             bd=0,
             bg="#F2EFF9",
             highlightthickness=0,
-            font=("Calibri", 20 * -1),
-            textvariable=self.address
+            font=("Helvetica", 20 * -1),
+            textvariable=self.birthdate
         )
         self.entry_8.place(
             x=554.0,
@@ -349,68 +342,129 @@ class registerPage(tk.Frame):
             height=42.0
         )
 
-        self.entry_image_9 = PhotoImage(
-            file=relative_to_assets("entry_9.png"))
-        self.entry_bg_9 = self.canvas.create_image(
-            771.0,
-            312.0,
-            image=self.entry_image_9
+
+        self.male = tk.Radiobutton(
+            self.canvas,
+            text="Male",
+            value= "Male",
+            bg="white",
+            highlightthickness=0,
+            font=("Helvetica", 20 * -1),
+            variable= self.gender
         )
-        self.entry_9 = Entry(
+
+        self.male.place(
+            x=554.0,
+            y=431.0
+        )
+        self.female = tk.Radiobutton(
+            self.canvas,
+            text="Female",
+            value= "Female",
+            bg="white",
+            highlightthickness=0,
+            font=("Helvetica", 20 * -1),
+            variable= self.gender
+        )
+
+        self.female.place(
+            x=652.0,
+            y=431.0
+        )
+
+        
+
+        
+
+        
+
+        
+        self.entry_image_5 = PhotoImage(
+            file=relative_to_assets("entry_5.png"))
+        self.entry_bg_5 = self.canvas.create_image(
+            771.0,
+            500.0,
+            image=self.entry_image_5
+        )
+        self.entry_5 = Entry(
             bd=0,
             bg="#F2EFF9",
             highlightthickness=0,
-            font=("Calibri", 20 * -1),
+            font=("Helvetica", 20 * -1),
+            textvariable=self.address
+        )
+        self.entry_5.place(
+            x=554.0,
+            y=478.0,
+            width=434.0,
+            height=42.0
+        )
+
+        self.entry_image_4 = PhotoImage(
+            file=relative_to_assets("entry_4.png"))
+        self.entry_bg_4 = self.canvas.create_image(
+            771.0,
+            547.0,
+            image=self.entry_image_4
+        )
+        self.entry_4 = Entry(
+            bd=0,
+            bg="#F2EFF9",
+            highlightthickness=0,
+            font=("Helvetica", 20 * -1),
             textvariable=self.city
         )
-        self.entry_9.place(
+        self.entry_4.place(
             x=554.0,
-            y=290.0,
+            y=525.0,
             width=434.0,
             height=42.0
         )
+        
 
-        self.entry_image_10 = PhotoImage(
-            file=relative_to_assets("entry_10.png"))
-        self.entry_bg_10 = self.canvas.create_image(
-            771.0,
-            127.0,
-            image=self.entry_image_10
+        self.entry_image_2 = PhotoImage(
+            file=relative_to_assets("entry_2.png"))
+        self.entry_bg_2 = self.canvas.create_image(
+            646.0,
+            595.0,
+            image=self.entry_image_2
         )
-        self.entry_10 = Entry(
+        self.entry_2 = Entry(
             bd=0,
             bg="#F2EFF9",
             highlightthickness=0,
-            font=("Calibri", 20 * -1),
+            font=("Helvetica", 20 * -1),
             textvariable=self.country
         )
-        self.entry_10.place(
+        self.entry_2.place(
             x=554.0,
-            y=105.0,
-            width=434.0,
+            y=573.0,
+            width=184.0,
             height=42.0
         )
 
-        self.entry_image_11 = PhotoImage(
-            file=relative_to_assets("entry_11.png"))
-        self.entry_bg_11 = self.canvas.create_image(
-            771.0,
-            223.0,
-            image=self.entry_image_11
+        self.entry_image_3 = PhotoImage(
+            file=relative_to_assets("entry_3.png"))
+        self.entry_bg_3 = self.canvas.create_image(
+            938.0,
+            595.0,
+            image=self.entry_image_3
         )
-        self.entry_11 = Entry(
+        self.entry_3 = Entry(
             bd=0,
             bg="#F2EFF9",
             highlightthickness=0,
-            font=("Calibri", 20 * -1),
+            font=("Helvetica", 20 * -1),
             textvariable=self.postalCode
         )
-        self.entry_11.place(
-            x=554.0,
-            y=201.0,
-            width=434.0,
+        self.entry_3.place(
+            x=888.0,
+            y=573.0,
+            width=100.0,
             height=42.0
         )
+
+        
 
         self.button_image_1 = PhotoImage(
             file=relative_to_assets("button_1.png"))
@@ -418,7 +472,7 @@ class registerPage(tk.Frame):
             image=self.button_image_1,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.origin.loginPage(),
+            command=lambda: self._on_submit_register(),
             relief="flat"
         )
         self.button_1.place(
@@ -434,7 +488,7 @@ class registerPage(tk.Frame):
             anchor="nw",
             text="Page.",
             fill="#000000",
-            font=("Helvetica", 32 * -1)
+            font=("Helvetica", 32 * -1, "bold")
         )
 
         self.canvas.create_text(
@@ -454,6 +508,35 @@ class registerPage(tk.Frame):
             image=self.image_image_2
         )
 
+        self.canvas.bind_class("Entry","<Return>", lambda e: self._on_submit_register())
+
+
     #window.resizable(False, False)
     def startPage(self):
         self.mainloop()
+
+    def _postalCode_trace(self, *args):
+        value = self.postalCode.get()
+        if len(value) > 5: self.postalCode.set(value[:5])
+
+    def _on_submit_register(self):
+        self.warning["fg"] = "white"
+        user_raw = [
+            self.username.get(),
+            self.password.get(),
+            self.confirmPassword.get(),
+            self.fullname.get(),
+            self.email.get(),
+            self.birthdate.get(),
+            self.gender.get(),
+            self.address.get(),
+            self.city.get(),
+            self.country.get(),
+            self.postalCode.get()
+        ]
+        self.origin.user = user.user(user_raw, self.origin)
+        if(not self.origin.user.status):
+            self.warning["text"] = self.origin.user.warning
+            self.warning["fg"] = "#FF0101"
+        else:
+            self.origin.loginPage()

@@ -54,7 +54,7 @@ class transactionDetailsPage(tk.Frame):
                 borderwidth=0,
                 highlightthickness=0,
                 bg = "white",
-                command=lambda: print("tatButton clicked"),
+                command=lambda: self._on_click_tat(),
                 relief="flat"
             ) 
             self.tatButton.place(
@@ -65,7 +65,6 @@ class transactionDetailsPage(tk.Frame):
             )
             self.tatButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredTat))
             self.tatButton.bind("<Leave>", lambda e: e.widget.config(image = self.tatImage))
-            
             
             
             self.hoveredCalendar = PhotoImage(
@@ -88,6 +87,7 @@ class transactionDetailsPage(tk.Frame):
             )
             self.calendarButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredCalendar))
             self.calendarButton.bind("<Leave>", lambda e: e.widget.config(image = self.calendarImage))
+
             self.hoveredHome = PhotoImage(
                 file=relative_to_assets("hoveredHome.png"))
             self.homeImage = PhotoImage(
@@ -97,9 +97,10 @@ class transactionDetailsPage(tk.Frame):
                 borderwidth=0,
                 highlightthickness=0,
                 bg = "white",
-                command=lambda: print("homeButton clicked"),
+                command=lambda: self._on_click_home(),
                 relief="flat"
             ) 
+            
             self.homeButton.place(
                 x=559.0,
                 y=24.0,
@@ -118,7 +119,7 @@ class transactionDetailsPage(tk.Frame):
                 borderwidth=0,
                 highlightthickness=0,
                 bg="white",
-                command=lambda: print("homeButton clicked"),
+                command=lambda: self._on_click_home(),
                 relief="flat"
             )
             self.homeButton.place(
@@ -150,7 +151,7 @@ class transactionDetailsPage(tk.Frame):
                 borderwidth=0,
                 highlightthickness=0,
                 bg="white",
-                command=self._on_click_pricing,
+                command=lambda:self._on_click_pricing(),
                 relief="flat"
             )
             self.pricingButton.place(
@@ -161,7 +162,6 @@ class transactionDetailsPage(tk.Frame):
             )
             self.pricingButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredPricing))
             self.pricingButton.bind("<Leave>", lambda e: e.widget.config(image = self.pricingImage))
-
         elif(self.origin.user.role == 'Admin'):
             self.hoveredHome = PhotoImage(
                 file= relative_to_assets("hoveredHome.png"))
@@ -184,13 +184,14 @@ class transactionDetailsPage(tk.Frame):
             self.homeButton.bind("<Enter>", lambda e: e.widget.config(image = self.hoveredHome))
             self.homeButton.bind("<Leave>", lambda e: e.widget.config(image = self.homeImage))
 
+
         self.profileImage = PhotoImage(
             file=relative_to_assets("profileButton.png")) 
         self.profileButton = Button(
             image =self.profileImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("profileButton clicked"),
+            command=lambda: self._on_click_profile(),
             relief="flat"
         ) 
         self.profileButton.place(
@@ -199,7 +200,6 @@ class transactionDetailsPage(tk.Frame):
             width=42.0,
             height=41.0
         )
-
         self.canvas.create_rectangle(
             711.0,
             83.0,
@@ -412,6 +412,15 @@ class transactionDetailsPage(tk.Frame):
 
     def _on_click_pricing(self):
         self.origin.productPage()
-
+    
     def _on_click_calendar(self):
         self.origin.calendarPage()
+
+    def _on_click_home(self):
+        self.origin.homePage()
+    
+    def _on_click_tat(self):
+        self.origin.tipsAndTricksPage()
+    
+    def _on_click_profile(self):
+        self.origin.profilePage()
