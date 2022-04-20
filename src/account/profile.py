@@ -217,7 +217,7 @@ class profilePage(tk.Frame):
             anchor="nw",
             text="Profile.",
             fill="#000000",
-            font=("Helvetica", 32 * -1)
+            font=("Helvetica", 32 * -1, "bold")
         )
 
         self.canvas.create_text(

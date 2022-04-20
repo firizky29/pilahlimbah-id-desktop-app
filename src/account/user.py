@@ -14,17 +14,13 @@ class user():
         self.role = None
 
         if(len(raw_user)==2):
-            # kalau login
             self.username = raw_user[0]
             self.password = raw_user[1]
-            # lakukan validasi input dulu, kalau inputnya kosong, self warningnya ganti jadi pesan error, self statusnya jadi False
             self.validateInputLogin()
             
             if(self.status):
-                # kalau udah validasi:
                 self.verifyLogin()
 
-                # Kalau udah verified
                 self.fullname = ''
                 self.email = ''
                 self.birthdate = ''
@@ -41,7 +37,6 @@ class user():
                 if(self.status):
                     self.commitLogin()
         else:
-            # kalau register
             self.username = raw_user[0]
             self.password = raw_user[1]
             self.confirmPassword = raw_user[2]
@@ -133,10 +128,6 @@ class user():
         return True
 
     def verifyLogin(self):
-        # verify beda sama validasi.
-        # verify itu ngecek usernamenya ada/nggak di database
-        # kalau ada, dan hashlib.sha256(self.password.encode()).hexdigest() == password di database, berarti aman
-        # update self status dan self warning kalau error
         user_info = self.origin.mydb.cursor(buffered = True)
         user_info.execute(f"select * from user where username = '{self.username}'")
         if(user_info.rowcount == 0):
@@ -153,9 +144,6 @@ class user():
         return True
 
     def verifyRegister(self):
-        # ini proses masukin info user ke database.
-        # cara insertnya:
-        # insert region-nya dulu (kalau input region kosong, skip aja), (region_id isi 0 aja)
         if(self.containRegion):
             region_info = self.origin.mydb.cursor(buffered=True)
             region_info.execute(f"select region_id from region where region = '{self.address}' and city = '{self.city}' and country = '{self.country}' and postal_code = '{self.postalCode}'")
@@ -167,13 +155,11 @@ class user():
                 region_info.execute(f"select region_id from region where region = '{self.address}' and city = '{self.city}' and country = '{self.country}' and postal_code = '{self.postalCode}'")
             self.regionId = region_info.fetchone()[0]
 
-        # insert user (roles set null dulu, user_id set 0 aja)
         user_info = self.origin.mydb.cursor()
         user_info.execute(f"insert into user values (0, '{self.username}', '{self.password}', '{self.email}', '{self.fullname}', '{self.birthdate}', '{self.gender}', NULL)")
         self.origin.mydb.commit()
 
     def getUserID(self):
-        # PASTIIN INI CUMA DIPANGGIL KALAU USER_ID UDAH DIDAFTARIN SETELAH VERIFY REGISTER
         user_id = self.origin.mydb.cursor(buffered = True)
         user_id.execute(f"select user_id from user where username = '{self.username}'")
 

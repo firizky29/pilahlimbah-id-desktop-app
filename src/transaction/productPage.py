@@ -1,7 +1,3 @@
-"""
-    File ini adalah file productPage.py
-    File ini berfungsi untuk menampilkan product yang disediakan
-"""
 
 from pathlib import Path
 import tkinter as tk

@@ -26,28 +26,15 @@ class pageManager():
             database = "pilahlimbahid"
         )
 
-        self.user = account.user(['pilahlimbahid', 'pilahlimbahid'], self)
-        # self.user = None
+        self.user = None
         self.window = Tk()
         self.window.geometry("1080x700")
         self.window.configure(bg = "#FFFFFF")
+        self.window.title('PilahLimbah.id')
         self.window.resizable(False, False)
         self.window.bind_class("Button", "<Enter>", self.__onHover__)
         self.window.bind_class("Button", "<Button-1>", self.__onClick__)
-        # inisialisasi dengan page login/register, tapi sementara pake page product dulu
-        # self.page = transactionDetails.transactionDetailsPage(master = self.window, pageManager = self)
-        # self.page = success.successPage(master = self.window, pageManager=self)
-        # self.page = order.orderPage(master = self.window, pageManager=self)
-        # self.page = product.productPage(master = self.window, pageManager = self)
-        # self.page = mycal.calendarPage(master = self.window, pageManager = self)
-        # self.page = product.productPage(master = self.window, pageManager = self)
-        # self.page = order.orderPage(master = self.window, pageManager=self)
-        # self.page = dashboarduser.DashboardUserPage(master = self.window, pageManager = self)
-        # self.page = register.registerPage(self.window, self)
-        # self.page = profile.profilePage(self.window, self)
-        # self.page = dashboardadmin.DashboardAdminPage(master = self.window, pageManager = self)
-        # self.page = mytransaction.myTransactionPage(master = self.window, pageManager = self)
-        # self.page = tipsAndTricks.TipsAndTricksPage(self.window, self)
+
         self.page = login.loginPage(master = self.window, pageManager = self)
 
 
